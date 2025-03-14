@@ -1,10 +1,12 @@
-import {WithExpoFonts, WithTheming} from "./src/wrappers";
-import {Text} from "react-native-ui-lib";
+import {WithExpoFonts, WithTheming, WithReactContext} from "./src/wrappers";
+import {Navigation} from "./src/navigation/navigation";
 
 export default function App() {
-    return <WithExpoFonts>
-        <WithTheming>
-            <Text bold center>Hello</Text>
-        </WithTheming>
-    </WithExpoFonts>
+    return <WithReactContext>
+        <WithExpoFonts>
+            <WithTheming>
+                <Navigation/>
+            </WithTheming>
+        </WithExpoFonts>
+    </WithReactContext>
 }
