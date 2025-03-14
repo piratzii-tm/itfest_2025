@@ -1,20 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import {WithExpoFonts, WithTheming} from "./src/wrappers";
+import {Text} from "react-native-ui-lib";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    return <WithExpoFonts>
+        <WithTheming>
+            <Text bold center>Hello</Text>
+        </WithTheming>
+    </WithExpoFonts>
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
