@@ -29,6 +29,7 @@ export const Navigation = () => {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                console.log(user.providerData)
                 setIsLogged(true);
             } else {
                 setIsLogged(false);
