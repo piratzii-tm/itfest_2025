@@ -1,3 +1,4 @@
+
 export const environment = {
     firebaseConfig: {
         apiKey: process.env.EXPO_PUBLIC_API_KEY,
@@ -7,4 +8,5 @@ export const environment = {
         messagingSenderId: process.env.EXPO_PUBLIC_MESSAGING_SENDER_ID,
         appId: process.env.EXPO_PUBLIC_APP_ID,
     },
+   OPENAI_API_KEY: process.env.EXPO_PUBLIC_OPENAI_KEY,
 };
