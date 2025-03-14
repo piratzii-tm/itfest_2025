@@ -17,10 +17,10 @@ const AuthStack = () => <Stack.Navigator screenOptions={{headerShown: false}}>
 </Stack.Navigator>
 
 
-const AppStack = () => <Tab.Navigator screenOptions={{headerShown: false}}>
-    <Tab.Screen name={"HomeScreen"} component={HomeScreen}/>
-    <Tab.Screen name={"ScanScreen"} component={ScanScreen}/>
-</Tab.Navigator>
+const AppStack = () => <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Screen name={"HomeScreen"} component={HomeScreen}/>
+    <Stack.Screen name={"ScanScreen"} component={ScanScreen}/>
+</Stack.Navigator>
 
 export const Navigation = () => {
 
