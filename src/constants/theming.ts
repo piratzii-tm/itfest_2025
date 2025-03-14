@@ -6,11 +6,36 @@ import {
 export const Colors = {
     white: "#FFFFFF",
     black: "#000000",
+    lightBlue: "#6E90F5",
+    lightBlue100: "#5f7ed9",
+    darkBlue: "#4169E1",
+    darkerBlue: "#304582",
     transparent: "transparent",
 };
 
 export const Typographies = {
-    light:{
+    heading: {
+        fontSize: 32
+    },
+    body: {
+        fontSize: 16
+    },
+    bodyL: {
+        fontSize: 18,
+    },
+    bodyXL: {
+        fontSize: 18,
+    },
+    bodyM: {
+        fontSize: 14,
+    },
+    bodyS: {
+        fontSize: 12,
+    },
+    small: {
+        fontSize: 10,
+    },
+    light: {
         fontFamily: "DMSans-Light",
     },
     extraThin: {

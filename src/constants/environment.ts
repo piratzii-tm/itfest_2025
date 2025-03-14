@@ -7,6 +7,7 @@ export const environment = {
         storageBucket: process.env.EXPO_PUBLIC_STORAGE_BUCKET,
         messagingSenderId: process.env.EXPO_PUBLIC_MESSAGING_SENDER_ID,
         appId: process.env.EXPO_PUBLIC_APP_ID,
+        databaseURL: process.env.EXPO_PUBLIC_DATABASE,
     },
    OPENAI_API_KEY: process.env.EXPO_PUBLIC_OPENAI_KEY,
 };
