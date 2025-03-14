@@ -1,0 +1,127 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"c35ba6de-1824-4328-9547-eba66ce314e1\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/App.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/App.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/app.json\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app.json\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/package-lock.json\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/package-lock.json\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/package.json\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/package.json\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/components/index.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/components/index.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/constants/config.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/constants/config.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/constants/environment.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/constants/environment.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/hooks/useAuth.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/hooks/useAuth.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/navigation/navigation.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/navigation/navigation.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/wrappers/WitExpoFonts.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/wrappers/WitExpoFonts.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/wrappers/WithTheming.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/wrappers/WithTheming.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/wrappers/index.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/wrappers/index.ts\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"TypeScript File\" />\r\n        <option value=\"TypeScript JSX File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 7\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2uJZlZ69tSk9rxccE9vRdmK4UF9\" />\r\n  <component name=\"ProjectLevelVcsManager\">\r\n    <ConfirmationsSetting value=\"1\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"git-widget-placeholder\": \"1-implement-authentication-with-phone-number\",\r\n    \"last_opened_file_path\": \"/Users/iulianpoenaru/itfest_2025/assets/fonts\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"settings.editor.selected.configurable\": \"settings.javascript.prettier\",\r\n    \"ts.external.directory.path\": \"/Users/iulianpoenaru/itfest_2025/node_modules/typescript/lib\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"$PROJECT_DIR$/assets/fonts\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"$PROJECT_DIR$/ios\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-js-predefined-1d06a55b98c1-985749b364ce-JavaScript-WS-233.15619.15\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"c35ba6de-1824-4328-9547-eba66ce314e1\" name=\"Changes\" comment=\"\" />\r\n      <created>1741968789711</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1741968789711</updated>\r\n      <workItem from=\"1741968791284\" duration=\"2414000\" />\r\n      <workItem from=\"1741971216896\" duration=\"7863000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision c621a811bb882733fc4c1390185012bd0cb8dbc6)
++++ b/.idea/workspace.xml	(date 1741980170990)
+@@ -4,44 +4,24 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="c35ba6de-1824-4328-9547-eba66ce314e1" name="Changes" comment="">
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/components/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/constants/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/config.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/constants/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/environment.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/hooks/useAuth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useAuth.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/navigation/navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/navigation.tsx" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/wrappers/WitExpoFonts.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/wrappers/WitExpoFonts.tsx" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/wrappers/WithTheming.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/wrappers/WithTheming.tsx" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/wrappers/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/wrappers/index.ts" afterDir="false" />
+-    </list>
++    <list default="true" id="d42e1715-e273-4d59-b28f-5f519d58612b" name="Changes" comment="" />
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+     <option name="LAST_RESOLUTION" value="IGNORE" />
+   </component>
+-  <component name="FileTemplateManagerImpl">
+-    <option name="RECENT_TEMPLATES">
+-      <list>
+-        <option value="TypeScript File" />
+-        <option value="TypeScript JSX File" />
+-      </list>
++  <component name="Git.Settings">
++    <option name="RECENT_BRANCH_BY_REPOSITORY">
++      <map>
++        <entry key="$PROJECT_DIR$" value="3-research-and-implementation-for-the-scanner" />
++      </map>
+     </option>
+-  </component>
+-  <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+-  </component>
+-  <component name="MarkdownSettingsMigration">
+-    <option name="stateVersion" value="1" />
+   </component>
+   <component name="ProjectColorInfo">{
+-  &quot;associatedIndex&quot;: 7
++  &quot;associatedIndex&quot;: 0
+ }</component>
+-  <component name="ProjectId" id="2uJZlZ69tSk9rxccE9vRdmK4UF9" />
++  <component name="ProjectId" id="2uJcrZHQunOFeMszFGiNFTbeB2l" />
+   <component name="ProjectLevelVcsManager">
+     <ConfirmationsSetting value="1" id="Add" />
+   </component>
+@@ -51,49 +31,44 @@
+   </component>
+   <component name="PropertiesComponent"><![CDATA[{
+   "keyToString": {
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+     "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "git-widget-placeholder": "1-implement-authentication-with-phone-number",
+-    "last_opened_file_path": "/Users/iulianpoenaru/itfest_2025/assets/fonts",
++    "RunOnceActivity.git.unshallow": "true",
++    "com.codeium.enabled": "true",
++    "git-widget-placeholder": "main",
++    "last_opened_file_path": "C:/!Diverse/Proiecte/ITFest2025/itfest_2025",
+     "node.js.detected.package.eslint": "true",
+     "node.js.detected.package.tslint": "true",
+     "node.js.selected.package.eslint": "(autodetect)",
+     "node.js.selected.package.tslint": "(autodetect)",
+     "nodejs_package_manager_path": "npm",
+     "settings.editor.selected.configurable": "settings.javascript.prettier",
+-    "ts.external.directory.path": "/Users/iulianpoenaru/itfest_2025/node_modules/typescript/lib",
++    "ts.external.directory.path": "C:\\!Diverse\\Proiecte\\ITFest2025\\itfest_2025\\node_modules\\typescript\\lib",
+     "vue.rearranger.settings.migration": "true"
+   }
+ }]]></component>
+-  <component name="RecentsManager">
+-    <key name="CopyFile.RECENT_KEYS">
+-      <recent name="$PROJECT_DIR$/assets/fonts" />
+-    </key>
+-    <key name="MoveFile.RECENT_KEYS">
+-      <recent name="$PROJECT_DIR$/ios" />
+-    </key>
+-  </component>
+   <component name="SharedIndexes">
+     <attachedChunks>
+       <set>
+-        <option value="bundled-js-predefined-1d06a55b98c1-985749b364ce-JavaScript-WS-233.15619.15" />
++        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-WS-243.25659.40" />
+       </set>
+     </attachedChunks>
+   </component>
+   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+   <component name="TaskManager">
+     <task active="true" id="Default" summary="Default task">
+-      <changelist id="c35ba6de-1824-4328-9547-eba66ce314e1" name="Changes" comment="" />
+-      <created>1741968789711</created>
++      <changelist id="d42e1715-e273-4d59-b28f-5f519d58612b" name="Changes" comment="" />
++      <created>1741970316727</created>
+       <option name="number" value="Default" />
+       <option name="presentableId" value="Default" />
+-      <updated>1741968789711</updated>
+-      <workItem from="1741968791284" duration="2414000" />
+-      <workItem from="1741971216896" duration="7863000" />
++      <updated>1741970316727</updated>
++      <workItem from="1741970318028" duration="7815000" />
+     </task>
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+     <option name="version" value="3" />
+   </component>
++  <component name="UnknownFeatures">
++    <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
++  </component>
+ </project>
+\ No newline at end of file
