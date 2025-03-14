@@ -6,6 +6,7 @@ import {onAuthStateChanged} from "firebase/auth";
 import {useEffect, useState} from "react";
 import {auth} from "../constants";
 import {HomeScreen} from "./screens/app";
+import {ScanScreen} from "./screens/app/ScanScreen";
 
 
 const Stack = createStackNavigator()
@@ -18,6 +19,7 @@ const AuthStack = () => <Stack.Navigator screenOptions={{headerShown: false}}>
 
 const AppStack = () => <Stack.Navigator screenOptions={{headerShown: false}}>
     <Stack.Screen name={"HomeScreen"} component={HomeScreen}/>
+    <Stack.Screen name={"ScanScreen"} component={ScanScreen}/>
 </Stack.Navigator>
 
 export const Navigation = () => {
