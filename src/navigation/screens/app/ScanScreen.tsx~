@@ -46,7 +46,7 @@ export const ScanScreen = () => {
                 >
                     {isProcessing && (
                         <View
-                            absF
+                            abs
                             flex
                             backgroundColor={Colors.codGray}
                             style={{ opacity: 0.8 }}
