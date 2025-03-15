@@ -30,10 +30,8 @@ const KActivityCard: React.FC<KActivityCardProps> = ({
   const remainingParticipantsCount =
     totalParticipants > 4 ? totalParticipants - 4 : 0;
 
-  // Animation values for glowing effect
   const glowAnimation = useRef(new Animated.Value(0)).current;
 
-  // Create pulsating animation
   useEffect(() => {
     const pulseGlow = () => {
       Animated.sequence([
@@ -57,7 +55,6 @@ const KActivityCard: React.FC<KActivityCardProps> = ({
     };
   }, []);
 
-  // Dynamic glow properties
   const animatedShadowOpacity = glowAnimation.interpolate({
     inputRange: [0, 1],
     outputRange: [0.5, 0.9],
@@ -135,7 +132,7 @@ const KActivityCard: React.FC<KActivityCardProps> = ({
 
 const styles = StyleSheet.create({
   touchableContainer: {
-    width: "100%",
+    flex: 1,
   },
   card: {
     padding: 15,
@@ -147,7 +144,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: Colors.lightBlue100,
 
-    // Enhanced shadow for glow effect
     shadowColor: Colors.lightBlue100,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
@@ -172,7 +168,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
 
-    // Glow effect for avatars
     shadowColor: Colors.lightBlue100,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.7,
@@ -210,7 +205,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: 25,
 
-    // Glow effect for "more" indicator
     shadowColor: Colors.white,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.7,
