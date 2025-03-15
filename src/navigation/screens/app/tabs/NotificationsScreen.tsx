@@ -1,4 +1,4 @@
-import { KContainer } from "../../../components";
+import { KContainer } from "../../../../components";
 import { View, Text } from "react-native-ui-lib";
 
 export const NotificationsScreen = () => {

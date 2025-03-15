@@ -1,14 +1,16 @@
 import * as FileSystem from "expo-file-system";
 import axios from "axios";
 import {environment} from "../constants";
-import {useState} from "react";
+import {useContext, useState} from "react";
+import {RootContext} from "../store";
 
 export const useCamera = () => {
-    const [photo, setPhoto] = useState(null);
+    const [photo, setPhoto] = useState("");
+    const [error, setError] = useState("");
+    const {isProcessing, setProcessing} = useContext(RootContext);
+
 
     const [cameraRef, setCameraRef] = useState(null);
-    const [isProcessing, setIsProcessing] = useState(false);
-    const [error, setError] = useState(null);
 
     const takePhoto = async () => {
         if (!cameraRef) {
@@ -20,14 +22,13 @@ export const useCamera = () => {
         console.log("Photo captured:", photoData.uri);
     };
 
-    // 🚀 Send Image to OpenAI for processing
-    const sendImageToOpenAI = async () => {
+    const processImageContents = async () => {
         if (!photo) {
             setError("No photo captured! Take a photo first.");
             return;
         }
 
-        setIsProcessing(true);
+        setProcessing(true);
         setError(null);
 
         try {
@@ -47,8 +48,11 @@ export const useCamera = () => {
                         {
                             role: "user",
                             content: [
-                                { type: "text", text: "Extract receipt details and return as JSON: { store: '', date: '', items: [{ name: '', quantity: 1, price: 0.00 }], total: 0.00 }" },
-                                { type: "image_url", image_url: { url: `data:image/jpeg;base64,${imageBase64}` } }
+                                {
+                                    type: "text",
+                                    text: "Extract receipt details and return as JSON: { store: '', date: '', items: [{ name: '', quantity: 1, price: 0.00 }], total: 0.00 }"
+                                },
+                                {type: "image_url", image_url: {url: `data:image/jpeg;base64,${imageBase64}`}}
                             ],
                         },
                     ],
@@ -67,9 +71,9 @@ export const useCamera = () => {
             console.error("❌ OpenAI API Error:", error.response?.data || error.message);
             setError("Failed to process the receipt. Try again.");
         } finally {
-            setIsProcessing(false);
+            setProcessing(false);
         }
     };
 
-    return { photo, cameraRef, setCameraRef, isProcessing, error, takePhoto, sendImageToOpenAI };
+    return {photo, cameraRef, setCameraRef, isProcessing, error, takePhoto, processImageContents};
 }
