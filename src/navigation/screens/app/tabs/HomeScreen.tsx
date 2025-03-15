@@ -18,6 +18,8 @@ import {storage, database} from "../../../../constants";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import {AuthContext} from "../../../../store";
 import {KQr} from "../../../../components/KQr";
+import {KJoinedRoom} from "../../../../components/KJoinedRoom";
+import { ScrollView } from 'react-native';
 
 export const HomeScreen = () => {
   const [isImageLoading, setIsImageLoading] = useState(false);
@@ -153,7 +155,19 @@ export const HomeScreen = () => {
                                participants={Array.from(Object.values(item.didMembersJoined).filter(a => Object.values(a)[0] as boolean))}/>
             }/>
         </View>
-      <KSpacer h={10} />
+      <KSpacer h={20}/>
+      <Text bodyXL bold style={{paddingHorizontal:10}}>Joined Rooms:</Text>
+      <KSpacer h={5}/>
+      <View>
+      <ScrollView  horizontal
+                   showsHorizontalScrollIndicator={false}
+                   style={{ paddingHorizontal: 10,flexGrow:1 }}>
+        <View style={{flexDirection:'row', gap:8}}>
+          <KJoinedRoom image={"https://cloudkitchens.com/_gatsby/file/b1353b19906a1722db41a01f47b70b30/Fast-Food.jpeg?u=https%3A%2F%2Fcloudkitchblog.wpenginepowered.com%2Fwp-content%2Fuploads%2FFast-Food.jpeg"} roomName={"Burgers"}/>
+        </View>
+      </ScrollView>
+      </View>
+      <KSpacer h={20}/>
       <Text bodyXL bold style={{ paddingHorizontal: 10 }}>
         Join Room:
       </Text>
@@ -189,6 +203,7 @@ export const HomeScreen = () => {
           </View>
         </CameraView>
       </Modal>
+      <KSpacer h={20}/>
     </KContainer>
   );
 };
