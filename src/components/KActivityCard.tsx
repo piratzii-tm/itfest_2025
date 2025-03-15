@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import {
-  View,
   StyleSheet,
   Image,
   Animated,
-  TouchableOpacity,
+  TouchableOpacity, useWindowDimensions,
 } from "react-native";
-import { Text } from "react-native-ui-lib";
+import { Text, View } from "react-native-ui-lib";
 import { Colors, Typographies } from "../constants";
 import { useDatabase } from "../hooks";
 import { AuthContext } from "../store";
+import {KSpacer} from "./KSpacer";
+import {useNavigation} from "@react-navigation/native";
 
 interface Participant {
   avatar?: string;
@@ -19,11 +20,15 @@ interface Participant {
 interface KActivityCardProps {
   participants: Participant[];
   onPress?: () => void;
+  title: string;
+  owner: string;
 }
 
 const KActivityCard: React.FC<KActivityCardProps> = ({
   participants,
   onPress,
+  title,
+    owner
 }) => {
   // Default avatar if missing
   const defaultAvatar =
@@ -37,11 +42,11 @@ const KActivityCard: React.FC<KActivityCardProps> = ({
   const glowAnimation = useRef(new Animated.Value(0)).current;
 
   const { getUser } = useDatabase();
-  const { uid } = useContext(AuthContext);
   const [username, setUsername] = useState("");
+  const {width} = useWindowDimensions()
 
   useEffect(() => {
-    getUser({ id: uid }).then((user) => {
+    getUser({ id: owner }).then((user) => {
       setUsername(user.name);
     });
   }, []);
@@ -83,7 +88,7 @@ const KActivityCard: React.FC<KActivityCardProps> = ({
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={onPress}
-      style={styles.touchableContainer}
+      style={[styles.touchableContainer, {width}]}
     >
       <Animated.View
         style={[
@@ -94,11 +99,17 @@ const KActivityCard: React.FC<KActivityCardProps> = ({
           },
         ]}
       >
-        <Text bodyL semiBold white style={styles.adminName}>
-          {username}'s room
-        </Text>
+        <View row gap-4 centerV>
+            <Text bodyL semiBold white>
+                {username}'s room
+            </Text>
+            <Text bodyM regular white>
+                @ {title}
+            </Text>
+        </View>
+        <KSpacer/>
         <View style={styles.participantsRow}>
-          {displayedParticipants.map((item, index) => (
+          {displayedParticipants.map((id)=>getUser({id})).map((item, index) => (
             <View key={index} style={styles.participantContainer}>
               <Animated.View
                 style={[
@@ -163,9 +174,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 10,
     elevation: 15,
-  },
-  adminName: {
-    marginBottom: 15,
   },
   participantsRow: {
     flexDirection: "row",

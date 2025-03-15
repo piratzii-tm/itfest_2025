@@ -14,7 +14,6 @@
     },
     "ios": {
       "bundleIdentifier": "com.iulianpoenaru.itfest2025",
-      "bundleIdentifier": "com.iulianpoenaru.itfest2025",
       "googleServicesFile": "./ios/GoogleService-Info.plist",
       "supportsTablet": true
     },

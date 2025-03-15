@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback,useContext, useEffect, useState} from "react";
 import { KContainer, KPermission, KSpacer } from "../../../../components";
-import { View, StyleSheet, TouchableOpacity, Modal } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Modal,FlatList } from "react-native";
 import {auth, Colors, Typographies} from "../../../../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faTimes, faCamera, faCameraRotate } from "@fortawesome/free-solid-svg-icons";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import * as ImagePicker from 'expo-image-picker';
-import { useCamera } from "../../../../hooks";
+import {useCamera, useDatabase} from "../../../../hooks";
 import {CameraType, CameraView, useCameraPermissions} from "expo-camera";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import KProfileHeader from "../../../../components/KProfileHeader";
@@ -15,6 +15,8 @@ import { Text } from "react-native-ui-lib";
 import {getDownloadURL, ref, uploadBytes} from "firebase/storage";
 import {set,  ref as dbRef} from "firebase/database";
 import {storage, database} from "../../../../constants";
+import {useFocusEffect, useNavigation} from "@react-navigation/native";
+import {AuthContext} from "../../../../store";
 
 export const HomeScreen = () => {
   const [isImageLoading, setIsImageLoading] = useState(false);
@@ -22,10 +24,15 @@ export const HomeScreen = () => {
   const [cameraVisible, setCameraVisible] = useState(false);
   const [facing, setFacing] = useState<CameraType>('back');
 
-  const { showActionSheetWithOptions } = useActionSheet();
-  const { bottom } = useSafeAreaInsets();
+    const {showActionSheetWithOptions} = useActionSheet();
+    const {bottom} = useSafeAreaInsets();
 
   const { setCameraRef, takePhoto, photo, setPhoto } = useCamera();
+    const {getActiveRooms, getUser} = useDatabase()
+    const {uid} = useContext(AuthContext)
+    const [rooms, setRooms] = useState([])
+    const {navigate} = useNavigation()
+    const [user, setUser] = useState(null)
 
   useEffect(() => {
     if (photo) {
@@ -33,7 +40,17 @@ export const HomeScreen = () => {
     }
   }, [photo]);
 
+    useEffect(() => {
+        getUser({id: uid}).then(setUser)
+        getActiveRooms({id: uid}).then(setRooms)
+    }, [uid]);
 
+    useFocusEffect(
+        useCallback(()=>{
+            getUser({id: uid}).then(setUser)
+            getActiveRooms({id: uid}).then(setRooms)
+        },[])
+    )
 
   const chooseFromLibrary = async () => {
     try {
@@ -81,13 +98,13 @@ export const HomeScreen = () => {
     }
   };
 
-  const handleCamera = async () => {
-    if (!permission?.granted) {
-      await requestPermission();
-      return;
-    }
-    setCameraVisible(true);
-  };
+    const handleCamera = async () => {
+        if (!permission?.granted) {
+            await requestPermission();
+            return;
+        }
+        setCameraVisible(true);
+    };
 
   const toggleCameraFacing = ()=> {
     setFacing(facing === 'back' ? 'front' : 'back');
@@ -110,36 +127,10 @@ export const HomeScreen = () => {
     );
   };
 
-  if (permission && !permission.granted && permission.canAskAgain) {
-    return <KPermission requestPermission={requestPermission} />;
-  }
+    if (permission && !permission.granted && permission.canAskAgain) {
+        return <KPermission requestPermission={requestPermission}/>;
+    }
 
-  const participants = [
-    {
-      avatar:
-        "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png",
-    },
-    {
-      avatar:
-        "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png",
-    },
-    {
-      avatar:
-        "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png",
-    },
-    {
-      avatar:
-        "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png",
-    },
-    {
-      avatar:
-        "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png",
-    },
-    {
-      avatar:
-        "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png",
-    },
-  ];
 
   return (
     <KContainer>
@@ -154,9 +145,12 @@ export const HomeScreen = () => {
         This room is the current opened room that you've joined or created.
       </Text>
       <KSpacer h={5} />
-      <View>
-        <KActivityCard participants={participants} />
-      </View>
+        <View>
+            <FlatList horizontal data={rooms} renderItem={({item}) =>
+                <KActivityCard owner={item.owner} onPress={() => navigate("RoomScreen", {room: item.id})} title={item.bill.store}
+                               participants={Array.from(Object.values(item.didMembersJoined).filter(a => Object.values(a)[0] as boolean))}/>
+            }/>
+        </View>
       <KSpacer h={10} />
       <Text bodyXL bold style={{ paddingHorizontal: 10 }}>
         Join Room:

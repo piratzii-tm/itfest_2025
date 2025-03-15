@@ -103,7 +103,7 @@ export const RegisterScreen = () => {
                         placeholder={"ex: +123456789"}
                         value={phoneNumber}
                         onChangeText={setPhoneNumber}
-                        keyboardType="number-pad"
+                        keyboardType="phone-pad"
                         editable={!verificationSent}
                     />
                     {
