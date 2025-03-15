@@ -81,7 +81,6 @@ const KProfileHeader = ({
     try {
       await update(userRef, { name: newName });
       setUsername(newName);
-      setIsEditing(false);
       console.log("Name updated successfully!");
     } catch (error) {
       console.error("Error updating name:", error);

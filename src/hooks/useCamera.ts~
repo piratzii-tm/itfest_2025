@@ -1,26 +1,78 @@
 import * as FileSystem from "expo-file-system";
 import axios from "axios";
-import { environment } from "../constants";
-import { useContext, useState } from "react";
-import { RootContext } from "../store";
+import {auth, database, environment, storage} from "../constants";
+import {useContext, useEffect, useState} from "react";
+import {AuthContext, RootContext} from "../store";
 import { Alert } from "react-native";
 import { Item } from "../constants/types";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {onValue, ref as dbRef, set} from "firebase/database";
+import {CameraView} from "expo-camera";
 
 export const useCamera = () => {
-  const [photo, setPhoto] = useState("");
-  const [error, setError] = useState("");
-  const { isProcessing, setProcessing } = useContext(RootContext);
+  const [photo, setPhoto] = useState<string >("");
+  const [error, setError] = useState<string | null>(null);
+  const { processing, setProcessing } = useContext(RootContext);
+  const { uid } = useContext(AuthContext);
 
-  const [cameraRef, setCameraRef] = useState(null);
+  const [cameraRef, setCameraRef] = useState<CameraView | null>(null);
+
+  useEffect(() => {
+    const userId = auth.currentUser?.uid;
+    if (!userId) return;
+
+    const userPhotoRef = dbRef(database, `users/${userId}/photoURL`);
+
+    const unsubscribe = onValue(userPhotoRef, (snapshot) => {
+      if (snapshot.exists()) {
+        setPhoto(snapshot.val());
+      }
+    });
+
+    return () => unsubscribe();
+  }, [uid, photo]);
+
+
 
   const takePhoto = async () => {
     if (!cameraRef) {
       console.log("Camera not ready");
       return;
     }
+
+    const userId = auth.currentUser?.uid;
+    if (!userId ) {
+      Alert.alert("Error", "User not authenticated!");
+      return;
+    }
+
     const photoData = await cameraRef.takePictureAsync();
+    if(!photoData){
+      Alert.alert("Error", "Failed to capture photo.");
+      return;
+    }
     setPhoto(photoData.uri);
     console.log("Photo captured:", photoData.uri);
+
+    const filename = `photos/${Date.now()}.jpg`;
+    const storageRef = ref(storage, filename);
+
+    try {
+      const response = await fetch(photoData.uri);
+      const blob = await response.blob();
+
+      await uploadBytes(storageRef, blob);
+
+      const downloadURL = await getDownloadURL(storageRef);
+
+      const userPhotoRef = dbRef(database, `users/${userId}/photoURL`);
+
+      await set(userPhotoRef, downloadURL);
+
+    } catch (error) {
+      console.error("Photo upload error:", error);
+      Alert.alert("Error", "Failed to upload photo.");
+    }
   };
 
   const processImageContents = async () => {
@@ -97,7 +149,6 @@ export const useCamera = () => {
 
       setProcessing(false);
 
-      // Iterate through items and add an 'id' field based on index
       const updatedItems = receiptData.items.map(
         (item: Item, index: number) => ({
           ...item,
@@ -108,9 +159,9 @@ export const useCamera = () => {
       console.log("Updated Items:", updatedItems);
       return {
         ...receiptData,
-        items: updatedItems, // Add modified items with ids
+        items: updatedItems,
       };
-    } catch (error) {
+    } catch (error:any) {
       Alert.alert(error.response?.data || error.message);
       console.error(
         "❌ OpenAI API Error:",
@@ -124,9 +175,10 @@ export const useCamera = () => {
 
   return {
     photo,
+    setPhoto,
     cameraRef,
     setCameraRef,
-    isProcessing,
+    processing,
     error,
     takePhoto,
     processImageContents,

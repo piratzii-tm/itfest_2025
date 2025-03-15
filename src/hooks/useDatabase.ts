@@ -12,20 +12,20 @@ const Path = {
 export const useDatabase = () => {
     const {sendPushNotification} = useNotifications();
 
-    const initUser = ({
-                          id,
-                          name,
-                          phone,
-                      }: {
-        id: string;
-        name: string;
-        phone;
-    }) => {
-        const userRef = ref(database, Path.users + id);
-        set(userRef, {id, name, phone, friends: ["IGNORE"]})
-            .then(() => console.log("User data added successfully!"))
-            .catch((error) => console.log("Error adding data: ", error));
-    };
+  const initUser = ({
+    id,
+    name,
+    phone,
+  }: {
+    id: string;
+    name: string;
+    phone:string;
+  }) => {
+    const userRef = ref(database, Path.users + id);
+    set(userRef, { id, name, phone, friends: ["IGNORE"] })
+      .then(() => console.log("User data added successfully!"))
+      .catch((error) => console.log("Error adding data: ", error));
+  };
 
     const registerPushToken = async ({
                                          id,
