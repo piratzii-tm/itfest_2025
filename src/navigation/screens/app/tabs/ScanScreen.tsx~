@@ -108,9 +108,7 @@ export const ScanScreen = ({ navigation }) => {
           <TouchableOpacity
             onPress={() => {
               setIsModalVisible(false);
-              processImageContents().then(() =>
-                navigation.navigate("RoomScreen"),
-              );
+              processImageContents().then(() => navigation.navigate("RoomScreen"));
             }}
             style={{
               padding: 10,

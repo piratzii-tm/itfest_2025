@@ -10,7 +10,7 @@ export const HomeScreen = () => {
     <KContainer>
       <View>
         <Button
-          title={"go to room"}
+          title={"rrom"}
           onPress={() => navigation.navigate("RoomScreen")}
         />
       </View>

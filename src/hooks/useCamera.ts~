@@ -37,21 +37,21 @@ export const useCamera = () => {
       });
 
       const response = await axios.post(
-        "https://api.openai.com/v1/chat/completions",
-        {
-          model: "gpt-4-turbo",
-          messages: [
-            {
-              role: "system",
-              content:
-                "Extract structured data from a receipt image. Only return a valid JSON object—no additional text, comments, or explanations. Don't add: ✅ Extracted Data",
-            },
-            {
-              role: "user",
-              content: [
-                {
-                  type: "text",
-                  text: `If the image is unclear or you can't understand, return error.Extract receipt details and return a valid JSON object in the following format:
+          "https://api.openai.com/v1/chat/completions",
+          {
+            model: "gpt-4-turbo",
+            messages: [
+              {
+                role: "system",
+                content:
+                    "Extract structured data from a receipt image. Only return a valid JSON object—no additional text, comments, or explanations. Don't add: ✅ Extracted Data",
+              },
+              {
+                role: "user",
+                content: [
+                  {
+                    type: "text",
+                    text: `If the image is unclear or you can't understand, return error.Extract receipt details and return a valid JSON object in the following format:
                 \`\`\`json
                 {
                   "store": "",
@@ -67,23 +67,23 @@ export const useCamera = () => {
                 }
                 \`\`\`
                 **Return only the JSON output with no extra text. Your response should be in JSON format. Don't add: ✅ Extracted Data**`,
-                },
-                {
-                  type: "image_url",
-                  image_url: { url: `data:image/jpeg;base64,${imageBase64}` },
-                },
-              ],
-            },
-          ],
-          response_format: { type: "json_object" },
-          max_tokens: 500,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${environment.OPENAI_API_KEY}`,
-            "Content-Type": "application/json",
+                  },
+                  {
+                    type: "image_url",
+                    image_url: { url: `data:image/jpeg;base64,${imageBase64}` },
+                  },
+                ],
+              },
+            ],
+            response_format: { type: "json_object" },
+            max_tokens: 500,
           },
-        },
+          {
+            headers: {
+              Authorization: `Bearer ${environment.OPENAI_API_KEY}`,
+              "Content-Type": "application/json",
+            },
+          },
       );
 
       const extractedText = response.data.choices[0].message.content.trim();
@@ -107,8 +107,8 @@ export const useCamera = () => {
     } catch (error) {
       Alert.alert(error.response?.data || error.message);
       console.error(
-        "❌ OpenAI API Error:",
-        error.response?.data || error.message,
+          "❌ OpenAI API Error:",
+          error.response?.data || error.message,
       );
       setError("Failed to process the receipt. Try again.");
     } finally {
