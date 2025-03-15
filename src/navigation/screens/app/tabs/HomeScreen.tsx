@@ -40,6 +40,7 @@ export const HomeScreen = () => {
     }
   }, [photo]);
 
+
     useEffect(() => {
         getUser({id: uid}).then(setUser)
         getActiveRooms({id: uid}).then(setRooms)
