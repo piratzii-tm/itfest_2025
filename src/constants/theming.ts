@@ -5,14 +5,17 @@ import {
 
 export const Colors = {
     white: "#FFFFFF",
+    white80: "rgba(255,255,255,0.8)",
     black: "#000000",
+    grey: "#808080",
     lightBlue: "#6E90F5",
     lightBlue100: "#5f7ed9",
     darkBlue: "#4169E1",
     darkerBlue: "#304582",
     transparent: "transparent",
-    lightBlue:"#6e90f5",
-    darkBlue:"#4169e1"
+    lightGrey:"#F0F0F0",
+    darkNavy:"#1C1C3B"
+
 };
 
 export const Typographies = {
@@ -26,7 +29,7 @@ export const Typographies = {
         fontSize: 18,
     },
     bodyXL: {
-        fontSize: 18,
+        fontSize: 24,
     },
     bodyM: {
         fontSize: 14,

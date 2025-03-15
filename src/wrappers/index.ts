@@ -1,3 +1,6 @@
 export * from "./WitExpoFonts"
 export * from "./WithTheming"
 export * from "./WithReactContext"
+export * from "./WithLoading"
+export * from "./WithNotifications"
+export * from "./WithToast"

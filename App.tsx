@@ -1,14 +1,21 @@
 import {Navigation} from "./src/navigation/navigation";
-import {WithExpoFonts, WithReactContext, WithTheming} from "./src/wrappers";
+import {WithExpoFonts, WithLoading, WithReactContext, WithTheming, WithToast} from "./src/wrappers";
+import {SafeAreaProvider} from "react-native-safe-area-context";
 
 export default function App() {
-  return (
-      <WithTheming>
-        <WithReactContext>
-          <WithExpoFonts>
-            <Navigation />
-          </WithExpoFonts>
-        </WithReactContext>
-      </WithTheming>
-  );
+    return (
+        <SafeAreaProvider>
+            <WithTheming>
+                <WithToast>
+                    <WithReactContext>
+                        <WithExpoFonts>
+                            <WithLoading>
+                                <Navigation/>
+                            </WithLoading>
+                        </WithExpoFonts>
+                    </WithReactContext>
+                </WithToast>
+            </WithTheming>
+        </SafeAreaProvider>
+    );
 }
