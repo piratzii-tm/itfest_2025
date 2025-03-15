@@ -15,8 +15,13 @@ export const ScanScreen = () => {
   const [permission, requestPermission] = useCameraPermissions();
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const { bottom } = useSafeAreaInsets();
-  const { setCameraRef, error, takeRecipetPhoto, processImageContents, recipetPhoto } =
-    useCamera();
+  const {
+    setCameraRef,
+    error,
+    takeRecipetPhoto,
+    processImageContents,
+    recipetPhoto,
+  } = useCamera();
   const { scannedObject, setScannedObject } = useContext(ScannerContext);
   const { processing } = useContext(RootContext);
   const { navigate } = useNavigation();

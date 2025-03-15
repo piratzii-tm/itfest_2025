@@ -94,7 +94,7 @@ export const RecapScreen = () => {
                 <View style={{ alignItems: "center" }}>
                   {friend.items.map((item: any) => (
                     <View
-                      key={item.id}
+                        key={item.id}
                       width={"80%"}
                       style={{ justifyContent: "center", marginVertical: 1 }}
                     >

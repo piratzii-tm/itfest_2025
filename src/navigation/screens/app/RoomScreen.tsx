@@ -7,7 +7,7 @@ import { KProduct } from "../../../components/KProduct";
 import { useContext, useEffect, useState } from "react";
 import { Item } from "../../../constants/types";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { ActivityIndicator, TouchableOpacity } from "react-native";
+import { ActivityIndicator, Button, TouchableOpacity } from "react-native";
 import { Colors } from "../../../constants";
 import { useDatabase } from "../../../hooks";
 import { AuthContext } from "../../../store";
@@ -90,10 +90,6 @@ export const RoomScreen = () => {
               alignSelf: "center",
             }}
             onPress={() => {
-              reset({
-                index: 0,
-                routes: [{ name: "Tabs" }],
-              });
               navigation.navigate("RecapScreen");
             }}
           >
@@ -101,6 +97,19 @@ export const RoomScreen = () => {
               Finish
             </Text>
           </TouchableOpacity>
+          <View center marginT-10 row gap-3>
+            <Text style={{ fontSize: 14 }}>Don't want to finish now?</Text>
+            <TouchableOpacity
+              onPress={() => {
+                reset({
+                  index: 0,
+                  routes: [{ name: "Tabs" }],
+                });
+              }}
+            >
+              <Text color={Colors.lightBlue}>Go to homepage</Text>
+            </TouchableOpacity>
+          </View>
         </>
       )}
     </KContainer>
