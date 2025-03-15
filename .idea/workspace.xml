@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c35ba6de-1824-4328-9547-eba66ce314e1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/ScanScreen.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useDatabase.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useDatabase.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useNotifications.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useNotifications.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/tabs/HomeScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/HomeScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wrappers/WithNotifications.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/wrappers/WithNotifications.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/RoomScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/RoomScreen.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -23,6 +28,7 @@
       <list>
         <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -64,6 +70,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "20-implement-notifications-with-firebase-messaging",
     "RunOnceActivity.git.unshallow": "true",
     "com.codeium.enabled": "true",
     "git-widget-placeholder": "14-implement-lobby-page",
@@ -84,6 +91,7 @@
       <recent name="$PROJECT_DIR$/assets/fonts" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/ios" />
       <recent name="$PROJECT_DIR$/src/navigation/screens/app/tabs" />
       <recent name="$PROJECT_DIR$/ios" />
     </key>
@@ -122,5 +130,8 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
 </project>

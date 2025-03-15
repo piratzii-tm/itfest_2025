@@ -5,17 +5,29 @@ import { useCamera } from "../../../../hooks";
 import { KPermission, KSpacer } from "../../../../components";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Modal from "react-native-modal";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Colors } from "../../../../constants";
+import { ScannerContext } from "../../../../store/scanner";
+import { useNavigation } from "@react-navigation/native";
+import { RootContext } from "../../../../store";
 
-export const ScanScreen = ({ navigation }) => {
+export const ScanScreen = () => {
   const [permission, requestPermission] = useCameraPermissions();
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const { bottom } = useSafeAreaInsets();
   const { setCameraRef, error, takePhoto, processImageContents, photo } =
     useCamera();
+  const { scannedObject, setScannedObject } = useContext(ScannerContext);
+  const { processing } = useContext(RootContext);
+  const { navigate } = useNavigation();
 
   const [modalVisible, setIsModalVisible] = useState(false);
+
+  useEffect(() => {
+    if (scannedObject && !processing) {
+      navigate("RoomScreen");
+    }
+  }, [scannedObject, processing]);
 
   if (!permission) return <View />;
   if (!permission.granted) {
@@ -43,7 +55,6 @@ export const ScanScreen = ({ navigation }) => {
       ref={(ref) => setCameraRef(ref)}
     >
       {error && <ErrorView />}
-
       <View flex centerH bottom padding-10>
         <TouchableOpacity
           onPress={() => takePhoto().then(() => setIsModalVisible(true))}
@@ -76,10 +87,10 @@ export const ScanScreen = ({ navigation }) => {
         style={{ bottom: 10, justifyContent: "flex-end" }}
       >
         <View bg-white style={{ borderRadius: 20 }} padding-10>
-          <Text bodyXL semiBold lightBlue>
+          <Text bodyXL semiBold lightBlue style={{ paddingHorizontal: 10 }}>
             Image to be processed:
           </Text>
-          <Text bodyS light grey>
+          <Text bodyS light grey style={{ paddingHorizontal: 10 }}>
             The image below will be used for your split. Please make sure that
             you captured the bill, if not, redo the image.
           </Text>
@@ -108,9 +119,9 @@ export const ScanScreen = ({ navigation }) => {
           <TouchableOpacity
             onPress={() => {
               setIsModalVisible(false);
-              processImageContents().then(() =>
-                navigation.navigate("RoomScreen"),
-              );
+              processImageContents().then((response) => {
+                setScannedObject(response);
+              });
             }}
             style={{
               padding: 10,
