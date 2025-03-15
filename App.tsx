@@ -1,12 +1,14 @@
-import {WithExpoFonts, WithTheming, WithReactContext} from "./src/wrappers";
 import {Navigation} from "./src/navigation/navigation";
+import {WithExpoFonts, WithReactContext, WithTheming} from "./src/wrappers";
 
 export default function App() {
-    return <WithReactContext>
-        <WithExpoFonts>
-            <WithTheming>
-                <Navigation/>
-            </WithTheming>
-        </WithExpoFonts>
-    </WithReactContext>
+  return (
+      <WithTheming>
+        <WithReactContext>
+          <WithExpoFonts>
+            <Navigation />
+          </WithExpoFonts>
+        </WithReactContext>
+      </WithTheming>
+  );
 }
