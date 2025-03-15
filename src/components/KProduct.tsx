@@ -59,7 +59,7 @@ export const KProduct = ({
     }, [distribution, item, roomId]);
 
     const handleAddMe = () => {
-        if (members.includes(userId)) {
+        if (members?.includes(userId)) {
 
         } else {
             handleDistribution({roomId, id: userId, item});
@@ -84,7 +84,7 @@ export const KProduct = ({
             </View>
             <View margin-10 row gap-10 style={{flexWrap: "wrap"}}>
                 {
-                    members.map((member, index) => (
+                    members?.map((member, index) => (
                         <TouchableOpacity onPress={() => handleRemoveItem({roomId, id: userId, item})}>
                             <View
                                 key={`member-${index}`}
@@ -93,12 +93,12 @@ export const KProduct = ({
                                     uri: "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg",
                                 }}
                             >
-                                <Text white bold>{member[0]}</Text>
+                                <Text white bold>{member?.[0]}</Text>
                             </View>
                         </TouchableOpacity>
                     ))
                 }
-                {members.length < item.quantity && (
+                {members?.length < item.quantity && (
                     <TouchableOpacity
                         onPress={handleAddMe}
                         style={{

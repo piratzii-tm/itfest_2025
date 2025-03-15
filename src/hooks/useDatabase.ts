@@ -213,6 +213,30 @@ export const useDatabase = () => {
         }
     }
 
+    const addFriends = async ({id, owner}) => {
+        const user = await getUser({id})
+        const ownerUser = await getUser({id: owner})
+
+        let userFriend = user.friends || []
+        let ownerFriend = ownerUser.friends || []
+
+        if(!userFriend.includes(ownerUser.id)){
+            userFriend.push(ownerUser.id)
+        }
+
+        if(!ownerFriend.includes(user.id)){
+            ownerFriend.push(user.id)
+        }
+
+        const userRef = ref(database, Path.users + id);
+        const ownerRef = ref(database, Path.users + owner);
+
+        await set(userRef, {...user, friends: userFriend})
+        await set(ownerRef, {...ownerUser, friends: ownerFriend})
+
+
+    }
+
     const handleDistribution = async ({id, roomId, item}: { id: string, roomId: string, item: any }) => {
         let room = await getRoom({id: roomId})
         let membersDistribution = room.membersDistribution
@@ -340,6 +364,7 @@ export const useDatabase = () => {
         getRoom,
         addRoomToUser,
         handleDistribution,
-        handleRemoveItem
+        handleRemoveItem,
+        addFriends
     };
 };

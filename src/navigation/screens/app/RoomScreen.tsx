@@ -21,7 +21,7 @@ export const RoomScreen = () => {
     const [room, setRoom] = useState(null);
     const {params} = useRoute();
     const {reset} = useNavigation()
-    const {getRoom, addRoomToUser} = useDatabase()
+    const {getRoom, addRoomToUser, addFriends} = useDatabase()
     const {uid} = useContext(AuthContext)
 
     //@ts-ignore
@@ -45,6 +45,7 @@ export const RoomScreen = () => {
                 if ((roomData?.owner ?? "") !== uid) {
                     addRoomToUser({id: uid, room: roomId})
                         .catch(error => console.error("Error adding user to room:", error));
+                    addFriends({id: uid, owner: roomData.owner})
                 }
             } else {
                 console.log("Room not found");
