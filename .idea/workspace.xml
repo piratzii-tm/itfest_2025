@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c35ba6de-1824-4328-9547-eba66ce314e1" name="Changes" comment="">
+    <list default="true" id="7a681067-c7f1-4561-bc57-2aa8d8a156d9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/KSpacer.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/constants/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/config.ts" afterDir="false" />
@@ -53,19 +54,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "2-think-of-the-structure-for-the-database",
-    "last_opened_file_path": "/Users/iulianpoenaru/itfest_2025/assets/fonts",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "prettierjs.PrettierConfiguration.Package": "C:\\!Diverse\\Proiecte\\ITFest2025\\itfest_2025\\node_modules\\prettier",
-    "settings.editor.selected.configurable": "settings.javascript.prettier",
-    "ts.external.directory.path": "/Users/iulianpoenaru/itfest_2025/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+    "git-widget-placeholder": "Merging 7-implement-the-navigation-bar",
+    "ts.external.directory.path": "C:\\!Diverse\\Proiecte\\ITFest2025\\itfest_2025\\node_modules\\typescript\\lib"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -76,14 +66,10 @@
       <recent name="$PROJECT_DIR$/ios" />
     </key>
   </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-985749b364ce-JavaScript-WS-233.15619.15" />
-      </set>
-    </attachedChunks>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\Cristian\AppData\Roaming\Subversion</configuration>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="c35ba6de-1824-4328-9547-eba66ce314e1" name="Changes" comment="" />
@@ -93,6 +79,9 @@
       <updated>1741968789711</updated>
       <workItem from="1741968791284" duration="2414000" />
       <workItem from="1741971216896" duration="7863000" />
+      <workItem from="1741990413647" duration="3936000" />
+      <workItem from="1741994436015" duration="611000" />
+      <workItem from="1742000269032" duration="55000" />
     </task>
     <servers />
   </component>
