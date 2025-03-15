@@ -1,5 +1,6 @@
 import { KContainer } from "../../../components";
 import { Colors, View, Text } from "react-native-ui-lib";
+import { useState } from "react";
 import { KLobbyControls } from "../../../components/KLobbyControls";
 import { KEdgeSvg } from "../../../components/KEdgeSvg";
 import { KSittingInfo } from "../../../components/KSittingInfo";
