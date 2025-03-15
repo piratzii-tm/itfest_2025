@@ -3,11 +3,11 @@ import { KContainer, KPermission, KSpacer } from "../../../../components";
 import { View, StyleSheet, TouchableOpacity, Modal } from "react-native";
 import { Colors, Typographies } from "../../../../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faTimes, faCamera } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faCamera, faCameraRotate } from "@fortawesome/free-solid-svg-icons";
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import * as ImagePicker from "react-native-image-picker";
+import * as ImagePicker from 'expo-image-picker';
 import { useCamera } from "../../../../hooks";
-import { CameraView, useCameraPermissions } from "expo-camera";
+import {CameraType, CameraView, useCameraPermissions} from "expo-camera";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import KProfileHeader from "../../../../components/KProfileHeader";
 import KActivityCard from "../../../../components/KActivityCard";
@@ -15,8 +15,6 @@ import { Text } from "react-native-ui-lib";
 
 const tempAvatar =
   "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png";
-// TODO: Fix the camera view -> make the rear camera, not back
-// TODO: Make "Choose from Library" work
 
 export const HomeScreen = () => {
   const [isImageLoading, setIsImageLoading] = useState(false);
@@ -26,6 +24,7 @@ export const HomeScreen = () => {
   const [avatarUri, setAvatarUri] = useState(tempAvatar);
   const [permission, requestPermission] = useCameraPermissions();
   const [cameraVisible, setCameraVisible] = useState(false);
+  const [facing, setFacing] = useState<CameraType>('back');
 
   const { showActionSheetWithOptions } = useActionSheet();
   const { bottom } = useSafeAreaInsets();
@@ -42,11 +41,12 @@ export const HomeScreen = () => {
   const chooseFromLibrary = async () => {
     try {
       setIsImageLoading(true);
-      const result = await ImagePicker.launchImageLibrary({
-        mediaType: "photo",
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes:["images"],
         quality: 0.6,
-        includeBase64: false,
         selectionLimit: 1,
+        allowsEditing: true,
+        aspect: [4, 3],
       });
 
       if (result.assets && result.assets[0]?.uri) {
@@ -66,6 +66,10 @@ export const HomeScreen = () => {
     }
     setCameraVisible(true);
   };
+
+  const toggleCameraFacing = ()=> {
+    setFacing(facing === 'back' ? 'front' : 'back');
+  }
 
   const handleAvatarPress = () => {
     showActionSheetWithOptions(
@@ -152,6 +156,7 @@ export const HomeScreen = () => {
           }}
           ref={(ref) => setCameraRef(ref)}
           type={cameraType}
+          facing={facing}
         >
           <View style={styles.cameraControls}>
             <TouchableOpacity style={styles.cameraButton} onPress={takePhoto}>
@@ -162,6 +167,9 @@ export const HomeScreen = () => {
               onPress={() => setCameraVisible(false)}
             >
               <FontAwesomeIcon icon={faTimes} size={24} color={Colors.white} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.flipCamera} onPress={toggleCameraFacing}>
+              <FontAwesomeIcon icon={faCameraRotate} size={32} color={Colors.white} />
             </TouchableOpacity>
           </View>
         </CameraView>
@@ -253,7 +261,7 @@ const styles = StyleSheet.create({
   },
   cameraControls: {
     position: "absolute",
-    bottom: 40,
+    bottom: 50,
     flexDirection: "row",
     justifyContent: "center",
     width: "100%",
@@ -275,4 +283,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  flipCamera: {
+    backgroundColor: Colors.darkBlue,
+    height: 70,
+    width: 70,
+    borderRadius: 35,
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft:20,
+  }
 });
