@@ -4,7 +4,7 @@ import { RegisterScreen } from "./screens/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
 import { auth } from "../constants";
-import { RoomScreen, Tabs } from "./screens/app";
+import { AddFriendsScreen, RoomScreen, Tabs } from "./screens/app";
 import { AuthContext } from "../store";
 import { WithNotifications } from "../wrappers";
 
@@ -20,6 +20,7 @@ const AppStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name={"Tabs"} component={Tabs} />
     <Stack.Screen name={"RoomScreen"} component={RoomScreen} />
+    <Stack.Screen name={"AddFriendsScreen"} component={AddFriendsScreen} />
   </Stack.Navigator>
 );
 
@@ -41,7 +42,7 @@ export const Navigation = () => {
   return (
     <WithNotifications>
       <NavigationContainer>
-        {isLogged ? <AppStack /> : <AppStack />}
+        {isLogged ? <AppStack /> : <AuthStack />}
       </NavigationContainer>
     </WithNotifications>
   );
