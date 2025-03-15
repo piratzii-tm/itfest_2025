@@ -1,20 +1,40 @@
 import * as FileSystem from "expo-file-system";
 import axios from "axios";
 import {auth, database, environment, storage} from "../constants";
-import { useContext, useState } from "react";
-import { RootContext } from "../store";
+import {useContext, useEffect, useState} from "react";
+import {AuthContext, RootContext} from "../store";
 import { Alert } from "react-native";
 import { Item } from "../constants/types";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { ref as dbRef, set } from "firebase/database";
+import {onValue, ref as dbRef, set} from "firebase/database";
 import {CameraView} from "expo-camera";
 
 export const useCamera = () => {
-  const [photo, setPhoto] = useState("");
-  const [error, setError] = useState<string | null>("");
+  const [photo, setPhoto] = useState<string >("");
+  const [error, setError] = useState<string | null>(null);
   const { processing, setProcessing } = useContext(RootContext);
+  const { uid } = useContext(AuthContext);
 
   const [cameraRef, setCameraRef] = useState<CameraView | null>(null);
+
+  useEffect(() => {
+    fetchUserPhoto();
+  }, [uid, photo]);
+
+  const fetchUserPhoto = async () => {
+    const userId = auth.currentUser?.uid;
+    if (!userId) return;
+
+    const userPhotoRef = dbRef(database, `users/${userId}/photoURL`);
+
+    const unsubscribe = onValue(userPhotoRef, (snapshot) => {
+      if (snapshot.exists()) {
+        setPhoto(snapshot.val());
+      }
+    });
+
+    return () => unsubscribe();
+  };
 
   const takePhoto = async () => {
     if (!cameraRef) {
