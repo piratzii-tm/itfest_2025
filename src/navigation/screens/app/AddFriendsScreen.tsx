@@ -5,7 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  useWindowDimensions,
+  useWindowDimensions, Share,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { KContainer } from "../../../components";
@@ -32,7 +32,7 @@ export const AddFriendsScreen = () => {
   const { getFriends, createRoom } = useDatabase();
   const { uid } = useContext(AuthContext);
   const { scannedObject } = useContext(ScannerContext);
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation();
 
   useEffect(() => {
     getFriends({ id: uid }).then((response) => {
@@ -67,8 +67,9 @@ export const AddFriendsScreen = () => {
       ids: selectedFriends.map((friend) => friend.id).concat([uid]),
       bill: scannedObject,
       tokens: selectedFriends.map((friend) => friend.pushTokens),
-    });
+    }).then((room)=>navigate("RoomScreen", {fromFlow: true, room}));
   };
+
 
   return (
     <KContainer>
@@ -93,10 +94,7 @@ export const AddFriendsScreen = () => {
         <Text bodyXL center semiBold>
           Who’s Joining The Split
         </Text>
-        <View row gap-20>
-          <FontAwesomeIcon icon={faShareNodes} size={24} />
-          <FontAwesomeIcon icon={faQrcode} size={24} />
-        </View>
+
       </View>
       <View style={{ padding: 10 }}>
         <FlatList
@@ -177,18 +175,16 @@ export const AddFriendsScreen = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            backgroundColor:
-              selectedFriends.length === 0 ? Colors.grey : "#3F51B5",
+            backgroundColor: "#3F51B5",
             padding: 10,
             borderRadius: 10,
             flex: 1,
             alignItems: "center",
             marginLeft: 5,
           }}
-          disabled={selectedFriends.length === 0}
           onPress={handleCreateRoom}
         >
-          <Text style={styles.buttonText}>Add Friends</Text>
+          <Text style={styles.buttonText}>{selectedFriends.length === 0 ? "Skip" : "Add Friends"}</Text>
         </TouchableOpacity>
       </View>
     </KContainer>

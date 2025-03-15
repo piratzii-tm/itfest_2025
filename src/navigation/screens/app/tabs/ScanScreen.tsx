@@ -24,10 +24,10 @@ export const ScanScreen = () => {
   const [modalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
-    if (scannedObject && !processing) {
+    if (scannedObject && !processing && photo) {
       navigate("EditScreen");
     }
-  }, [scannedObject, processing]);
+  }, [scannedObject, processing, photo]);
 
   if (!permission) return <View />;
   if (!permission.granted) {
