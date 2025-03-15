@@ -18,9 +18,9 @@ const AuthStack = () => (
 
 const AppStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name={"AddFriendsScreen"} component={AddFriendsScreen} />
     <Stack.Screen name={"Tabs"} component={Tabs} />
     <Stack.Screen name={"RoomScreen"} component={RoomScreen} />
+    <Stack.Screen name={"AddFriendsScreen"} component={AddFriendsScreen} />
   </Stack.Navigator>
 );
 

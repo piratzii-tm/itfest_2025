@@ -6,16 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="c35ba6de-1824-4328-9547-eba66ce314e1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constants/theming.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/theming.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hooks/useDatabase.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useDatabase.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/navigation/navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/navigation.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/AddFriendsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/AddFriendsScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/RoomScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/RoomScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/tabs/NotificationsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/NotificationsScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wrappers/WithLoading.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/wrappers/WithLoading.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

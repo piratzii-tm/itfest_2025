@@ -20,6 +20,7 @@ import { useDatabase } from "../../../hooks";
 import { AuthContext } from "../../../store";
 import { Colors } from "../../../constants";
 import { useNavigation } from "@react-navigation/native";
+import { ScannerContext } from "../../../store/scanner";
 
 export const AddFriendsScreen = () => {
   const [selectedFriends, setSelectedFriends] = useState([]);
@@ -28,12 +29,12 @@ export const AddFriendsScreen = () => {
 
   const { bottom } = useSafeAreaInsets();
   const { width } = useWindowDimensions();
-  const { getFriends } = useDatabase();
+  const { getFriends, createRoom } = useDatabase();
   const { uid } = useContext(AuthContext);
+  const { scannedObject } = useContext(ScannerContext);
   const { goBack } = useNavigation();
 
   useEffect(() => {
-    console.log("uid: ", uid);
     getFriends({ id: uid }).then(
       (response) => response && setFriends(response.filter((res) => res)),
     );
@@ -56,6 +57,14 @@ export const AddFriendsScreen = () => {
       ),
     [friends],
   );
+
+  const handleCreateRoom = () => {
+    createRoom({
+      owner: uid,
+      ids: selectedFriends.map((friend) => friend.id).concat([uid]),
+      bill: scannedObject,
+    });
+  };
 
   return (
     <KContainer>
@@ -173,6 +182,7 @@ export const AddFriendsScreen = () => {
             marginLeft: 5,
           }}
           disabled={selectedFriends.length === 0}
+          onPress={handleCreateRoom}
         >
           <Text style={styles.buttonText}>Add Friends</Text>
         </TouchableOpacity>

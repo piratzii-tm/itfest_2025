@@ -1,5 +1,6 @@
-import { database } from "../constants";
-import { ref, set, get, update } from "firebase/database";
+import { database, firestore } from "../constants";
+import { ref, set, get } from "firebase/database";
+import { addDoc, collection } from "firebase/firestore";
 
 const Path = {
   users: "users/",
@@ -98,10 +99,55 @@ export const useDatabase = () => {
     return;
   };
 
+  const createRoom = async ({
+    owner,
+    ids,
+    bill,
+  }: {
+    owner: string;
+    ids: string[];
+    bill: any;
+  }) => {
+    try {
+      const roomRefFirestore = await addDoc(collection(firestore, "rooms"), {});
+
+      const roomId = roomRefFirestore.id;
+
+      const roomRef = ref(database, Path.rooms + roomId);
+
+      set(roomRef, {
+        id: roomId,
+        owner,
+        membersIds: ids,
+        bill,
+        membersDistribution: ids.map((id) => ({ id: ["IGNORE"] })),
+        createdAt: new Date(),
+        active: true,
+      }).then(async () => {
+        const userRef = ref(database, Path.users + owner);
+        const snapshot = await get(userRef);
+
+        if (snapshot.exists()) {
+          const val = snapshot.val();
+          const userRooms = val.rooms || [];
+          await set(userRef, {
+            ...val,
+            rooms: [...userRooms, roomId],
+          });
+        }
+      });
+
+      console.log("Room created successfully!");
+    } catch (error) {
+      console.error("Error creating room:", error);
+    }
+  };
+
   return {
     initUser,
     registerPushToken,
     handleNewNotification,
     getFriends,
+    createRoom,
   };
 };
