@@ -6,7 +6,51 @@ import {
 import * as Device from 'expo-device';
 import Constants from 'expo-constants';
 
+type RoomNotificationData = {
+    roomId: string;
+    inviterId: string;
+    inviterName: string;
+}
+
+type PaymentNotificationData = {
+    amount: number,
+    inviterId: string;
+    inviterName: string;
+}
+
+export class NotificationType {
+    static roomInvite = "roomInvite";
+    static giveMoney = "giveMoney";
+    static newFriend = "newFriend"
+}
+
 export const useNotifications = () => {
+
+    const buildNotification = ({type, data}: {
+        type: String,
+        data: RoomNotificationData | PaymentNotificationData
+    }) => {
+
+        if (type === NotificationType.roomInvite)
+            return {
+                title: "Room invitation",
+                body: `Hello there, you've been invited to a split by ${data.inviterName}`,
+                data,
+            }
+        if (type === NotificationType.giveMoney)
+            return {
+                title: "Debts are no good",
+                body: `Hello there, you still need to pay ${data.inviterName} their ${data?.amount ?? 12} RON.`,
+                data,
+            }
+        if (type === NotificationType.newFriend)
+            return {
+                title: "New friend invite",
+                body: `Hello there, you've have a new friend invitation from ${data.inviterName}`,
+                data,
+            }
+    }
+
     const requestUserPermission = async () => {
         if (!Device.isDevice) {
             console.warn("Must use physical device for push notifications.");
@@ -36,15 +80,20 @@ export const useNotifications = () => {
         }
     };
 
-    const sendPushNotification = async (expoPushToken) => {
+    const sendPushNotification = async ({expoPushToken, data, type}: {
+        expoPushToken: string,
+        data: RoomNotificationData | PaymentNotificationData | any
+        type: String
+    }) => {
+
+        const builtData = buildNotification({data, type})
+
         const message = {
             to: expoPushToken,
             sound: 'default',
-            title: 'Hello!',
-            body: 'This is a test notification',
-            data: {extraData: 'Some extra data'},
+            ...builtData
         };
-
+        
         await fetch('https://exp.host/--/api/v2/push/send', {
             method: 'POST',
             headers: {

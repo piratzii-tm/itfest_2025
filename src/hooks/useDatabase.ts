@@ -21,8 +21,6 @@ export const useDatabase = () => {
         const userRef = ref(database, Path.users + id);
         const snapshot = await get(userRef);
 
-        console.log(Path.users + id)
-
         if (snapshot.exists()) {
             const userData = snapshot.val();
             const existingTokens = userData.pushTokens || [];
@@ -39,9 +37,27 @@ export const useDatabase = () => {
         }
     }
 
+    const handleNewNotification = async ({id, data}: { id: string, data: any }) => {
+        const userRef = ref(database, Path.users + id);
+        const snapshot = await get(userRef);
+
+        if (snapshot.exists()) {
+            const userData = snapshot.val();
+            const existingTokens = userData.notifications || [];
+
+            await set(userRef, {
+                ...userData,
+                notifications: [...existingTokens, data],
+            });
+        } else {
+            console.log("User not found");
+        }
+    }
+
     return {
         initUser,
-        registerPushToken
+        registerPushToken,
+        handleNewNotification
     }
 
 }
