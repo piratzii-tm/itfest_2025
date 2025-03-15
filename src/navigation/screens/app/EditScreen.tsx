@@ -1,5 +1,5 @@
 import { KContainer } from "../../../components";
-import { View, Text, Colors } from "react-native-ui-lib";
+import { View, Text } from "react-native-ui-lib";
 import { useContext } from "react";
 import { ScannerContext } from "../../../store/scanner";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -11,6 +11,7 @@ import { KSittingInfo } from "../../../components/KSittingInfo";
 import { Item } from "../../../constants/types";
 import { KInputProduct } from "../../../components/KInputProduct";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import {Colors} from "../../../constants";
 
 export const EditScreen = () => {
   const { scannedObject, setScannedObject } = useContext(ScannerContext);
@@ -112,7 +113,7 @@ export const EditScreen = () => {
           </View>
           <TouchableOpacity
             style={styles.goToSelectFriends}
-            onPress={() => console.log(scannedObject)}
+            onPress={() => navigation.navigate("AddFriendsScreen")}
           >
             <Text bodyL white bold>
               Add Friends
