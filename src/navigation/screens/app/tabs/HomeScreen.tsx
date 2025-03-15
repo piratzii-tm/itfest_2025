@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { KContainer, KPermission } from "../../../../components";
+import { KContainer, KPermission, KSpacer } from "../../../../components";
 import { View, StyleSheet, TouchableOpacity, Modal } from "react-native";
 import { Colors, Typographies } from "../../../../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -11,6 +11,7 @@ import { CameraView, useCameraPermissions } from "expo-camera";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import KProfileHeader from "../../../../components/KProfileHeader";
 import KActivityCard from "../../../../components/KActivityCard";
+import { KQr } from "../../../../components/KQr";
 
 const tempAvatar =
   "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png";
@@ -149,6 +150,10 @@ export const HomeScreen = () => {
           </View>
         </CameraView>
       </Modal>
+      <KSpacer h={10} />
+      <View style={{ flex: 1, padding: 10 }}>
+        <KQr />
+      </View>
     </KContainer>
   );
 };
