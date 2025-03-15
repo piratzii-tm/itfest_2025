@@ -22,7 +22,12 @@ import {
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { launchImageLibrary } from "react-native-image-picker";
 import { useCamera } from "../../../../hooks";
-import { CameraView, useCameraPermissions } from "expo-camera";
+import {
+  CameraView,
+  useCameraPermissions,
+  Camera,
+  CameraType,
+} from "expo-camera";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const tempAvatar =
@@ -87,7 +92,7 @@ export const HomeScreen = () => {
 
   const handleCamera = async () => {
     if (!permission?.granted) {
-      await requestPermission();
+      requestPermission();
       return;
     }
     setCameraVisible(true);
@@ -100,11 +105,11 @@ export const HomeScreen = () => {
         cancelButtonIndex: 2,
         userInterfaceStyle: "light",
       },
-      async (buttonIndex: any) => {
+      async (buttonIndex) => {
         if (buttonIndex === 0) {
           await handleCamera();
         } else if (buttonIndex === 1) {
-          await chooseFromLibrary();
+          chooseFromLibrary();
         }
       },
     );
@@ -179,7 +184,7 @@ export const HomeScreen = () => {
                   <FontAwesomeIcon
                     icon={faTimes}
                     size={18}
-                    color={Colors.darkGrey}
+                    color={Colors.darkGray}
                   />
                 </TouchableOpacity>
               </View>
@@ -191,7 +196,7 @@ export const HomeScreen = () => {
                 <FontAwesomeIcon
                   icon={faPenToSquare}
                   size={18}
-                  color={Colors.darkGrey}
+                  color={Colors.darkGray}
                 />
               </TouchableOpacity>
             )}
@@ -234,7 +239,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     backgroundColor: Colors.white,
     borderRadius: 20,
-    shadowColor: Colors.darkGrey,
+    shadowColor: Colors.darkGray,
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.15,
     shadowRadius: 8,
@@ -272,7 +277,7 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     ...Typographies.bodyL,
-    color: Colors.darkGrey,
+    color: Colors.darkGray,
   },
   nameEditContainer: {
     flexDirection: "row",
@@ -324,7 +329,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   cancelButton: {
-    backgroundColor: Colors.darkGrey,
+    backgroundColor: Colors.darkGray,
     height: 70,
     width: 70,
     borderRadius: 35,
