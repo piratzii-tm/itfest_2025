@@ -3,19 +3,27 @@ import * as Notifications from 'expo-notifications';
 import {useNotifications} from '../hooks/useNotifications';
 import {useDatabase} from "../hooks";
 import {AuthContext} from "../store";
+import Toast from "react-native-toast-message";
 
 export const WithNotifications = ({children}) => {
     const {requestUserPermission, getExpoPushToken} = useNotifications();
     const {registerPushToken} = useDatabase()
     const {uid} = useContext(AuthContext)
 
+    const showToast = ({title, description}: { title: string, description: string }) => {
+        Toast.show({
+            type: 'success',
+            text1: title,
+            text2: description
+        });
+    }
 
     useEffect(() => {
         const setupNotifications = async () => {
             const hasPermission = await requestUserPermission();
             if (hasPermission) {
                 const token = await getExpoPushToken();
-                if(uid.length !== 0){
+                if (uid.length !== 0) {
                     await registerPushToken({id: uid, pushToken: token})
                 }
             }
@@ -27,7 +35,14 @@ export const WithNotifications = ({children}) => {
     useEffect(() => {
         // Handle notifications when received while app is in the foreground
         const notificationListener = Notifications.addNotificationReceivedListener(notification => {
-            console.log('Foreground notification received:', notification);
+            console.log('Foreground notification received:', notification.request.content);
+            const {title, body: description} = notification.request.content
+            if (title && description) {
+                showToast({
+                    description,
+                    title
+                })
+            }
         });
 
         // Handle when user interacts with a notification
