@@ -90,7 +90,10 @@ export const RoomScreen = () => {
               alignSelf: "center",
             }}
             onPress={() => {
-              navigation.navigate("RecapScreen");
+              reset({
+                index: 0,
+                routes: [{ name: "Tabs" }],
+              });
             }}
           >
             <Text bodyL white bold>
