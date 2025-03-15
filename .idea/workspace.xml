@@ -5,26 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c35ba6de-1824-4328-9547-eba66ce314e1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/ScanScreen.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/KContainer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KContainer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/KPermission.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KPermission.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/KTabBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KTabBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constants/theming.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/theming.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useCamera.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useCamera.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/navigation.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/HomeScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/HomeScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/NotificationsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/NotificationsScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/ScanScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/Tabs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/Tabs.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wrappers/WithReactContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/wrappers/WithReactContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wrappers/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/wrappers/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useDatabase.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useDatabase.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useNotifications.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useNotifications.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/tabs/HomeScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/HomeScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wrappers/WithNotifications.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/wrappers/WithNotifications.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,8 +24,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -70,7 +55,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "13-implement-scaner-page-ui",
+    "git-widget-placeholder": "20-implement-notifications-with-firebase-messaging",
     "last_opened_file_path": "/Users/iulianpoenaru/itfest_2025/assets/fonts",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -88,8 +73,8 @@
       <recent name="$PROJECT_DIR$/assets/fonts" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/navigation/screens/app/tabs" />
       <recent name="$PROJECT_DIR$/ios" />
+      <recent name="$PROJECT_DIR$/src/navigation/screens/app/tabs" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -125,5 +110,8 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
 </project>

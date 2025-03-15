@@ -11,3 +11,4 @@ export const auth =  initializeAuth(app, {
 });
 
 export const database = getDatabase(app);
+
