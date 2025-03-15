@@ -4,8 +4,7 @@ import { RegisterScreen } from "./screens/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { auth } from "../constants";
-import { RoomScreen } from "./screens/app";
-import { Tabs } from "./screens/app/Tabs";
+import { RoomScreen, Tabs } from "./screens/app";
 
 const Stack = createStackNavigator();
 
@@ -28,7 +27,6 @@ export const Navigation = () => {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                console.log(user.providerData)
                 setIsLogged(true);
             } else {
                 setIsLogged(false);
