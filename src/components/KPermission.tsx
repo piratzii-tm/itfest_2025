@@ -1,7 +1,7 @@
 import {Text, View} from "react-native-ui-lib";
 import {TouchableOpacity} from "react-native";
 
-export const KPermission = ({requestPermission}) => (
+export const KPermission = ({requestPermission}: {requestPermission: () => any}) => (
     <View padding-20 style={{ flex: 1, justifyContent: "center" }}>
         <Text style={{ textAlign: "center", color: "#fff" }}>
             Ready to <Text sushi>scan receipts</Text>?
