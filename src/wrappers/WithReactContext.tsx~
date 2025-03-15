@@ -2,7 +2,7 @@ import { AuthContext, RootContext } from "../store";
 import { ReactNode, useState } from "react";
 import { ScannerContext } from "../store/scanner";
 
-export const WithReactContext = ({ children }: { children: ReactNode }) => {
+export const WithReactContext = ({ children }: { children:ReactNode }) => {
   const [confirmation, setConfirmation] = useState<null | any>(null);
   const [processing, setProcessing] = useState(false);
   const [uid, setUid] = useState("");

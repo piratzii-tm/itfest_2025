@@ -44,7 +44,7 @@ export const Navigation = () => {
                 RoomScreen: {
                     path: "room/:id",
                     parse: {
-                        id: (id:number) => String(id),
+                        id: (id) => String(id),
                     },
                 },
                 RegisterScreen: "register",

@@ -28,7 +28,7 @@ interface KProfileHeaderProps {
 
 const KProfileHeader = ({
   username: initialUsername = "User",
-  avatarUri,
+  avatarUri = "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png",
   onUsernameChange,
   onAvatarPress,
 }: KProfileHeaderProps) => {

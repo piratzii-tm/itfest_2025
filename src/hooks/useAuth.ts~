@@ -34,7 +34,7 @@ export const useAuth = () => {
       if (!confirmation) {
         throw new Error("No verification was sent");
       }
-      confirmation.confirm(code).then((credentials:any) => {
+      confirmation.confirm(code).then((credentials) => {
         initUser({
           id: credentials.user.uid,
           name,

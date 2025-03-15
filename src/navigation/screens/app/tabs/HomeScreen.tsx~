@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { KContainer, KPermission, KSpacer } from "../../../../components";
 import { View, StyleSheet, TouchableOpacity, Modal } from "react-native";
-import { Colors, Typographies } from "../../../../constants";
+import {auth, Colors, Typographies} from "../../../../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faTimes, faCamera, faCameraRotate } from "@fortawesome/free-solid-svg-icons";
 import { useActionSheet } from "@expo/react-native-action-sheet";
@@ -13,16 +13,10 @@ import KProfileHeader from "../../../../components/KProfileHeader";
 import KActivityCard from "../../../../components/KActivityCard";
 import { Text } from "react-native-ui-lib";
 
-const tempAvatar =
-  "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png";
-// TODO: Fix the camera view -> make the rear camera, not back
-
 export const HomeScreen = () => {
   const [isImageLoading, setIsImageLoading] = useState(false);
   const [cameraType, setCameraType] = useState("back");
   const [username, setUsername] = useState("batman");
-
-  const [avatarUri, setAvatarUri] = useState(tempAvatar);
   const [permission, requestPermission] = useCameraPermissions();
   const [cameraVisible, setCameraVisible] = useState(false);
   const [facing, setFacing] = useState<CameraType>('back');
@@ -30,11 +24,10 @@ export const HomeScreen = () => {
   const { showActionSheetWithOptions } = useActionSheet();
   const { bottom } = useSafeAreaInsets();
 
-  const { setCameraRef, takePhoto, photo } = useCamera();
+  const { setCameraRef, takePhoto, photo, setPhoto } = useCamera();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (photo) {
-      setAvatarUri(photo);
       setCameraVisible(false);
     }
   }, [photo]);
@@ -51,7 +44,7 @@ export const HomeScreen = () => {
       });
 
       if (result.assets && result.assets[0]?.uri) {
-        setAvatarUri(result.assets[0].uri);
+        setPhoto(result.assets[0].uri);
       }
     } catch (error) {
       console.log("Image library error:", error);
@@ -124,7 +117,7 @@ export const HomeScreen = () => {
     <KContainer>
       <KProfileHeader
         username={username}
-        avatarUri={avatarUri}
+        avatarUri={photo}
         onUsernameChange={setUsername}
         onAvatarPress={handleAvatarPress}
       />
@@ -156,7 +149,6 @@ export const HomeScreen = () => {
             paddingBottom: bottom + 90,
           }}
           ref={(ref) => setCameraRef(ref)}
-          type={cameraType}
           facing={facing}
         >
           <View style={styles.cameraControls}>

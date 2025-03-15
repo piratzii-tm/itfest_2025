@@ -83,7 +83,7 @@ export const useDatabase = () => {
       const friends = snapshot.val().friends;
 
       return Promise.all(
-        friends.map(async (friendId) => {
+        friends.map(async (friendId:string) => {
           const friendRef = ref(database, Path.users + friendId);
           const friendSnapshot = await get(friendRef);
           if (friendSnapshot.exists()) {
