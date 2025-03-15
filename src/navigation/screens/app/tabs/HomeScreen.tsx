@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { KContainer, KPermission } from "../../../../components";
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Animated,
-  Modal,
-} from "react-native";
+import { View, StyleSheet, TouchableOpacity, Modal } from "react-native";
 import { Colors, Typographies } from "../../../../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faTimes, faCamera } from "@fortawesome/free-solid-svg-icons";
@@ -16,6 +10,7 @@ import { useCamera } from "../../../../hooks";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import KProfileHeader from "../../../../components/KProfileHeader";
+import KActivityCard from "../../../../components/KActivityCard";
 
 const tempAvatar =
   "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png";
@@ -91,6 +86,33 @@ export const HomeScreen = () => {
     return <KPermission requestPermission={requestPermission} />;
   }
 
+  const participants = [
+    {
+      avatar:
+        "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png",
+    },
+    {
+      avatar:
+        "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png",
+    },
+    {
+      avatar:
+        "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png",
+    },
+    {
+      avatar:
+        "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png",
+    },
+    {
+      avatar:
+        "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png",
+    },
+    {
+      avatar:
+        "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png",
+    },
+  ];
+
   return (
     <KContainer>
       <KProfileHeader
@@ -99,6 +121,9 @@ export const HomeScreen = () => {
         onUsernameChange={setUsername}
         onAvatarPress={handleAvatarPress}
       />
+      <View>
+        <KActivityCard adminName="Batman" participants={participants} />
+      </View>
 
       {/* CAMERA MODAL*/}
       <Modal visible={cameraVisible} animationType="slide">
@@ -180,7 +205,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: 5,
-    backgroundColor: Colors.white80,
+    backgroundColor: Colors.white90,
     borderRadius: 12,
     paddingHorizontal: 12,
     borderWidth: 1.5,
@@ -207,7 +232,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginLeft: 5,
     borderRadius: 8,
-    backgroundColor: Colors.white80,
+    backgroundColor: Colors.white90,
   },
   cameraControls: {
     position: "absolute",

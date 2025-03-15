@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: 5,
-    backgroundColor: Colors.white80,
+    backgroundColor: Colors.white90,
     borderRadius: 12,
     paddingHorizontal: 12,
     borderWidth: 1.5,
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginLeft: 5,
     borderRadius: 8,
-    backgroundColor: Colors.white80,
+    backgroundColor: Colors.white90,
   },
 });
 
