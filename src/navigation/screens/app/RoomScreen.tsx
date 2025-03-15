@@ -4,16 +4,17 @@ import {KLobbyControls} from "../../../components/KLobbyControls";
 import {KEdgeSvg} from "../../../components/KEdgeSvg";
 import {KSittingInfo} from "../../../components/KSittingInfo";
 import {KProduct} from "../../../components/KProduct";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useMemo, useState} from "react";
 import {ScannerContext} from "../../../store/scanner";
 import {Item} from "../../../constants/types";
 import {useNavigation, useRoute} from "@react-navigation/native";
 import {ActivityIndicator, Share, TouchableOpacity} from "react-native";
-import {Colors} from "../../../constants";
+import {Colors, database} from "../../../constants";
 import {useDatabase} from "../../../hooks";
 import {faQrcode, faShareNodes} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {AuthContext} from "../../../store";
+import {onValue, ref, off, set} from "firebase/database";
 
 export const RoomScreen = () => {
     const [scannedObject, setScannedObject] = useState(null);
@@ -23,31 +24,62 @@ export const RoomScreen = () => {
     const {getRoom, addRoomToUser} = useDatabase()
     const {uid} = useContext(AuthContext)
 
-
     //@ts-ignore
     const fromFlow = params?.fromFlow
     //@ts-ignore
     const roomId = params?.room || params?.id
+    //@ts-ignore
     const isDeep = params?.id
 
     useEffect(() => {
-        getRoom({id: roomId}).then((roomF) => {
-            setScannedObject(roomF.bill)
-            setRoom(roomF)
+        const roomRef = ref(database, "rooms/" + roomId);
 
-            if ((roomF?.owner ?? "") !== uid) {
-                addRoomToUser({id: uid, room: roomId})
+        const unsubscribe = onValue(roomRef, (snapshot) => {
+            if (snapshot.exists()) {
+                const roomData = snapshot.val();
+
+                // Force complete state replacement to trigger re-renders
+                setRoom(roomData);
+                setScannedObject(roomData.bill);
+
+                if ((roomData?.owner ?? "") !== uid) {
+                    addRoomToUser({id: uid, room: roomId})
+                        .catch(error => console.error("Error adding user to room:", error));
+                }
+            } else {
+                console.log("Room not found");
             }
-        })
+        }, (error) => {
+            console.error("Error listening to room updates:", error);
+        });
 
+        // Clean up the listener when component unmounts
+        return () => off(roomRef);
+    }, [roomId, uid]);
 
-    }, []);
+    // Remove useMemo to ensure updates when room changes
+    const renderProducts = () => {
+        if (!scannedObject?.items || !room) return <Text>No scanned items found.</Text>;
 
+        return scannedObject.items.map((item, index) => (
+            <KProduct
+                key={`${item.id || index}-${JSON.stringify(room.membersDistribution)}`}
+                item={item}
+                userId={uid}
+                roomId={roomId}
+                distribution={room.membersDistribution}
+            />
+        ));
+    };
 
     return (
         <KContainer>
-            <KLobbyControls isFromFlow={fromFlow} roomId={roomId} isDeep={isDeep}
-                            isOwner={(room?.owner ?? "") === uid}/>
+            <KLobbyControls
+                isFromFlow={fromFlow}
+                roomId={roomId}
+                isDeep={isDeep}
+                isOwner={(room?.owner ?? "") === uid}
+            />
             {scannedObject ?
                 <View marginH-10>
                     <KEdgeSvg/>
@@ -64,14 +96,7 @@ export const RoomScreen = () => {
                             hour={"11:00 AM"}
                         />
                         <View paddingH-15 paddingV-10 width={"100%"} gap-10>
-                            {scannedObject?.items?.map((item: Item, index: number) => (
-                                <KProduct
-                                    key={index}
-                                    productName={item.name}
-                                    productPrice={item.price}
-                                    productQuantity={item.quantity}
-                                />
-                            )) || <Text>No scanned items found.</Text>}
+                            {renderProducts()}
                         </View>
                     </View>
                 </View>
@@ -102,5 +127,6 @@ export const RoomScreen = () => {
                     </TouchableOpacity>
                 </>
             }
-        </KContainer>)
-}
+        </KContainer>
+    );
+};
