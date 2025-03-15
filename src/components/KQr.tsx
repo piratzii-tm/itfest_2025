@@ -7,7 +7,7 @@ export const KQr = () => {
     <TouchableOpacity
       style={{
         backgroundColor: Colors.white90,
-        height: "40%",
+        height: "50%",
         width: "100%",
         borderWidth: 0.1,
         borderRadius: 10,
@@ -27,11 +27,11 @@ export const KQr = () => {
             uri: "https://play-lh.googleusercontent.com/lomBq_jOClZ5skh0ELcMx4HMHAMW802kp9Z02_A84JevajkqD87P48--is1rEVPfzGVf",
           }}
           style={{
-            width: "50%",
+            width: "40%",
             height: "100%",
             borderRadius: 10,
             marginRight: 12,
-            borderWidth: 20,
+            borderWidth: 15,
             borderColor: Colors.lightBlue100,
           }}
         />
