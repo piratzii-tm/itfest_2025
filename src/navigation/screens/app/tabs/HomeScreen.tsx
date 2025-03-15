@@ -1,12 +1,14 @@
 import {KContainer} from "../../../../components";
-import {View} from "react-native";
-import {Text} from "react-native-ui-lib";
+import {Button, View} from "react-native";
+import {useNotifications} from "../../../../hooks/useNotifications";
 
 export const HomeScreen = () => {
+
+    const {sendPushNotification} = useNotifications()
+
     return (
         <KContainer>
-            <View>
-            </View>
+            <Button title={"Test notification"} onPress={()=>sendPushNotification("ExponentPushToken[RDf2mrNujO6Jw84lTlS2Li]")}/>
         </KContainer>
     );
 }

@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "itfest_2025",
-    "slug": "itfest_2025",
+    "slug": "itfest2025",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,6 +14,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.iulianpoenaru.itfest2025",
+      "googleServicesFile": "./ios/GoogleService-Info.plist",
       "supportsTablet": true
     },
     "android": {
@@ -24,6 +25,16 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "@react-native-firebase/app",
+      "@react-native-firebase/messaging"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "11508c90-e4e5-47ba-8a50-c9c3f0db8e28"
+      }
+    },
+    "owner": "iulianpoenaru"
   }
 }

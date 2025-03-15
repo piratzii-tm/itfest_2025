@@ -1,5 +1,5 @@
 import {database} from "../constants";
-import {ref, set} from "firebase/database";
+import {ref, set, get, update} from "firebase/database";
 
 const Path = {
     users: "users/",
@@ -17,8 +17,31 @@ export const useDatabase = () => {
         )
     }
 
+    const registerPushToken = async ({id, pushToken}: { id: string, pushToken: string }) => {
+        const userRef = ref(database, Path.users + id);
+        const snapshot = await get(userRef);
+
+        console.log(Path.users + id)
+
+        if (snapshot.exists()) {
+            const userData = snapshot.val();
+            const existingTokens = userData.pushTokens || [];
+
+            // Avoid duplicate tokens
+            if (!existingTokens.includes(pushToken)) {
+                await set(userRef, {
+                    ...userData,
+                    pushTokens: [...existingTokens, pushToken],
+                });
+            }
+        } else {
+            console.log("User not found");
+        }
+    }
+
     return {
-        initUser
+        initUser,
+        registerPushToken
     }
 
 }
