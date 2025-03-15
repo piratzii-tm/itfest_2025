@@ -1,12 +1,14 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { RegisterScreen } from "./screens/auth";
+import { Tabs } from "./screens/app/Tabs";
+import {RoomScreen} from "./screens/app";
+import {WithNotifications} from "../wrappers";
+import { createStackNavigator } from "@react-navigation/stack";
 import { onAuthStateChanged } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
 import { auth } from "../constants";
-import { AddFriendsScreen, RoomScreen, Tabs } from "./screens/app";
+import { AddFriendsScreen } from "./screens/app";
 import { AuthContext } from "../store";
-import { WithNotifications } from "../wrappers";
 import { SelectFriends } from "./screens/app/SelectFriends";
 import { EditScreen } from "./screens/app/EditScreen";
 
@@ -29,25 +31,25 @@ const AppStack = () => (
 );
 
 export const Navigation = () => {
-  const [isLogged, setIsLogged] = useState(true);
-  const { setUid } = useContext(AuthContext);
+    const [isLogged, setIsLogged] = useState(true);
+    const {setUid} = useContext(AuthContext)
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUid(user.uid);
-        setIsLogged(true);
-      } else {
-        setIsLogged(false);
-      }
-    });
-  }, []);
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setUid(user.uid)
+                setIsLogged(true);
+            } else {
+                setIsLogged(false);
+            }
+        });
+    }, []);
 
-  return (
-    <WithNotifications>
-      <NavigationContainer>
-        {isLogged ? <AppStack /> : <AuthStack />}
-      </NavigationContainer>
-    </WithNotifications>
-  );
+    return (
+        <WithNotifications>
+            <NavigationContainer>
+                {isLogged ? <AppStack/> : <AuthStack/>}
+            </NavigationContainer>
+        </WithNotifications>
+    );
 };

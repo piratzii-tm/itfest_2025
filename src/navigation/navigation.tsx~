@@ -1,14 +1,26 @@
 import { NavigationContainer } from "@react-navigation/native";
+<<<<<<< HEAD
 import { createStackNavigator } from "@react-navigation/stack";
 import { RegisterScreen } from "./screens/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
 import { auth } from "../constants";
-import { RoomScreen, Tabs } from "./screens/app";
+import { AddFriendsScreen, RoomScreen, Tabs } from "./screens/app";
 import { AuthContext } from "../store";
 import { WithNotifications } from "../wrappers";
 import { SelectFriends } from "./screens/app/SelectFriends";
 import { EditScreen } from "./screens/app/EditScreen";
+=======
+import { RegisterScreen } from "./screens/auth";
+import { Tabs } from "./screens/app/Tabs";
+import {createStackNavigator} from "@react-navigation/stack";
+import {onAuthStateChanged} from "firebase/auth";
+import {useContext, useEffect, useState} from "react";
+import {auth} from "../constants";
+import {RoomScreen} from "./screens/app";
+import {AuthContext} from "../store";
+import {WithNotifications} from "../wrappers";
+>>>>>>> main
 
 const Stack = createStackNavigator();
 
@@ -21,12 +33,16 @@ const AuthStack = () => (
 const AppStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name={"Tabs"} component={Tabs} />
+<<<<<<< HEAD
     <Stack.Screen name={"EditScreen"} component={EditScreen} />
     <Stack.Screen name={"SelectFriends"} component={SelectFriends} />
     <Stack.Screen name={"RoomScreen"} component={RoomScreen} />
+    <Stack.Screen name={"AddFriendsScreen"} component={AddFriendsScreen} />
+=======
+    <Stack.Screen name={"RoomScreen"} component={RoomScreen} />
+>>>>>>> main
   </Stack.Navigator>
 );
-``;
 
 export const Navigation = () => {
   const [isLogged, setIsLogged] = useState(true);
