@@ -122,7 +122,7 @@ export const HomeScreen = () => {
         onAvatarPress={handleAvatarPress}
       />
       <View>
-        <KActivityCard adminName="Batman" participants={participants} />
+        <KActivityCard adminName={username} participants={participants} />
       </View>
 
       {/* CAMERA MODAL*/}
