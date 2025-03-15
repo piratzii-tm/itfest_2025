@@ -17,6 +17,7 @@ import {set,  ref as dbRef} from "firebase/database";
 import {storage, database} from "../../../../constants";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import {AuthContext} from "../../../../store";
+import {KQr} from "../../../../components/KQr";
 
 export const HomeScreen = () => {
   const [isImageLoading, setIsImageLoading] = useState(false);
@@ -159,6 +160,7 @@ export const HomeScreen = () => {
       <Text bodyM light grey style={{ paddingHorizontal: 10 }}>
         Use one of the below options to join.
       </Text>
+      <KQr/>
 
       {/* CAMERA MODAL*/}
       <Modal visible={cameraVisible} animationType="slide">
