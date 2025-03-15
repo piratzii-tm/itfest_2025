@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -16,6 +16,8 @@ import {
   faTimes,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
+import { useDatabase } from "../hooks";
+import { AuthContext } from "../store";
 
 interface KProfileHeaderProps {
   username: string;
@@ -34,11 +36,20 @@ const KProfileHeader = ({
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(username);
   const borderAnim = new Animated.Value(1);
+  const { getUser } = useDatabase();
+  const { uid } = useContext(AuthContext);
 
   useEffect(() => {
     setUsername(initialUsername);
     setInputValue(initialUsername);
   }, [initialUsername]);
+
+  useEffect(() => {
+    getUser({ id: uid }).then((user) => {
+      setUsername(user.name);
+      setInputValue(user.name);
+    });
+  }, []);
 
   const handleEditPress = () => {
     setIsEditing(true);
@@ -90,7 +101,7 @@ const KProfileHeader = ({
       </TouchableOpacity>
 
       <View style={styles.textContainer}>
-        <Text style={styles.welcomeText}>Hello,</Text>
+        <Text style={styles.welcomeText}>Welcome back,</Text>
         <Animated.View
           style={[
             styles.nameEditContainer,
@@ -155,7 +166,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 15,
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     backgroundColor: Colors.white,
     borderRadius: 20,
     shadowColor: Colors.darkGray,

@@ -100,6 +100,16 @@ export const useDatabase = () => {
     return;
   };
 
+  const getUser = async ({ id }: { id: string }) => {
+    const userRef = ref(database, Path.users + id);
+    const snapshot = await get(userRef);
+
+    if (snapshot.exists()) {
+      return snapshot.val();
+    }
+    return null;
+  };
+
   const createRoom = async ({
     owner,
     ids,
@@ -168,5 +178,6 @@ export const useDatabase = () => {
     handleNewNotification,
     getFriends,
     createRoom,
+    getUser,
   };
 };
