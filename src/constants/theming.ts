@@ -5,15 +5,17 @@ import {
 
 export const Colors = {
   white: "#FFFFFF",
-  white80: "rgba(255,255,255,0.8)",
+  white90: "rgba(255,255,255,0.9)",
   black: "#000000",
-  darkGray: "#333333",
   grey: "#808080",
   lightBlue: "#6E90F5",
   lightBlue100: "#5f7ed9",
   darkBlue: "#4169E1",
   darkerBlue: "#304582",
   transparent: "transparent",
+  lightGrey: "#F0F0F0",
+  darkNavy: "#1C1C3B",
+  darkGray: "#333333",
 };
 
 export const Typographies = {
