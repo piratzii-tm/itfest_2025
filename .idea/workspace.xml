@@ -6,18 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="c35ba6de-1824-4328-9547-eba66ce314e1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/KLobbyControls.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KLobbyControls.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/KProduct.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KProduct.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useAuth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useAuth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/navigation.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/AddFriendsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/SelectFriends.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/HomeScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/RoomScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/RoomScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/tabs/HomeScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/HomeScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/tabs/ScanScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/ScanScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/scanner.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/scanner.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wrappers/WithReactContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/wrappers/WithReactContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/KInputProduct.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KInputProduct.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useCamera.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useCamera.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/EditScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/EditScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wrappers/WithNotifications.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/wrappers/WithNotifications.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -4,6 +4,7 @@ import { environment } from "../constants";
 import { useContext, useState } from "react";
 import { RootContext } from "../store";
 import { Alert } from "react-native";
+import { Item } from "../constants/types";
 
 export const useCamera = () => {
   const [photo, setPhoto] = useState("");
@@ -52,21 +53,21 @@ export const useCamera = () => {
                 {
                   type: "text",
                   text: `If the image is unclear or you can't understand, return error.Extract receipt details and return a valid JSON object in the following format:
-                \`\`\`json
-                {
-                  "store": "",
-                  "date": "",
-                  "items": [
-                    {
-                      "name": "",
-                      "quantity": 1,
-                      "price": 0.00
-                    }
-                  ],
-                  "total": 0.00
-                }
-                \`\`\`
-                **Return only the JSON output with no extra text. Your response should be in JSON format. Don't add: ✅ Extracted Data**`,
+              \`\`\`json
+              {
+                "store": "",
+                "date": "",
+                "items": [
+                  {
+                    "name": "",
+                    "quantity": 1,
+                    "price": 0.00
+                  }
+                ],
+                "total": 0.00
+              }
+              \`\`\`
+              **Return only the JSON output with no extra text. Your response should be in JSON format. Don't add: ✅ Extracted Data**`,
                 },
                 {
                   type: "image_url",
@@ -96,14 +97,19 @@ export const useCamera = () => {
 
       setProcessing(false);
 
-      console.log(receiptData);
+      // Iterate through items and add an 'id' field based on index
+      const updatedItems = receiptData.items.map(
+        (item: Item, index: number) => ({
+          ...item,
+          id: index,
+        }),
+      );
 
-      if (receiptData.error) {
-        Alert.alert(receiptData.error);
-        return;
-      }
-
-      return receiptData;
+      console.log("Updated Items:", updatedItems);
+      return {
+        ...receiptData,
+        items: updatedItems,
+      };
     } catch (error) {
       Alert.alert(error.response?.data || error.message);
       console.error(

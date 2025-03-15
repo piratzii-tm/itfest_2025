@@ -39,6 +39,7 @@ export const WithNotifications = ({ children }) => {
   }, [uid]);
 
   useEffect(() => {
+
     // Handle notifications when received while app is in the foreground
     const notificationListener = Notifications.addNotificationReceivedListener(
       (notification) => {
