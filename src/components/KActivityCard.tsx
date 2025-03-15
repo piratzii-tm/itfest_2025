@@ -1,13 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   Image,
   Animated,
   TouchableOpacity,
 } from "react-native";
+import { Text } from "react-native-ui-lib";
 import { Colors, Typographies } from "../constants";
+import { useDatabase } from "../hooks";
+import { AuthContext } from "../store";
 
 interface Participant {
   avatar?: string;
@@ -15,13 +17,11 @@ interface Participant {
 }
 
 interface KActivityCardProps {
-  adminName: string;
   participants: Participant[];
   onPress?: () => void;
 }
 
 const KActivityCard: React.FC<KActivityCardProps> = ({
-  adminName,
   participants,
   onPress,
 }) => {
@@ -35,6 +35,16 @@ const KActivityCard: React.FC<KActivityCardProps> = ({
     totalParticipants > 4 ? totalParticipants - 4 : 0;
 
   const glowAnimation = useRef(new Animated.Value(0)).current;
+
+  const { getUser } = useDatabase();
+  const { uid } = useContext(AuthContext);
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    getUser({ id: uid }).then((user) => {
+      setUsername(user.name);
+    });
+  }, []);
 
   useEffect(() => {
     const pulseGlow = () => {
@@ -84,7 +94,9 @@ const KActivityCard: React.FC<KActivityCardProps> = ({
           },
         ]}
       >
-        <Text style={styles.adminName}>{adminName}'s room</Text>
+        <Text bodyL semiBold white style={styles.adminName}>
+          {username}'s room
+        </Text>
         <View style={styles.participantsRow}>
           {displayedParticipants.map((item, index) => (
             <View key={index} style={styles.participantContainer}>
@@ -142,7 +154,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: Colors.darkBlue,
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: "flex-start",
     borderWidth: 2,
     borderColor: Colors.lightBlue100,
 
@@ -153,8 +165,6 @@ const styles = StyleSheet.create({
     elevation: 15,
   },
   adminName: {
-    ...Typographies.bodyL,
-    color: Colors.white,
     marginBottom: 15,
   },
   participantsRow: {

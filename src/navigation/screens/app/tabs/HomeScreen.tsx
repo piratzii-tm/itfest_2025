@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { KContainer, KPermission } from "../../../../components";
+import { KContainer, KPermission, KSpacer } from "../../../../components";
 import { View, StyleSheet, TouchableOpacity, Modal } from "react-native";
 import { Colors, Typographies } from "../../../../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -11,6 +11,7 @@ import { CameraView, useCameraPermissions } from "expo-camera";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import KProfileHeader from "../../../../components/KProfileHeader";
 import KActivityCard from "../../../../components/KActivityCard";
+import { Text } from "react-native-ui-lib";
 
 const tempAvatar =
   "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png";
@@ -122,9 +123,24 @@ export const HomeScreen = () => {
         onUsernameChange={setUsername}
         onAvatarPress={handleAvatarPress}
       />
+      <KSpacer h={30} />
+      <Text bodyXL bold style={{ paddingHorizontal: 10 }}>
+        Active Room:
+      </Text>
+      <Text bodyM light grey style={{ paddingHorizontal: 10 }}>
+        This room is the current opened room that you've joined or created.
+      </Text>
+      <KSpacer h={5} />
       <View>
-        <KActivityCard adminName={username} participants={participants} />
+        <KActivityCard participants={participants} />
       </View>
+      <KSpacer h={10} />
+      <Text bodyXL bold style={{ paddingHorizontal: 10 }}>
+        Join Room:
+      </Text>
+      <Text bodyM light grey style={{ paddingHorizontal: 10 }}>
+        Use one of the below options to join.
+      </Text>
 
       {/* CAMERA MODAL*/}
       <Modal visible={cameraVisible} animationType="slide">

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect  } from "react";
 import * as Notifications from "expo-notifications";
 import { useNotifications } from "../hooks/useNotifications";
 import { useDatabase } from "../hooks";

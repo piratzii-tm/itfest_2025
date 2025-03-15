@@ -26,9 +26,8 @@ export const useAuth = () => {
     } catch (e) {
       console.error("Error sending verification:", e);
       throw e;
-    }
+  }
   };
-
   // This will return a value of type UserCredentials
   const confirm = async (code: string, name: string): Promise<any | null> => {
     try {
