@@ -22,12 +22,7 @@ import {
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { launchImageLibrary } from "react-native-image-picker";
 import { useCamera } from "../../../../hooks";
-import {
-  CameraView,
-  useCameraPermissions,
-  Camera,
-  CameraType,
-} from "expo-camera";
+import { CameraView, useCameraPermissions } from "expo-camera";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const tempAvatar =
@@ -92,7 +87,7 @@ export const HomeScreen = () => {
 
   const handleCamera = async () => {
     if (!permission?.granted) {
-      requestPermission();
+      await requestPermission();
       return;
     }
     setCameraVisible(true);
@@ -109,7 +104,7 @@ export const HomeScreen = () => {
         if (buttonIndex === 0) {
           await handleCamera();
         } else if (buttonIndex === 1) {
-          chooseFromLibrary();
+          await chooseFromLibrary();
         }
       },
     );
@@ -203,7 +198,8 @@ export const HomeScreen = () => {
           </Animated.View>
         </View>
       </View>
-
+      <View></View>
+      // Camera Modal
       <Modal visible={cameraVisible} animationType="slide">
         <CameraView
           style={{
