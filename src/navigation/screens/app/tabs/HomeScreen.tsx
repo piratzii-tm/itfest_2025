@@ -4,43 +4,35 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Image,
-  TextInput,
   Animated,
   Modal,
 } from "react-native";
-import { Text } from "react-native-ui-lib";
 import { Colors, Typographies } from "../../../../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faPenToSquare,
-  faCheck,
-  faTimes,
-  faPlus,
-  faCamera,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faCamera } from "@fortawesome/free-solid-svg-icons";
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import { launchImageLibrary } from "react-native-image-picker";
+import * as ImagePicker from "react-native-image-picker";
 import { useCamera } from "../../../../hooks";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import KProfileHeader from "../../../../components/KProfileHeader";
 
 const tempAvatar =
   "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png";
 // TODO: Fix the camera view -> make the rear camera, not back
+// TODO: Make "Choose from Library" work
 
 export const HomeScreen = () => {
-  const [username, setUsername] = useState("batman");
-  const { showActionSheetWithOptions } = useActionSheet();
-  const [isEditing, setIsEditing] = useState(false);
-  const [inputValue, setInputValue] = useState(username);
-  const [avatarUri, setAvatarUri] = useState(tempAvatar);
-  const borderAnim = new Animated.Value(1);
+  const [isImageLoading, setIsImageLoading] = useState(false);
   const [cameraType, setCameraType] = useState("back");
+  const [username, setUsername] = useState("batman");
+
+  const [avatarUri, setAvatarUri] = useState(tempAvatar);
   const [permission, requestPermission] = useCameraPermissions();
   const [cameraVisible, setCameraVisible] = useState(false);
-  const { bottom } = useSafeAreaInsets();
 
+  const { showActionSheetWithOptions } = useActionSheet();
+  const { bottom } = useSafeAreaInsets();
   const { setCameraRef, takePhoto, photo } = useCamera();
 
   React.useEffect(() => {
@@ -50,31 +42,14 @@ export const HomeScreen = () => {
     }
   }, [photo]);
 
-  const handleEditPress = () => {
-    setIsEditing(true);
-    setInputValue(username);
-    Animated.timing(borderAnim, {
-      toValue: 2,
-      duration: 500,
-      useNativeDriver: false,
-    }).start();
-  };
-
-  const handleConfirm = () => {
-    setUsername(inputValue);
-    setIsEditing(false);
-    Animated.timing(borderAnim, {
-      toValue: 1,
-      duration: 200,
-      useNativeDriver: false,
-    }).start();
-  };
-
   const chooseFromLibrary = async () => {
     try {
-      const result = await launchImageLibrary({
+      setIsImageLoading(true);
+      const result = await ImagePicker.launchImageLibrary({
         mediaType: "photo",
-        quality: 0.8,
+        quality: 0.6,
+        includeBase64: false,
+        selectionLimit: 1,
       });
 
       if (result.assets && result.assets[0]?.uri) {
@@ -82,6 +57,8 @@ export const HomeScreen = () => {
       }
     } catch (error) {
       console.log("Image library error:", error);
+    } finally {
+      setIsImageLoading(false);
     }
   };
 
@@ -110,96 +87,20 @@ export const HomeScreen = () => {
     );
   };
 
-  const handleCancel = () => {
-    setInputValue(username);
-    setIsEditing(false);
-    Animated.timing(borderAnim, {
-      toValue: 1,
-      duration: 200,
-      useNativeDriver: false,
-    }).start();
-  };
-
   if (permission && !permission.granted && permission.canAskAgain) {
     return <KPermission requestPermission={requestPermission} />;
   }
 
   return (
     <KContainer>
-      <View style={styles.headerCard}>
-        <TouchableOpacity
-          style={styles.buttonAvatar}
-          onPress={handleAvatarPress}
-        >
-          <Image source={{ uri: avatarUri }} style={styles.avatarImage} />
-          <View style={styles.avatarOverlay}>
-            <FontAwesomeIcon icon={faPlus} size={16} color={Colors.white} />
-          </View>
-        </TouchableOpacity>
+      <KProfileHeader
+        username={username}
+        avatarUri={avatarUri}
+        onUsernameChange={setUsername}
+        onAvatarPress={handleAvatarPress}
+      />
 
-        <View style={styles.textContainer}>
-          <Text style={styles.welcomeText}>Hello,</Text>
-          <Animated.View
-            style={[
-              styles.nameEditContainer,
-              isEditing && styles.nameEditContainerActive,
-              {
-                borderWidth: borderAnim.interpolate({
-                  inputRange: [1, 2],
-                  outputRange: [1.5, 2.5],
-                }),
-              },
-            ]}
-          >
-            <TextInput
-              style={styles.userNameInput}
-              value={inputValue}
-              onChangeText={setInputValue}
-              editable={isEditing}
-              selectTextOnFocus={isEditing}
-              placeholder="Enter your name"
-              placeholderTextColor={Colors.grey}
-            />
-            {isEditing ? (
-              <View style={styles.editButtonsContainer}>
-                <TouchableOpacity
-                  style={styles.editActionButton}
-                  onPress={handleConfirm}
-                >
-                  <FontAwesomeIcon
-                    icon={faCheck}
-                    size={18}
-                    color={Colors.darkBlue}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.editActionButton}
-                  onPress={handleCancel}
-                >
-                  <FontAwesomeIcon
-                    icon={faTimes}
-                    size={18}
-                    color={Colors.darkGray}
-                  />
-                </TouchableOpacity>
-              </View>
-            ) : (
-              <TouchableOpacity
-                style={styles.editIcon}
-                onPress={handleEditPress}
-              >
-                <FontAwesomeIcon
-                  icon={faPenToSquare}
-                  size={18}
-                  color={Colors.darkGray}
-                />
-              </TouchableOpacity>
-            )}
-          </Animated.View>
-        </View>
-      </View>
-      <View></View>
-      // Camera Modal
+      {/* CAMERA MODAL*/}
       <Modal visible={cameraVisible} animationType="slide">
         <CameraView
           style={{
