@@ -108,7 +108,7 @@ export const useCamera = () => {
       console.log("Updated Items:", updatedItems);
       return {
         ...receiptData,
-        items: updatedItems,
+        items: updatedItems, // Add modified items with ids
       };
     } catch (error) {
       Alert.alert(error.response?.data || error.message);
