@@ -8,7 +8,7 @@ import {
   Animated,
 } from "react-native";
 import { Text } from "react-native-ui-lib";
-import { Colors, Typographies } from "../constants";
+import {auth, Colors, database, Typographies} from "../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faPenToSquare,
@@ -16,40 +16,47 @@ import {
   faTimes,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import { useDatabase } from "../hooks";
+import {useCamera, useDatabase} from "../hooks";
 import { AuthContext } from "../store";
+import {ref, update} from "firebase/database";
 
 interface KProfileHeaderProps {
-  username: string;
-  avatarUri: string;
-  onUsernameChange?: (newUsername: string) => void;
   onAvatarPress?: () => void;
 }
 
 const KProfileHeader = ({
-  username: initialUsername = "User",
-  avatarUri = "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png",
-  onUsernameChange,
   onAvatarPress,
 }: KProfileHeaderProps) => {
-  const [username, setUsername] = useState(initialUsername);
+  const [username, setUsername] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(username);
   const borderAnim = new Animated.Value(1);
   const { getUser } = useDatabase();
   const { uid } = useContext(AuthContext);
+  const {photo} = useCamera();
 
   useEffect(() => {
-    setUsername(initialUsername);
-    setInputValue(initialUsername);
-  }, [initialUsername]);
+    const fetchUser = async () => {
+      if (!uid) return;
 
-  useEffect(() => {
-    getUser({ id: uid }).then((user) => {
-      setUsername(user.name);
-      setInputValue(user.name);
-    });
-  }, []);
+      try {
+        const user = await getUser({ id: uid });
+
+        if (user?.name) {
+          setUsername(user.name);
+          setInputValue(user.name);
+        } else {
+          console.log("User name is missing, setting default.");
+          setUsername("Guest");
+          setInputValue("Guest");
+        }
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+
+    fetchUser();
+  }, [uid]);
 
   const handleEditPress = () => {
     setIsEditing(true);
@@ -61,11 +68,22 @@ const KProfileHeader = ({
     }).start();
   };
 
-  const handleConfirm = () => {
-    setUsername(inputValue);
-    setIsEditing(false);
-    if (onUsernameChange) {
-      onUsernameChange(inputValue);
+  const handleConfirm = async (newName:string) => {
+    const user = auth.currentUser;
+
+    if (!user) {
+      console.log("No user is logged in.");
+      return;
+    }
+
+    const userRef = ref(database, `users/${user.uid}`);
+
+    try {
+      await update(userRef, { name: newName });
+      setUsername(newName);
+      console.log("Name updated successfully!");
+    } catch (error) {
+      console.error("Error updating name:", error);
     }
     Animated.timing(borderAnim, {
       toValue: 1,
@@ -89,12 +107,11 @@ const KProfileHeader = ({
       <TouchableOpacity
         style={styles.buttonAvatar}
         onPress={() => {
-          console.log("Avatar pressed!"); // FOR DEBUGGING
           if (onAvatarPress) onAvatarPress();
         }}
         activeOpacity={0.7}
       >
-        <Image source={{ uri: avatarUri }} style={styles.avatarImage} />
+        <Image source={{ uri: photo }} style={styles.avatarImage} />
         <View style={styles.avatarOverlay}>
           <FontAwesomeIcon icon={faPlus} size={16} color={Colors.white} />
         </View>
@@ -127,7 +144,7 @@ const KProfileHeader = ({
             <View style={styles.editButtonsContainer}>
               <TouchableOpacity
                 style={styles.editActionButton}
-                onPress={handleConfirm}
+                onPress={()=>handleConfirm(inputValue)}
               >
                 <FontAwesomeIcon
                   icon={faCheck}

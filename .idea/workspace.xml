@@ -7,13 +7,7 @@
     <list default="true" id="c35ba6de-1824-4328-9547-eba66ce314e1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/KProfileHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KProfileHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constants/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useAuth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useAuth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useCamera.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useCamera.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useDatabase.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useDatabase.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/navigation.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/tabs/HomeScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/HomeScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wrappers/WithReactContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/wrappers/WithReactContext.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +106,7 @@
       <updated>1741968789711</updated>
       <workItem from="1741968791284" duration="2414000" />
       <workItem from="1741971216896" duration="7863000" />
-      <workItem from="1742058806926" duration="4937000" />
+      <workItem from="1742058806926" duration="6103000" />
     </task>
     <servers />
   </component>

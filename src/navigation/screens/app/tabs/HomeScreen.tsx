@@ -15,7 +15,6 @@ import { Text } from "react-native-ui-lib";
 
 export const HomeScreen = () => {
   const [isImageLoading, setIsImageLoading] = useState(false);
-  const [username, setUsername] = useState("batman");
   const [permission, requestPermission] = useCameraPermissions();
   const [cameraVisible, setCameraVisible] = useState(false);
   const [facing, setFacing] = useState<CameraType>('back');
@@ -115,9 +114,6 @@ export const HomeScreen = () => {
   return (
     <KContainer>
       <KProfileHeader
-        username={username}
-        avatarUri={photo}
-        onUsernameChange={setUsername}
         onAvatarPress={handleAvatarPress}
       />
       <KSpacer h={30} />
