@@ -25,15 +25,16 @@ const AppStack = () => (
 export const Navigation = () => {
   const [isLogged, setIsLogged] = useState(true);
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsLogged(true);
-      } else {
-        setIsLogged(false);
-      }
-    });
-  }, []);
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log(user.providerData)
+                setIsLogged(true);
+            } else {
+                setIsLogged(false);
+            }
+        });
+    }, []);
 
   return (
     <NavigationContainer>
