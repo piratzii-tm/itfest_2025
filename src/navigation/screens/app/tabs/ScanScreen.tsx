@@ -25,7 +25,7 @@ export const ScanScreen = () => {
 
   useEffect(() => {
     if (scannedObject && !processing) {
-      navigate("RoomScreen");
+      navigate("EditScreen");
     }
   }, [scannedObject, processing]);
 

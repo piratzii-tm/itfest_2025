@@ -8,6 +8,7 @@ import {
   TextInput,
   Animated,
   Modal,
+  Button,
 } from "react-native";
 import { Text } from "react-native-ui-lib";
 import { Colors, Typographies } from "../../../../constants";
@@ -21,7 +22,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { launchImageLibrary } from "react-native-image-picker";
-import { useCamera } from "../../../../hooks";
+import { useAuth, useCamera } from "../../../../hooks";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -40,6 +41,7 @@ export const HomeScreen = () => {
   const [permission, requestPermission] = useCameraPermissions();
   const [cameraVisible, setCameraVisible] = useState(false);
   const { bottom } = useSafeAreaInsets();
+  const { signOut } = useAuth();
 
   const { setCameraRef, takePhoto, photo } = useCamera();
 
