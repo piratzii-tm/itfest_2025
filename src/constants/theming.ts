@@ -15,6 +15,7 @@ export const Colors = {
   transparent: "transparent",
   lightGrey: "#F0F0F0",
   darkNavy: "#1C1C3B",
+  darkGray: "#333333",
 };
 
 export const Typographies = {
