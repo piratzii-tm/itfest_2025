@@ -1,12 +1,19 @@
-import {AuthContext} from "../store";
+import {AuthContext,RootContext} from "../store";
 import {useState} from "react";
 
 export const WithReactContext = ({children}: { children }) => {
     const [confirmation, setConfirmation] = useState<null | any>(null)
+    const [processing, setProcessing] = useState(false)
 
-    // @ts-ignore
-    return <AuthContext.Provider value={{confirmation, setConfirmation}}>
-        {children}
-    </AuthContext.Provider>
+    const rootContextValue = {
+        processing,
+        setProcessing,
+    };
+
+    return <RootContext.Provider value={rootContextValue}>
+        <AuthContext.Provider value={{confirmation, setConfirmation}}>
+            {children}
+        </AuthContext.Provider>
+    </RootContext.Provider>
 }
 
