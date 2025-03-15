@@ -7,6 +7,7 @@ import { auth } from "../constants";
 import { AddFriendsScreen, RoomScreen, Tabs } from "./screens/app";
 import { AuthContext } from "../store";
 import { WithNotifications } from "../wrappers";
+import * as Linking from "expo-linking";
 
 const Stack = createStackNavigator();
 
@@ -18,13 +19,34 @@ const AuthStack = () => (
 
 const AppStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name={"AddFriendsScreen"} component={AddFriendsScreen} />
     <Stack.Screen name={"Tabs"} component={Tabs} />
     <Stack.Screen name={"RoomScreen"} component={RoomScreen} />
+    <Stack.Screen name={"AddFriendsScreen"} component={AddFriendsScreen} />
   </Stack.Navigator>
 );
 
 export const Navigation = () => {
+  const prefix = Linking.createURL("/");
+
+  const linking = {
+    prefixes: ["splito://", prefix],
+
+    config: {
+      screens: {
+        Tabs: "tabs",
+        AddFriendsScreen: "friends",
+        RoomScreen: {
+          path: "room/:id",
+          parse: {
+            id: (id) => String(id),
+          },
+        },
+        // Auth screens
+        RegisterScreen: "register",
+      },
+    },
+  };
+
   const [isLogged, setIsLogged] = useState(true);
   const { setUid } = useContext(AuthContext);
 
@@ -41,7 +63,7 @@ export const Navigation = () => {
 
   return (
     <WithNotifications>
-      <NavigationContainer>
+      <NavigationContainer linking={linking}>
         {isLogged ? <AppStack /> : <AuthStack />}
       </NavigationContainer>
     </WithNotifications>
