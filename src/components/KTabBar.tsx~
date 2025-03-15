@@ -57,7 +57,7 @@ export const KTabBar = ({
               width: 70,
               backgroundColor: Colors.darkBlue,
               borderRadius: 90,
-              borderColor: Colors.darkBlue,
+              borderColor: Colors.blue10,
               borderWidth: 3,
             },
             useAnimatedStyle(() => ({
