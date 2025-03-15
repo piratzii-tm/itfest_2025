@@ -10,14 +10,14 @@ import {
 import { Colors, Typographies } from "../constants";
 
 interface Participant {
-  avatar: string;
+  avatar?: string;
   name?: string;
 }
 
 interface KActivityCardProps {
   adminName: string;
   participants: Participant[];
-  onPress?: () => void; // Added onPress handler
+  onPress?: () => void;
 }
 
 const KActivityCard: React.FC<KActivityCardProps> = ({
@@ -25,8 +25,12 @@ const KActivityCard: React.FC<KActivityCardProps> = ({
   participants,
   onPress,
 }) => {
-  const totalParticipants = participants.length;
-  const displayedParticipants = participants.slice(0, 4);
+  // Default avatar if missing
+  const defaultAvatar =
+    "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png";
+
+  const totalParticipants = participants?.length || 0;
+  const displayedParticipants = participants?.slice(0, 4) || [];
   const remainingParticipantsCount =
     totalParticipants > 4 ? totalParticipants - 4 : 0;
 
@@ -60,11 +64,6 @@ const KActivityCard: React.FC<KActivityCardProps> = ({
     outputRange: [0.5, 0.9],
   });
 
-  const animatedShadowRadius = glowAnimation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [8, 15],
-  });
-
   const animatedBorderColor = glowAnimation.interpolate({
     inputRange: [0, 1],
     outputRange: [Colors.lightBlue100, Colors.white],
@@ -81,7 +80,6 @@ const KActivityCard: React.FC<KActivityCardProps> = ({
           styles.card,
           {
             shadowOpacity: animatedShadowOpacity,
-            shadowRadius: animatedShadowRadius,
             borderColor: animatedBorderColor,
           },
         ]}
@@ -98,7 +96,11 @@ const KActivityCard: React.FC<KActivityCardProps> = ({
                   },
                 ]}
               >
-                <Image source={{ uri: item.avatar }} style={styles.avatar} />
+                <Image
+                  source={{ uri: item.avatar || defaultAvatar }}
+                  style={styles.avatar}
+                  defaultSource={require("../../assets/batman_avatar.png")}
+                />
                 {index === 0 && (
                   <View style={styles.youIndicator}>
                     <Text style={styles.youIndicatorText}>You</Text>
@@ -132,7 +134,7 @@ const KActivityCard: React.FC<KActivityCardProps> = ({
 
 const styles = StyleSheet.create({
   touchableContainer: {
-    flex: 1,
+    width: "100%",
   },
   card: {
     padding: 15,
@@ -158,10 +160,12 @@ const styles = StyleSheet.create({
   participantsRow: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
   },
   participantContainer: {
     alignItems: "center",
     marginRight: 15,
+    marginBottom: 10,
   },
   avatarContainer: {
     position: "relative",
@@ -180,6 +184,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 2,
     borderColor: Colors.lightBlue100,
+    backgroundColor: Colors.grey, // Placeholder color
   },
   youIndicator: {
     position: "absolute",
