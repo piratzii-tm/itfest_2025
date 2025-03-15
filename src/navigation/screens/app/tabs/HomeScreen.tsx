@@ -14,6 +14,7 @@ import KActivityCard from "../../../../components/KActivityCard";
 import {Text, View} from "react-native-ui-lib";
 import {AuthContext} from "../../../../store";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
+import { KQr } from "../../../../components/KQr";
 
 const tempAvatar =
     "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png";
@@ -131,39 +132,43 @@ export const HomeScreen = () => {
                                    participants={Array.from(Object.values(item.didMembersJoined).filter(a => Object.values(a)[0] as boolean))}/>
                 }/>
             </View>
-            <KSpacer h={10}/>
+            <KSpacer h={20}/>
             <Text bodyXL bold style={{paddingHorizontal: 10}}>
                 Join Room:
             </Text>
             <Text bodyM light grey style={{paddingHorizontal: 10}}>
                 Use one of the below options to join.
             </Text>
+            <KSpacer h={5} />
+            <View style={{ flex: 1, padding: 10 }}>
+                <KQr />
+            </View>
 
-            {/* CAMERA MODAL*/}
-            <Modal visible={cameraVisible} animationType="slide">
-                <CameraView
-                    style={{
-                        flex: 1,
-                        justifyContent: "center",
-                        paddingBottom: bottom + 90,
-                    }}
-                    ref={(ref) => setCameraRef(ref)}
-                    type={cameraType}
-                >
-                    <View style={styles.cameraControls}>
-                        <TouchableOpacity style={styles.cameraButton} onPress={takePhoto}>
-                            <FontAwesomeIcon icon={faCamera} size={24} color={Colors.white}/>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.cancelButton}
-                            onPress={() => setCameraVisible(false)}
-                        >
-                            <FontAwesomeIcon icon={faTimes} size={24} color={Colors.white}/>
-                        </TouchableOpacity>
-                    </View>
-                </CameraView>
-            </Modal>
-        </KContainer>
+      {/* CAMERA MODAL*/}
+      <Modal visible={cameraVisible} animationType="slide">
+        <CameraView
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            paddingBottom: bottom + 90,
+          }}
+          ref={(ref) => setCameraRef(ref)}
+          type={cameraType}
+        >
+          <View style={styles.cameraControls}>
+            <TouchableOpacity style={styles.cameraButton} onPress={takePhoto}>
+              <FontAwesomeIcon icon={faCamera} size={24} color={Colors.white} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.cancelButton}
+              onPress={() => setCameraVisible(false)}
+            >
+              <FontAwesomeIcon icon={faTimes} size={24} color={Colors.white} />
+            </TouchableOpacity>
+          </View>
+        </CameraView>
+      </Modal>
+    </KContainer>
     );
 };
 
