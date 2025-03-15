@@ -1,18 +1,35 @@
 import React, { useState } from "react";
-import { KContainer, KPermission, KSpacer } from "../../../../components";
+import { KContainer, KPermission } from "../../../../components";
+<<<<<<< HEAD
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  Animated,
+  Modal,
+  Button,
+} from "react-native";
+import { Text } from "react-native-ui-lib";
+=======
 import { View, StyleSheet, TouchableOpacity, Modal } from "react-native";
+>>>>>>> ee081838c59f28d11b32cad7350d80baa742b190
 import { Colors, Typographies } from "../../../../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faTimes, faCamera } from "@fortawesome/free-solid-svg-icons";
 import { useActionSheet } from "@expo/react-native-action-sheet";
+<<<<<<< HEAD
+import { launchImageLibrary } from "react-native-image-picker";
+import { useAuth, useCamera } from "../../../../hooks";
+=======
 import * as ImagePicker from "react-native-image-picker";
 import { useCamera } from "../../../../hooks";
+>>>>>>> ee081838c59f28d11b32cad7350d80baa742b190
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import KProfileHeader from "../../../../components/KProfileHeader";
 import KActivityCard from "../../../../components/KActivityCard";
-import { Text } from "react-native-ui-lib";
-import { KQr } from "../../../../components/KQr";
 
 const tempAvatar =
   "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png";
@@ -27,10 +44,14 @@ export const HomeScreen = () => {
   const [avatarUri, setAvatarUri] = useState(tempAvatar);
   const [permission, requestPermission] = useCameraPermissions();
   const [cameraVisible, setCameraVisible] = useState(false);
+<<<<<<< HEAD
+  const { bottom } = useSafeAreaInsets();
+  const { signOut } = useAuth();
+=======
+>>>>>>> ee081838c59f28d11b32cad7350d80baa742b190
 
   const { showActionSheetWithOptions } = useActionSheet();
   const { bottom } = useSafeAreaInsets();
-
   const { setCameraRef, takePhoto, photo } = useCamera();
 
   React.useEffect(() => {
@@ -124,24 +145,9 @@ export const HomeScreen = () => {
         onUsernameChange={setUsername}
         onAvatarPress={handleAvatarPress}
       />
-      <KSpacer h={30} />
-      <Text bodyXL bold style={{ paddingHorizontal: 10 }}>
-        Active Room:
-      </Text>
-      <Text bodyM light grey style={{ paddingHorizontal: 10 }}>
-        This room is the current opened room that you've joined or created.
-      </Text>
-      <KSpacer h={5} />
       <View>
-        <KActivityCard participants={participants} />
+        <KActivityCard adminName={username} participants={participants} />
       </View>
-      <KSpacer h={10} />
-      <Text bodyXL bold style={{ paddingHorizontal: 10 }}>
-        Join Room:
-      </Text>
-      <Text bodyM light grey style={{ paddingHorizontal: 10 }}>
-        Use one of the below options to join.
-      </Text>
 
       {/* CAMERA MODAL*/}
       <Modal visible={cameraVisible} animationType="slide">
@@ -167,10 +173,6 @@ export const HomeScreen = () => {
           </View>
         </CameraView>
       </Modal>
-      <KSpacer h={10} />
-      <View style={{ flex: 1, padding: 10 }}>
-        <KQr />
-      </View>
     </KContainer>
   );
 };

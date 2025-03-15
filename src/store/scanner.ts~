@@ -3,7 +3,12 @@ import { ReceiptData } from "../constants/types";
 
 interface ScannerContextType {
   scannedObject: ReceiptData | null;
-  setScannedObject: (value: ReceiptData | null) => void;
+  setScannedObject: (value: {
+    store: string;
+    date: string;
+    items: Item[];
+    total: number;
+  }) => void;
 }
 
 export const ScannerContext = createContext<ScannerContextType>({

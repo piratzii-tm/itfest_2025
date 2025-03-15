@@ -14,6 +14,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.iulianpoenaru.itfest2025",
+      "bundleIdentifier": "com.iulianpoenaru.itfest2025",
       "googleServicesFile": "./ios/GoogleService-Info.plist",
       "supportsTablet": true
     },
@@ -30,6 +31,7 @@
       "@react-native-firebase/app",
       "@react-native-firebase/messaging"
     ],
+    "scheme": "splito",
     "extra": {
       "eas": {
         "projectId": "11508c90-e4e5-47ba-8a50-c9c3f0db8e28"
