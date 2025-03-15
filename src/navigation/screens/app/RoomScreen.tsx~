@@ -16,8 +16,7 @@ export const RoomScreen = () => {
   const [scannedObject, setScannedObject] = useState(null);
   const [room, setRoom] = useState(null);
   const { params } = useRoute();
-  const { reset } = useNavigation();
-  const navigation = useNavigation();
+  const { reset, navigation } = useNavigation();
   const { getRoom, addRoomToUser } = useDatabase();
   const { uid } = useContext(AuthContext);
 
