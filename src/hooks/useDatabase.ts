@@ -1,6 +1,7 @@
 import { database, firestore } from "../constants";
 import { ref, set, get } from "firebase/database";
 import { addDoc, collection } from "firebase/firestore";
+import { NotificationType, useNotifications } from "./useNotifications";
 
 const Path = {
   users: "users/",
@@ -8,6 +9,8 @@ const Path = {
 };
 
 export const useDatabase = () => {
+  const { sendPushNotification } = useNotifications();
+
   const initUser = ({
     id,
     name,
@@ -79,8 +82,6 @@ export const useDatabase = () => {
     if (snapshot.exists()) {
       const friends = snapshot.val().friends;
 
-      console.log("friends: ", friends);
-
       return Promise.all(
         friends.map(async (friendId) => {
           const friendRef = ref(database, Path.users + friendId);
@@ -103,10 +104,12 @@ export const useDatabase = () => {
     owner,
     ids,
     bill,
+    tokens,
   }: {
     owner: string;
     ids: string[];
     bill: any;
+    tokens: [string[]];
   }) => {
     try {
       const roomRefFirestore = await addDoc(collection(firestore, "rooms"), {});
@@ -121,6 +124,7 @@ export const useDatabase = () => {
         membersIds: ids,
         bill,
         membersDistribution: ids.map((id) => ({ id: ["IGNORE"] })),
+        didMembersJoined: ids.map((id) => ({ id: id === owner })),
         createdAt: new Date(),
         active: true,
       }).then(async () => {
@@ -129,6 +133,21 @@ export const useDatabase = () => {
 
         if (snapshot.exists()) {
           const val = snapshot.val();
+
+          tokens.forEach((pushTokens) => {
+            pushTokens.forEach((token) =>
+              sendPushNotification({
+                expoPushToken: token,
+                data: {
+                  roomId,
+                  inviterId: owner,
+                  inviterName: val.name,
+                },
+                type: NotificationType.roomInvite,
+              }),
+            );
+          });
+
           const userRooms = val.rooms || [];
           await set(userRef, {
             ...val,

@@ -9,7 +9,7 @@ import {
   Animated,
   Modal,
 } from "react-native";
-import { Text } from "react-native-ui-lib";
+import { Button, Text } from "react-native-ui-lib";
 import { Colors, Typographies } from "../../../../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -21,7 +21,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { launchImageLibrary } from "react-native-image-picker";
-import { useCamera } from "../../../../hooks";
+import { useAuth, useCamera } from "../../../../hooks";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -42,6 +42,7 @@ export const HomeScreen = () => {
   const { bottom } = useSafeAreaInsets();
 
   const { setCameraRef, takePhoto, photo } = useCamera();
+  const { signOut } = useAuth();
 
   React.useEffect(() => {
     if (photo) {
@@ -198,7 +199,7 @@ export const HomeScreen = () => {
           </Animated.View>
         </View>
       </View>
-      <View></View>
+      <Button label={"Logout"} onPress={() => signOut()} />
       // Camera Modal
       <Modal visible={cameraVisible} animationType="slide">
         <CameraView
@@ -306,7 +307,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginLeft: 5,
     borderRadius: 8,
-    backgroundColor: Colors.white80,
+    backgroundColor: Colors.white90,
   },
   cameraControls: {
     position: "absolute",

@@ -35,9 +35,12 @@ export const AddFriendsScreen = () => {
   const { goBack } = useNavigation();
 
   useEffect(() => {
-    getFriends({ id: uid }).then(
-      (response) => response && setFriends(response.filter((res) => res)),
-    );
+    getFriends({ id: uid }).then((response) => {
+      if (response) {
+        setFriends(response.filter((res) => res));
+      }
+      console.log(response);
+    });
   }, [uid]);
 
   const toggleSelection = (friend) => {
@@ -63,6 +66,7 @@ export const AddFriendsScreen = () => {
       owner: uid,
       ids: selectedFriends.map((friend) => friend.id).concat([uid]),
       bill: scannedObject,
+      tokens: selectedFriends.map((friend) => friend.pushTokens),
     });
   };
 
@@ -70,7 +74,7 @@ export const AddFriendsScreen = () => {
     <KContainer>
       <View row spread width={width} paddingH-10 centerV>
         <TouchableOpacity
-          onPress={() => goBack()}
+          onPress={goBack}
           style={{
             backgroundColor: "white",
             width: 40,
