@@ -1,4 +1,5 @@
 import { KContainer } from "../../../components";
+<<<<<<< HEAD
 import { Colors, View, Text } from "react-native-ui-lib";
 import { KLobbyControls } from "../../../components/KLobbyControls";
 import { KEdgeSvg } from "../../../components/KEdgeSvg";
@@ -6,7 +7,7 @@ import { KSittingInfo } from "../../../components/KSittingInfo";
 import { KProduct } from "../../../components/KProduct";
 import { useContext } from "react";
 import { ScannerContext } from "../../../store/scanner";
-import {Item} from "../../../constants/types";
+import { Item } from "../../../constants/types";
 
 export const RoomScreen = () => {
   const { scannedObject } = useContext(ScannerContext);
@@ -29,7 +30,7 @@ export const RoomScreen = () => {
             hour={"11:00 AM"}
           />
           <View paddingH-15 paddingV-10 width={"100%"} gap-10>
-            {scannedObject?.items?.map((item:Item, index:number) => (
+            {scannedObject?.items?.map((item: Item, index: number) => (
               <KProduct
                 key={index}
                 productName={item.name}
@@ -39,6 +40,22 @@ export const RoomScreen = () => {
             )) || <Text>No scanned items found.</Text>}
           </View>
         </View>
+=======
+import { View, Text, Button } from "react-native-ui-lib";
+import { useNavigation } from "@react-navigation/native";
+
+export const RoomScreen = () => {
+  const { navigate } = useNavigation();
+
+  return (
+    <KContainer>
+      <View>
+        <Text>Room</Text>
+        <Button
+          label={"Continue to invites"}
+          onPress={() => navigate("AddFriendsScreen")}
+        />
+>>>>>>> ee081838c59f28d11b32cad7350d80baa742b190
       </View>
     </KContainer>
   );

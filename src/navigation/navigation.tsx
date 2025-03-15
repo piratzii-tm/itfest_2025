@@ -4,7 +4,7 @@ import { RegisterScreen } from "./screens/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
 import { auth } from "../constants";
-import { RoomScreen, Tabs } from "./screens/app";
+import { AddFriendsScreen, RoomScreen, Tabs } from "./screens/app";
 import { AuthContext } from "../store";
 import { WithNotifications } from "../wrappers";
 import { SelectFriends } from "./screens/app/SelectFriends";
@@ -24,6 +24,7 @@ const AppStack = () => (
     <Stack.Screen name={"EditScreen"} component={EditScreen} />
     <Stack.Screen name={"SelectFriends"} component={SelectFriends} />
     <Stack.Screen name={"RoomScreen"} component={RoomScreen} />
+    <Stack.Screen name={"AddFriendsScreen"} component={AddFriendsScreen} />
   </Stack.Navigator>
 );
 

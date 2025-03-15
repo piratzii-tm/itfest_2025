@@ -17,7 +17,7 @@ export const WithLoading = ({ children }: { children: ReactNode }) => {
     <View
       flex
       style={{
-        backgroundColor: Colors.white80,
+        backgroundColor: Colors.white90,
         position: "absolute",
         zIndex: 11,
       }}
