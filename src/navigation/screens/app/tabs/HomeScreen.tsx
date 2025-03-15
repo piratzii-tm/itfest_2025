@@ -132,13 +132,17 @@ export const HomeScreen = () => {
                                    participants={Array.from(Object.values(item.didMembersJoined).filter(a => Object.values(a)[0] as boolean))}/>
                 }/>
             </View>
-            <KSpacer h={10}/>
+            <KSpacer h={20}/>
             <Text bodyXL bold style={{paddingHorizontal: 10}}>
                 Join Room:
             </Text>
             <Text bodyM light grey style={{paddingHorizontal: 10}}>
                 Use one of the below options to join.
             </Text>
+            <KSpacer h={5} />
+            <View style={{ flex: 1, padding: 10 }}>
+                <KQr />
+            </View>
 
       {/* CAMERA MODAL*/}
       <Modal visible={cameraVisible} animationType="slide">
@@ -164,10 +168,6 @@ export const HomeScreen = () => {
           </View>
         </CameraView>
       </Modal>
-      <KSpacer h={10} />
-      <View style={{ flex: 1, padding: 10 }}>
-        <KQr />
-      </View>
     </KContainer>
     );
 };
