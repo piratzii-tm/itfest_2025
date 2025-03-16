@@ -111,9 +111,14 @@ export const useDatabase = () => {
         const userRef = ref(database, Path.users + id);
         const snapshot = await get(userRef);
 
+
         if (snapshot.exists()) {
+
+            console.log("here:", id)
+
             return snapshot.val();
         }
+
         return null;
     };
 
@@ -447,6 +452,7 @@ export const useDatabase = () => {
 
         // If paid exceeds total, adjust owned
         if (userTotalData.paid > userTotalData.total) {
+            console.log(userTotalData.total - userTotalData.paid)
             userTotalData.owned = userTotalData.total - userTotalData.paid;
         }
 
@@ -473,18 +479,39 @@ export const useDatabase = () => {
         let userTotalData = room.usersTotal[id] || { total: 0, paid: 0, owned: 0 };
 
         // Ensure the deduction amount is valid
-        if (amount > userTotalData.owned) {
+        if (amount > Math.abs(userTotalData.owned)) {
+            console.log(amount, userTotalData.owned)
             alert("The amount to deduct is greater than the current owed value.");
             return;
         }
 
         // Deduct the amount from owned
-        userTotalData.owned -= amount;
+        userTotalData.owned += amount;
 
         // Save updated data back to room
         room.usersTotal[id] = userTotalData;
 
         // Update Firebase
+        const roomRef = ref(database, Path.rooms + roomId);
+        await set(roomRef, room);
+
+        console.log("Owned amount updated successfully");
+    };
+
+    const handleComplete = async ({ id, roomId, amount }: { id: string, roomId: string }) => {
+        let room = await getRoom({ id: roomId });
+
+        if (!room.usersTotal) {
+            room.usersTotal = {};
+        }
+
+        let userTotalData = room.usersTotal[id] || { total: 0, paid: 0, owned: 0 };
+
+        userTotalData.owned = 0;
+        userTotalData.paid = userTotalData.total;
+
+        room.usersTotal[id] = userTotalData;
+
         const roomRef = ref(database, Path.rooms + roomId);
         await set(roomRef, room);
 
@@ -614,6 +641,7 @@ export const useDatabase = () => {
         getNotifications,
         getNonActiveRooms,
         handleChangePaid,
-        handleChangeOwned
+        handleChangeOwned,
+        handleComplete
     };
 };
