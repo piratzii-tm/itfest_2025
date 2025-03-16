@@ -123,7 +123,7 @@ const KProfileHeader = ({ onAvatarPress }: KProfileHeaderProps) => {
       </TouchableOpacity>
 
       <View style={styles.textContainer}>
-        <Text style={styles.welcomeText}>Welcome back,</Text>
+        <Text style={styles.welcomeText} >Welcome back,</Text>
         <Animated.View
           style={[
             styles.nameEditContainer,
@@ -165,7 +165,7 @@ const KProfileHeader = ({ onAvatarPress }: KProfileHeaderProps) => {
                 <FontAwesomeIcon
                   icon={faTimes}
                   size={18}
-                  color={Colors.darkGray}
+                  color={Colors.darkBlue}
                 />
               </TouchableOpacity>
             </View>
@@ -174,7 +174,7 @@ const KProfileHeader = ({ onAvatarPress }: KProfileHeaderProps) => {
               <FontAwesomeIcon
                 icon={faPenToSquare}
                 size={18}
-                color={Colors.darkGray}
+                color={Colors.darkerBlue}
               />
             </TouchableOpacity>
           )}
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     ...Typographies.bodyL,
-    color: Colors.darkGray,
+    color: Colors.lightBlue100,
   },
   nameEditContainer: {
     flexDirection: "row",
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     ...Typographies.bodyXL,
     ...Typographies.medium,
     flex: 1,
-    color: Colors.black,
+    color: Colors.darkerBlue,
     paddingVertical: 8,
   },
   editIcon: {

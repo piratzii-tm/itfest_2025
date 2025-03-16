@@ -111,9 +111,14 @@ export const useDatabase = () => {
     const userRef = ref(database, Path.users + id);
     const snapshot = await get(userRef);
 
-    if (snapshot.exists()) {
-      return snapshot.val();
-    }
+
+        if (snapshot.exists()) {
+
+            console.log("here:", id)
+
+            return snapshot.val();
+        }
+
     return null;
   };
 
@@ -266,8 +271,10 @@ export const useDatabase = () => {
     // First, get the current room data
     let room = await getRoom({ id: roomId });
 
-    // Get all member distributions
-    let membersDistribution = room.membersDistribution;
+    console.log(roomId);
+
+        // Get all member distributions
+        let membersDistribution = room.membersDistribution;
 
     // Find the specific member's distribution
     let memberDistribution = membersDistribution.find(
@@ -276,7 +283,7 @@ export const useDatabase = () => {
 
     // If member distribution doesn't exist, create it
     if (!memberDistribution) {
-      memberDistribution = { [id]: [] };
+      memberDistribution = {[id]: []};
       membersDistribution.push(memberDistribution);
     }
 
@@ -316,7 +323,22 @@ export const useDatabase = () => {
       return dist;
     });
 
-    // Update the room with the new distribution
+    // Calculate new total price for the user
+        const userTotal = memberDistribution[id].reduce((sum, currItem) => {
+            return sum + (currItem.price * currItem.quantity);
+        }, 0);
+
+        // Update the total value in the room for the user
+        if (!room.usersTotal) {
+            room.usersTotal = {};
+        }
+        room.usersTotal[id] = {
+            total: userTotal,
+            paid: room.usersTotal[id]?.paid || 0,
+            owned: room.usersTotal[id]?.owned || 0
+        };
+
+        // Update the room with the new distribution
     room.membersDistribution = membersDistribution;
 
     // Save the changes to Firebase
@@ -398,7 +420,22 @@ export const useDatabase = () => {
       return dist;
     });
 
-    // Update the room with the new distribution
+    // Recalculate the user's total price
+        const userTotal = memberDistribution[id]
+            .filter(it => it !== "IGNORE") // Ignore placeholder
+            .reduce((sum, currItem) => sum + (currItem.price * (currItem.quantity || 1)), 0);
+
+        // Update the total value in the room for the user
+        if (!room.usersTotal) {
+            room.usersTotal = {};
+        }
+        room.usersTotal[id] = {
+            total: userTotal,
+            paid: room.usersTotal[id]?.paid || 0,
+            owned: room.usersTotal[id]?.owned || 0
+        };
+
+        // Update the room with the new distribution
     room.membersDistribution = membersDistribution;
 
     // Save the changes to Firebase
@@ -408,13 +445,96 @@ export const useDatabase = () => {
     console.log("Item removed successfully");
   };
 
-  const sendPaymentNotification = async (
-    receiverId: string,
-    senderId: string,
-    amount: number,
-  ) => {
-    const sender = await getUser({ id: senderId });
-    const receiver = await getUser({ id: receiverId });
+  const handleChangePaid = async ({id, roomId, amount}: { id: string, roomId: string, amount: number }) => {
+        // Fetch room data
+        let room = await getRoom({id: roomId});
+
+        // Ensure usersTotal exists
+        if (!room.usersTotal) {
+            room.usersTotal = {};
+        }
+
+        // Get user's financial data or default values
+        let userTotalData = room.usersTotal[id] || {total: 0, paid: 0, owned: 0};
+
+        // Update paid amount
+        userTotalData.paid = amount;
+
+        // If paid exceeds total, adjust owned
+        if (userTotalData.paid > userTotalData.total) {
+            console.log(userTotalData.total - userTotalData.paid)
+            userTotalData.owned = userTotalData.total - userTotalData.paid;
+        }
+
+        // Save updated data back to room
+        room.usersTotal[id] = userTotalData;
+
+        // Update Firebase
+        const roomRef = ref(database, Path.rooms + roomId);
+        await set(roomRef, room);
+
+        console.log("Paid amount updated successfully");
+    };
+
+    const handleChangeOwned = async ({id, roomId, amount}: { id: string, roomId: string, amount: number }) => {
+        // Fetch room data
+        let room = await getRoom({id: roomId});
+
+        // Ensure usersTotal exists
+        if (!room.usersTotal) {
+            room.usersTotal = {};
+        }
+
+        // Get user's financial data or default values
+        let userTotalData = room.usersTotal[id] || {total: 0, paid: 0, owned: 0};
+
+        // Ensure the deduction amount is valid
+        if (amount > Math.abs(userTotalData.owned)) {
+            console.log(amount, userTotalData.owned)
+            alert("The amount to deduct is greater than the current owed value.");
+            return;
+        }
+
+        // Deduct the amount from owned
+        userTotalData.owned += amount;
+
+        // Save updated data back to room
+        room.usersTotal[id] = userTotalData;
+
+        // Update Firebase
+        const roomRef = ref(database, Path.rooms + roomId);
+        await set(roomRef, room);
+
+        console.log("Owned amount updated successfully");
+    };
+
+    const handleComplete = async ({id, roomId}: { id: string, roomId: string }) => {
+        let room = await getRoom({id: roomId});
+
+        if (!room.usersTotal) {
+            room.usersTotal = {};
+        }
+
+        let userTotalData = room.usersTotal[id] || {total: 0, paid: 0, owned: 0};
+
+        userTotalData.owned = 0;
+        userTotalData.paid = userTotalData.total;
+
+        room.usersTotal[id] = userTotalData;
+
+        const roomRef = ref(database, Path.rooms + roomId);
+        await set(roomRef, room);
+
+        console.log("Owned amount updated successfully");
+    };
+
+    const sendPaymentNotification = async (
+        receiverId: string,
+        senderId: string,
+        amount: number,
+    ) => {
+        const sender = await getUser({id: senderId});
+        const receiver = await getUser({id: receiverId});
 
     if (!sender || !receiver) {
       console.log("Sender or receiver not found");
@@ -514,60 +634,75 @@ export const useDatabase = () => {
     return [];
   };
 
-  const getRoomTotal = async ({
-    roomId,
-  }: {
-    roomId: string;
-  }): Promise<number> => {
-    const room = await getRoom({ id: roomId });
+    const closeRoom = async ({id}: { id: number }) => {
+        const roomRef = ref(database, Path.rooms + id)
+        const snap = await get(roomRef)
 
-    if (
-      !room ||
-      !room.membersDistribution ||
-      !Array.isArray(room.membersDistribution)
-    ) {
-      return 0;
+        if (snap.exists()) {
+            const value = snap.val()
+            value.active = false
+            set(roomRef, value)
+        }
     }
 
-    let total: number = 0;
+    const getRoomTotal = async ({
+                                    roomId,
+                                }: {
+        roomId: string;
+    }): Promise<number> => {
+        const room = await getRoom({ id: roomId });
 
-    for (const memberObj of room.membersDistribution) {
-      const userId = Object.keys(memberObj)[0];
-      const memberItems = memberObj[userId];
+        if (
+            !room ||
+            !room.membersDistribution ||
+            !Array.isArray(room.membersDistribution)
+        ) {
+            return 0;
+        }
 
-      if (Array.isArray(memberItems) && memberItems[0] === "IGNORE") {
-        continue;
-      }
+        let total: number = 0;
 
-      // Calculate this member's total
-      const memberTotal = memberItems.reduce(
-        (sum, item) => sum + item.price * (item.quantity || 1),
-        0,
-      );
+        for (const memberObj of room.membersDistribution) {
+            const userId = Object.keys(memberObj)[0];
+            const memberItems = memberObj[userId];
 
-      total += memberTotal;
-    }
+            if (Array.isArray(memberItems) && memberItems[0] === "IGNORE") {
+                continue;
+            }
 
-    return total;
-  };
+            // Calculate this member's total
+            const memberTotal = memberItems.reduce(
+                (sum, item) => sum + item.price * (item.quantity || 1),
+                0,
+            );
 
-  return {
-    initUser,
-    registerPushToken,
-    handleNewNotification,
-    getFriends,
-    createRoom,
-    getUser,
-    getActiveRooms,
-    getRoom,
-    addRoomToUser,
-    handleDistribution,
-    handleRemoveItem,
-    addFriends,
-    sendPaymentNotification,
-    sendAddedToRoomNotification,
-    getNotifications,
-    getNonActiveRooms,
-    getRoomTotal,
-  };
+            total += memberTotal;
+        }
+
+        return total;
+    };
+
+    return {
+        initUser,
+        registerPushToken,
+        handleNewNotification,
+        getFriends,
+        createRoom,
+        getUser,
+        getActiveRooms,
+        getRoom,
+        addRoomToUser,
+        handleDistribution,
+        handleRemoveItem,
+        addFriends, sendPaymentNotification,
+        sendAddedToRoomNotification,
+        getNotifications,
+        getNonActiveRooms,
+        handleChangePaid,
+        handleChangeOwned,
+        handleComplete,
+        closeRoom,
+        getRoomTotal,
+
+    };
 };

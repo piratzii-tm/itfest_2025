@@ -3,11 +3,9 @@ import {KContainer, KSpacer} from "../../../../components";
 import {View} from "react-native-ui-lib";
 import {ScrollView, TouchableOpacity, RefreshControl} from "react-native";
 import { KNotification } from "../../../../components/KNotification";
-import {Colors, Text} from "react-native-ui-lib";
+import { Text} from "react-native-ui-lib";
 import {useDatabase} from "../../../../hooks";
-import {useAuth} from "../../../../hooks";
-import {auth} from "../../../../constants";
-import {AuthContext} from "../../../../store";
+import {auth, Colors} from "../../../../constants";
 import {useNavigation} from "@react-navigation/native";
 
 type Notification = {
@@ -95,7 +93,7 @@ export const NotificationsScreen: React.FC = () => {
                             style={{
                                 flex: 1,
                                 height: 1,
-                                backgroundColor: Colors.grey,
+                                backgroundColor: Colors.lightBlue,
                                 marginTop: 10,
                                 paddingRight: 10,
                             }}
@@ -103,7 +101,7 @@ export const NotificationsScreen: React.FC = () => {
                         <Text
                             bodyXL
                             bold
-                            darkNavy
+                            darkBlue
                             style={{
                                 paddingTop: 10,
                                 textAlign: "center",
@@ -116,7 +114,7 @@ export const NotificationsScreen: React.FC = () => {
                             style={{
                                 flex: 1,
                                 height: 1,
-                                backgroundColor: Colors.grey,
+                                backgroundColor: Colors.lightBlue,
                                 marginTop: 10,
                             }}
                         />
