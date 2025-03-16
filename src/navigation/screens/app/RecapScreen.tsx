@@ -1,4 +1,4 @@
-import {KContainer} from "../../../components";
+import {KContainer, KSpacer} from "../../../components";
 import {View, Text} from "react-native-ui-lib";
 import {KEdgeSvg} from "../../../components/KEdgeSvg";
 import {KSittingInfo} from "../../../components/KSittingInfo";
@@ -15,7 +15,7 @@ export const RecapScreen = ({route}) => {
     const [roomData, setRoomData] = useState(null);
     const [userData, setUserData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const {uid} = useContext(AuthContext)
+    const {uid} = useContext(AuthContext);
 
     useEffect(() => {
         // Get room data from realtime database
@@ -28,13 +28,9 @@ export const RecapScreen = ({route}) => {
 
                 // Check if membersDistribution exists
                 if (data.membersDistribution && Array.isArray(data.membersDistribution)) {
-                    // Process the array of membersDistribution objects
                     const userPromises = data.membersDistribution.flatMap(async (memberObj) => {
-                        // Each object has a single key (userId) with an array value
                         const userId = Object.keys(memberObj)[0];
                         const memberValue = memberObj[userId];
-
-                        console.log(memberValue)
 
                         if (Array.isArray(memberValue) && memberValue[0] === "IGNORE") {
                             return [];
@@ -44,15 +40,18 @@ export const RecapScreen = ({route}) => {
                         const userSnapshot = await get(userRef);
                         const userData = userSnapshot.exists() ? userSnapshot.val() : {name: "Unknown User"};
 
+                        // Get paid & owned values from usersTotal
+                        const userTotal = data.usersTotal?.[userId] || {paid: 0, owned: 0};
 
                         return [{
                             id: userId,
                             name: userData.name || "Unknown User",
                             items: memberValue,
+                            paid: userTotal.paid,
+                            owned: userTotal.owned
                         }];
                     });
 
-                    // Resolve all user promises and flatten the array
                     const resolvedUsersArrays = await Promise.all(userPromises);
                     const resolvedUsers = resolvedUsersArrays.flat();
                     setUserData(resolvedUsers);
@@ -68,7 +67,6 @@ export const RecapScreen = ({route}) => {
             setLoading(false);
         });
 
-        // Clean up subscription
         return () => unsubscribe();
     }, [roomId]);
 
@@ -156,6 +154,21 @@ export const RecapScreen = ({route}) => {
                                             <Text bodyL>No items found for this user.</Text>
                                         )}
                                     </View>
+                                    {
+                                        (friend?.id !== roomData.owner) && <>
+                                            <KSpacer/>
+                                            <View marginV-5 row spread>
+                                                <Text bodyL semiBold>
+                                                    Paid: <Text regular
+                                                                color={"#A0C878"}>RON {friend.paid.toFixed(2)}</Text>
+                                                </Text>
+                                                <Text bodyL semiBold>
+                                                    Owned: <Text regular
+                                                                 color={"#BF3131"}>RON {friend.owned.toFixed(2)}</Text>
+                                                </Text>
+                                            </View></>
+                                    }
+
                                 </View>
                             ))
                         ) : (

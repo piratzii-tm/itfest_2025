@@ -260,6 +260,8 @@ export const useDatabase = () => {
         // First, get the current room data
         let room = await getRoom({id: roomId});
 
+        console.log(roomId);
+
         // Get all member distributions
         let membersDistribution = room.membersDistribution;
 
@@ -311,6 +313,21 @@ export const useDatabase = () => {
             }
             return dist;
         });
+
+        // Calculate new total price for the user
+        const userTotal = memberDistribution[id].reduce((sum, currItem) => {
+            return sum + (currItem.price * currItem.quantity);
+        }, 0);
+
+        // Update the total value in the room for the user
+        if (!room.usersTotal) {
+            room.usersTotal = {};
+        }
+        room.usersTotal[id] = {
+            total: userTotal,
+            paid: room.usersTotal[id]?.paid || 0,
+            owned: room.usersTotal[id]?.owned || 0
+        };
 
         // Update the room with the new distribution
         room.membersDistribution = membersDistribution;
@@ -388,6 +405,21 @@ export const useDatabase = () => {
             return dist;
         });
 
+        // Recalculate the user's total price
+        const userTotal = memberDistribution[id]
+            .filter(it => it !== "IGNORE") // Ignore placeholder
+            .reduce((sum, currItem) => sum + (currItem.price * (currItem.quantity || 1)), 0);
+
+        // Update the total value in the room for the user
+        if (!room.usersTotal) {
+            room.usersTotal = {};
+        }
+        room.usersTotal[id] = {
+            total: userTotal,
+            paid: room.usersTotal[id]?.paid || 0,
+            owned: room.usersTotal[id]?.owned || 0
+        };
+
         // Update the room with the new distribution
         room.membersDistribution = membersDistribution;
 
@@ -396,6 +428,67 @@ export const useDatabase = () => {
         await set(roomRef, room);
 
         console.log("Item removed successfully");
+    };
+
+    const handleChangePaid = async ({ id, roomId, amount }: { id: string, roomId: string, amount: number }) => {
+        // Fetch room data
+        let room = await getRoom({ id: roomId });
+
+        // Ensure usersTotal exists
+        if (!room.usersTotal) {
+            room.usersTotal = {};
+        }
+
+        // Get user's financial data or default values
+        let userTotalData = room.usersTotal[id] || { total: 0, paid: 0, owned: 0 };
+
+        // Update paid amount
+        userTotalData.paid = amount;
+
+        // If paid exceeds total, adjust owned
+        if (userTotalData.paid > userTotalData.total) {
+            userTotalData.owned = userTotalData.total - userTotalData.paid;
+        }
+
+        // Save updated data back to room
+        room.usersTotal[id] = userTotalData;
+
+        // Update Firebase
+        const roomRef = ref(database, Path.rooms + roomId);
+        await set(roomRef, room);
+
+        console.log("Paid amount updated successfully");
+    };
+
+    const handleChangeOwned = async ({ id, roomId, amount }: { id: string, roomId: string, amount: number }) => {
+        // Fetch room data
+        let room = await getRoom({ id: roomId });
+
+        // Ensure usersTotal exists
+        if (!room.usersTotal) {
+            room.usersTotal = {};
+        }
+
+        // Get user's financial data or default values
+        let userTotalData = room.usersTotal[id] || { total: 0, paid: 0, owned: 0 };
+
+        // Ensure the deduction amount is valid
+        if (amount > userTotalData.owned) {
+            alert("The amount to deduct is greater than the current owed value.");
+            return;
+        }
+
+        // Deduct the amount from owned
+        userTotalData.owned -= amount;
+
+        // Save updated data back to room
+        room.usersTotal[id] = userTotalData;
+
+        // Update Firebase
+        const roomRef = ref(database, Path.rooms + roomId);
+        await set(roomRef, room);
+
+        console.log("Owned amount updated successfully");
     };
 
     const sendPaymentNotification = async (
@@ -520,5 +613,7 @@ export const useDatabase = () => {
         sendAddedToRoomNotification,
         getNotifications,
         getNonActiveRooms,
+        handleChangePaid,
+        handleChangeOwned
     };
 };
