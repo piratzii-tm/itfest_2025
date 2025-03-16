@@ -14,12 +14,12 @@ interface KNotificationProps {
   image?: ImageSourcePropType;
 }
 
-function KNotification({
+export const KNotification = ({
   title,
   description,
   time,
   image,
-}: KNotificationProps) {
+}: KNotificationProps) => {
   const { width } = useWindowDimensions();
 
   return (
@@ -78,6 +78,4 @@ function KNotification({
       </View>
     </View>
   );
-}
-
-export default KNotification;
+};
