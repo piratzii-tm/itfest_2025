@@ -241,6 +241,7 @@ export const useDatabase = () => {
 
         if (!userFriend.includes(ownerUser.id)) {
             userFriend.push(ownerUser.id)
+            return;
         }
 
         if (!ownerFriend.includes(user.id)) {
