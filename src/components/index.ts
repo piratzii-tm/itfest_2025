@@ -4,3 +4,4 @@ export * from "./KPermission";
 export * from "./KTabBar";
 export * from "./KProfileHeader";
 export * from "./KActivityCard";
+export * from "./KHistoryCard";

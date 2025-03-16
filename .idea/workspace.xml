@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="c35ba6de-1824-4328-9547-eba66ce314e1" name="Changes" comment="Implement component for header homescreen">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/KProduct.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KProduct.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/KProfileHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KProfileHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/KQr.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KQr.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useDatabase.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useDatabase.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/tabs/HomeScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/HomeScreen.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,7 +18,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="11784" />
+    <option name="totalTimeSeconds" value="19032" />
     <option name="gitIntegration" value="true" />
     <option name="naggedAbout" value="1" />
   </component>
@@ -68,7 +72,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "40-handle-redirection-from-notificaions",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "/Users/iulianpoenaru/itfest_2025/assets/fonts",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -78,7 +82,7 @@
     "nodejs_package_manager_path": "npm",
     "prettierjs.PrettierConfiguration.Package": "/Users/delinschiivlad/Documents/itfest_2025/node_modules/prettier",
     "settings.editor.selected.configurable": "settings.nodejs",
-    "ts.external.directory.path": "/Users/iulianpoenaru/itfest_2025/node_modules/typescript/lib",
+    "ts.external.directory.path": "/Users/delinschiivlad/Documents/itfest_2025/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
