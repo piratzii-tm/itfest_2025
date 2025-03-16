@@ -1,6 +1,6 @@
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import {KContainer, KPermission, KSpacer} from "../../../../components";
-import {StyleSheet, TouchableOpacity, Modal, FlatList, useWindowDimensions} from "react-native";
+import {StyleSheet, TouchableOpacity, Modal, FlatList, useWindowDimensions, Button, Linking} from "react-native";
 import {auth, Colors, Typographies} from "../../../../constants";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faTimes, faCamera, faCameraRotate} from "@fortawesome/free-solid-svg-icons";
