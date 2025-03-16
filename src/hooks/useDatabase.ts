@@ -645,42 +645,46 @@ export const useDatabase = () => {
         }
     }
 
-    const getRoomTotal = async ({
-                                    roomId,
-                                }: {
-        roomId: string;
-    }): Promise<number> => {
-        const room = await getRoom({ id: roomId });
+  const getRoomTotal = async ({
+                                roomId,
+                              }: {
+    roomId: string;
+  }): Promise<{ total: number, day: string }> => {
+    const room = await getRoom({ id: roomId });
 
-        if (
-            !room ||
-            !room.membersDistribution ||
-            !Array.isArray(room.membersDistribution)
-        ) {
-            return 0;
-        }
+    if (
+        !room ||
+        !room.membersDistribution ||
+        !Array.isArray(room.membersDistribution)
+    ) {
+      return { total: 0, day: "?" };
+    }
 
-        let total: number = 0;
+    let total: number = 0;
 
-        for (const memberObj of room.membersDistribution) {
-            const userId = Object.keys(memberObj)[0];
-            const memberItems = memberObj[userId];
+    for (const memberObj of room.membersDistribution) {
+      const userId = Object.keys(memberObj)[0];
+      const memberItems = memberObj[userId];
 
-            if (Array.isArray(memberItems) && memberItems[0] === "IGNORE") {
-                continue;
-            }
+      if (Array.isArray(memberItems) && memberItems[0] === "IGNORE") {
+        continue;
+      }
 
-            // Calculate this member's total
-            const memberTotal = memberItems.reduce(
-                (sum, item) => sum + item.price * (item.quantity || 1),
-                0,
-            );
+      const memberTotal = memberItems.reduce(
+          (sum: number, item: any) => sum + item.price * (item.quantity || 1),
+          0,
+      );
 
-            total += memberTotal;
-        }
+      total += memberTotal;
+    }
 
-        return total;
-    };
+    const dayAbbreviations = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const createdDate = room.createdAt ? new Date(room.createdAt) : new Date();
+    const dayOfWeek = createdDate.getDay();
+    const dayAbbreviation = dayAbbreviations[dayOfWeek];
+
+    return { total, day: dayAbbreviation };
+  };
 
     return {
         initUser,
@@ -703,6 +707,5 @@ export const useDatabase = () => {
         handleComplete,
         closeRoom,
         getRoomTotal,
-
     };
 };

@@ -5,48 +5,66 @@ import { useDatabase } from "../hooks";
 
 type KHistoryCardProps = {
   roomId: string;
+  width?: number;
+  height?: number;
 };
 
-export const KHistoryCard: React.FC<KHistoryCardProps> = ({ roomId }) => {
+export const KHistoryCard: React.FC<KHistoryCardProps> = ({ roomId, width, height }) => {
   const { getRoomTotal } = useDatabase();
   const [total, setTotal] = useState<number>(0);
+  const [maxValue, setMaxValue] = useState<number>(100);
   const [chartData, setChartData] = useState([
-    { value: 30 },
-    { value: 50 },
-    { value: 20 },
-    { value: 90 },
-    { value: 45 },
+    { value: 30, label: 'Mon' },
+    { value: 50, label: 'Tue' },
+    { value: 90, label: 'Fri' },
   ]);
+
+
 
   useEffect(() => {
     async function fetchTotal() {
       if (roomId) {
         const amount = await getRoomTotal({ roomId });
-        setTotal(amount);
+        setTotal(amount.total);
 
-        // Update the chart data with the room total
-        setChartData((prevData) => [
-          ...prevData.slice(0, 4), // Keep first 4 items
-          { value: amount, frontColor: Colors.green }, // Replace last item with room total
-        ]);
+        setChartData((prevData) => {
+          const newChartData = [
+            ...prevData.slice(0, 5),
+            { value: amount.total, label: amount.day, frontColor: '#304582' },
+          ];
+
+          // Update max value if needed
+          const dataMaxValue = Math.max(...newChartData.map(item => item.value));
+          if (dataMaxValue > maxValue) {
+            setMaxValue(Math.ceil(dataMaxValue / 20) * 20);
+          }
+
+          return newChartData;
+        });
       }
     }
-
     fetchTotal();
   }, [roomId]);
 
+  const noOfSections = Math.ceil(maxValue / 20);
+
   return (
-    <BarChart
-      data={chartData}
-      stepHeight={20}
-      stepValue={20}
-      barWidth={15}
-      roundedTop={true}
-      disablePress={true}
-      spacing={35}
-      frontColor={Colors.darkBlue}
-      noOfSections={8}
-      initialSpacing={20}
-    />
+      <BarChart
+          data={chartData}
+          width={width}
+          height={height}
+          stepHeight={20}
+          stepValue={20}
+          barWidth={15}
+          roundedTop={true}
+          disablePress={true}
+          spacing={30}
+          frontColor={Colors.lightBlue}
+          noOfSections={noOfSections}
+          maxValue={maxValue}
+          initialSpacing={20}
+          xAxisLabelTextStyle={{ color: 'black', fontSize: 12 }}
+          rotateLabel={false}
+      />
   );
 };

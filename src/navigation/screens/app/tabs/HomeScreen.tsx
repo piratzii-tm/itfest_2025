@@ -264,10 +264,11 @@ export const HomeScreen = () => {
 
             <View style={styles.historyCard}>
                 <KHistoryCard
-                    roomId={passedRoom.length > 0 ? passedRoom[0].id : ""}
+                    roomId={passedRoom.length > 0 ? passedRoom[0]?.id : ""}
+                    width={width - 150}
                 />
             </View>
-            <KSpacer h={300}/>
+            <KSpacer h={50}/>
 
             {/* CAMERA MODAL*/}
             <Modal visible={cameraVisible} animationType="slide">
