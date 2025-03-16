@@ -4,11 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c35ba6de-1824-4328-9547-eba66ce314e1" name="Changes" comment="Implement component for header homescreen">
+    <list default="true" id="c35ba6de-1824-4328-9547-eba66ce314e1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/KProduct.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KProduct.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/KContainer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KContainer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/KNotification.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KNotification.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useDatabase.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useDatabase.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/tabs/NotificationsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/NotificationsScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/AddFriendsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/AddFriendsScreen.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/RecapScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/RecapScreen.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/RoomScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/RoomScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/tabs/ScanScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/ScanScreen.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,7 +21,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="11784" />
+    <option name="totalTimeSeconds" value="27346" />
     <option name="gitIntegration" value="true" />
     <option name="naggedAbout" value="1" />
   </component>
@@ -70,8 +75,8 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;31-implement-logic-for-selecting-items-user&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/iulianpoenaru/itfest_2025/assets/fonts&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/delinschiivlad/Documents/itfest_2025/assets&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -80,12 +85,31 @@
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/delinschiivlad/Documents/itfest_2025/node_modules/prettier&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;settings.nodejs&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/iulianpoenaru/itfest_2025/node_modules/typescript/lib&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/delinschiivlad/Documents/itfest_2025/node_modules/typescript/lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "com.codeium.enabled": "true",
+    "git-widget-placeholder": "17-implement-recap-page",
+    "last_opened_file_path": "/Users/iulianpoenaru/itfest_2025/assets/fonts",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "/Users/delinschiivlad/Documents/itfest_2025/node_modules/prettier",
+    "settings.editor.selected.configurable": "settings.nodejs",
+    "ts.external.directory.path": "C:\\!Diverse\\Proiecte\\ITFest2025\\itfest_2025\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets" />
       <recent name="$PROJECT_DIR$/assets/fonts" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -115,6 +139,9 @@
       <workItem from="1742046446705" duration="195000" />
       <workItem from="1742046761819" duration="759000" />
       <workItem from="1742060019585" duration="742000" />
+      <workItem from="1742076387591" duration="17868000" />
+      <workItem from="1742102430519" duration="197000" />
+      <workItem from="1742102630551" duration="1986000" />
     </task>
     <servers />
   </component>
@@ -134,7 +161,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Implement component for header homescreen" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement component for header homescreen" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
