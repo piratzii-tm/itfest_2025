@@ -47,18 +47,50 @@ export const HomeScreen = () => {
 
 
     useEffect(() => {
-        getUser({id: uid}).then(setUser)
-        getActiveRooms({id: uid}).then(setRooms)
-        getNonActiveRooms({id: uid}).then(setPassedRooms)
+        const userRef = dbRef(database, `users/${uid}`);
+        const roomsRef = dbRef(database, `rooms`);
+
+        // Listen for changes in user data
+        const unsubscribeUser = onValue(userRef, (snapshot) => {
+            if (snapshot.exists()) {
+                setUser(snapshot.val());
+            }
+        });
+
+        // Listen for changes in active and non-active rooms
+        const unsubscribeRooms = onValue(roomsRef, (snapshot) => {
+            if (snapshot.exists()) {
+                const allRooms = snapshot.val();
+                const userRooms = Object.values(allRooms).filter((room: any) =>
+                    room.membersIds.includes(uid)
+                );
+
+                // **Ensuring no duplicates**
+                const activeRooms = [...new Map(userRooms
+                    .filter((room: any) => room.active)
+                    .map((room: any) => [room.id, room])) // Use Map to remove duplicates
+                    .values()];
+
+                const nonActiveRooms = [...new Map(userRooms
+                    .filter((room: any) => !room.active)
+                    .map((room: any) => [room.id, room])) // Use Map to remove duplicates
+                    .values()];
+
+                setRooms(activeRooms);
+                setPassedRooms(nonActiveRooms);
+            } else {
+                setRooms([]); // Reset to avoid accumulation
+                setPassedRooms([]);
+            }
+        });
+
+        return () => {
+            off(userRef);
+            off(roomsRef);
+        };
     }, [uid]);
 
-    useFocusEffect(
-        useCallback(() => {
-            getUser({id: uid}).then(setUser)
-            getActiveRooms({id: uid}).then(setRooms)
-            getNonActiveRooms({id: uid}).then(setPassedRooms)
-        }, [])
-    )
+
 
     const chooseFromLibrary = async () => {
         try {

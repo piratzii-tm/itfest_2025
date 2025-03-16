@@ -1,17 +1,17 @@
-import { database, firestore } from "../constants";
-import { ref, set, get } from "firebase/database";
-import { addDoc, collection } from "firebase/firestore";
-import { NotificationType, useNotifications } from "./useNotifications";
-import { red } from "react-native-reanimated/lib/typescript/Colors";
+import {database, firestore} from "../constants";
+import {ref, set, get} from "firebase/database";
+import {addDoc, collection} from "firebase/firestore";
+import {NotificationType, useNotifications} from "./useNotifications";
+import {red} from "react-native-reanimated/lib/typescript/Colors";
 
 const Path = {
-  users: "users/",
-  rooms: "rooms/",
-  notifications: "notifications/",
+    users: "users/",
+    rooms: "rooms/",
+    notifications: "notifications/",
 };
 
 export const useDatabase = () => {
-  const { sendPushNotification } = useNotifications();
+    const {sendPushNotification} = useNotifications();
 
     const initUser = ({
                           id,
@@ -28,222 +28,222 @@ export const useDatabase = () => {
             .catch((error) => console.log("Error adding data: ", error));
     };
 
-  const registerPushToken = async ({
-    id,
-    pushToken,
-  }: {
-    id: string;
-    pushToken: string;
-  }) => {
-    const userRef = ref(database, Path.users + id);
-    const snapshot = await get(userRef);
-
-    if (snapshot.exists()) {
-      const userData = snapshot.val();
-      const existingTokens = userData.pushTokens || [];
-
-      // Avoid duplicate tokens
-      if (!existingTokens.includes(pushToken)) {
-        await set(userRef, {
-          ...userData,
-          pushTokens: [...existingTokens, pushToken],
-        });
-      }
-    } else {
-      console.log("User not found");
-    }
-  };
-
-  const handleNewNotification = async ({
-    id,
-    data,
-  }: {
-    id: string;
-    data: any;
-  }) => {
-    const userRef = ref(database, Path.users + id);
-    const snapshot = await get(userRef);
-
-    if (snapshot.exists()) {
-      const userData = snapshot.val();
-      const existingTokens = userData.notifications || [];
-
-      data = {
-          timestamp: Date.now(),
-          ...data,
-      }
-
-      await set(userRef, {
-        ...userData,
-        notifications: [...existingTokens, data],
-      });
-    } else {
-      console.log("User not found");
-    }
-  };
-
-  const getFriends = async ({ id }: { id: string }) => {
-    const userRef = ref(database, Path.users + id);
-    const snapshot = await get(userRef);
-
-    if (snapshot.exists()) {
-      const friends = snapshot.val().friends;
-
-      return Promise.all(
-        friends.map(async (friendId: string) => {
-          const friendRef = ref(database, Path.users + friendId);
-          const friendSnapshot = await get(friendRef);
-          if (friendSnapshot.exists()) {
-            return {
-              id: friendSnapshot.val().id,
-              name: friendSnapshot.val().name,
-              pushTokens: friendSnapshot.val().pushTokens,
-            };
-          }
-        }),
-      );
-    }
-
-    return;
-  };
-
-  const getUser = async ({ id }: { id: string }) => {
-    const userRef = ref(database, Path.users + id);
-    const snapshot = await get(userRef);
-
-    if (snapshot.exists()) {
-      return snapshot.val();
-    }
-    return null;
-  };
-
-  const createRoom = async ({
-    owner,
-    ids,
-    bill,
-    tokens,
-  }: {
-    owner: string;
-    ids: string[];
-    bill: any;
-    tokens: [string[]];
-  }) => {
-    try {
-      const roomRefFirestore = await addDoc(collection(firestore, "rooms"), {});
-
-      const roomId = roomRefFirestore.id;
-
-      const roomRef = ref(database, Path.rooms + roomId);
-
-      set(roomRef, {
-        id: roomId,
-        owner,
-        membersIds: ids,
-        bill,
-        membersDistribution: ids.map((id) => ({ [id]: ["IGNORE"] })),
-        didMembersJoined: ids.map((id) => ({ [id]: id === owner })),
-        createdAt: new Date(),
-        active: true,
-      }).then(async () => {
-        const userRef = ref(database, Path.users + owner);
+    const registerPushToken = async ({
+                                         id,
+                                         pushToken,
+                                     }: {
+        id: string;
+        pushToken: string;
+    }) => {
+        const userRef = ref(database, Path.users + id);
         const snapshot = await get(userRef);
 
         if (snapshot.exists()) {
-          const val = snapshot.val();
+            const userData = snapshot.val();
+            const existingTokens = userData.pushTokens || [];
 
-          tokens.forEach((pushTokens) => {
-            pushTokens.forEach((token) =>
-              sendPushNotification({
-                expoPushToken: token,
-                data: {
-                  roomId,
-                  inviterId: owner,
-                  inviterName: val.name,
-                },
-                type: NotificationType.roomInvite,
-              }),
-            );
-          });
-
-          const userRooms = val.rooms || [];
-          await set(userRef, {
-            ...val,
-            rooms: [...userRooms, roomId],
-          });
+            // Avoid duplicate tokens
+            if (!existingTokens.includes(pushToken)) {
+                await set(userRef, {
+                    ...userData,
+                    pushTokens: [...existingTokens, pushToken],
+                });
+            }
+        } else {
+            console.log("User not found");
         }
-      });
+    };
 
-      return roomId;
-    } catch (error) {
-      console.error("Error creating room:", error);
-    }
-  };
+    const handleNewNotification = async ({
+                                             id,
+                                             data,
+                                         }: {
+        id: string;
+        data: any;
+    }) => {
+        const userRef = ref(database, Path.users + id);
+        const snapshot = await get(userRef);
 
-  const getRoom = async ({ id }: { id: string }) => {
-    const roomRef = ref(database, Path.rooms + id);
-    const snapshot = await get(roomRef);
+        if (snapshot.exists()) {
+            const userData = snapshot.val();
+            const existingTokens = userData.notifications || [];
 
-    if (snapshot.exists()) {
-      return snapshot.val();
-    }
-    return null;
-  };
+            data = {
+                timestamp: Date.now(),
+                ...data,
+            }
 
-  const getActiveRooms = async ({ id }: { id: string }) => {
-    const user = await getUser({ id });
+            await set(userRef, {
+                ...userData,
+                notifications: [...existingTokens, data],
+            });
+        } else {
+            console.log("User not found");
+        }
+    };
 
-    if (user) {
-      const roomsId = user.rooms;
-      const rooms = await Promise.all(
-        roomsId.map(async (roomId: string) => {
-          return await getRoom({ id: roomId });
-        }),
-      );
-      return rooms.filter((room) => room.active);
-    }
-  };
+    const getFriends = async ({id}: { id: string }) => {
+        const userRef = ref(database, Path.users + id);
+        const snapshot = await get(userRef);
 
-    const getNonActiveRooms = async ({ id }: { id: string }) => {
-        const user = await getUser({ id });
+        if (snapshot.exists()) {
+            const friends = snapshot.val().friends;
+
+            return Promise.all(
+                friends.map(async (friendId: string) => {
+                    const friendRef = ref(database, Path.users + friendId);
+                    const friendSnapshot = await get(friendRef);
+                    if (friendSnapshot.exists()) {
+                        return {
+                            id: friendSnapshot.val().id,
+                            name: friendSnapshot.val().name,
+                            pushTokens: friendSnapshot.val().pushTokens,
+                        };
+                    }
+                }),
+            );
+        }
+
+        return;
+    };
+
+    const getUser = async ({id}: { id: string }) => {
+        const userRef = ref(database, Path.users + id);
+        const snapshot = await get(userRef);
+
+        if (snapshot.exists()) {
+            return snapshot.val();
+        }
+        return null;
+    };
+
+    const createRoom = async ({
+                                  owner,
+                                  ids,
+                                  bill,
+                                  tokens,
+                              }: {
+        owner: string;
+        ids: string[];
+        bill: any;
+        tokens: [string[]];
+    }) => {
+        try {
+            const roomRefFirestore = await addDoc(collection(firestore, "rooms"), {});
+
+            const roomId = roomRefFirestore.id;
+
+            const roomRef = ref(database, Path.rooms + roomId);
+
+            set(roomRef, {
+                id: roomId,
+                owner,
+                membersIds: ids,
+                bill,
+                membersDistribution: ids.map((id) => ({[id]: ["IGNORE"]})),
+                didMembersJoined: ids.map((id) => ({[id]: id === owner})),
+                createdAt: new Date(),
+                active: true,
+            }).then(async () => {
+                const userRef = ref(database, Path.users + owner);
+                const snapshot = await get(userRef);
+
+                if (snapshot.exists()) {
+                    const val = snapshot.val();
+
+                    tokens.forEach((pushTokens) => {
+                        pushTokens.forEach((token) =>
+                            sendPushNotification({
+                                expoPushToken: token,
+                                data: {
+                                    roomId,
+                                    inviterId: owner,
+                                    inviterName: val.name,
+                                },
+                                type: NotificationType.roomInvite,
+                            }),
+                        );
+                    });
+
+                    const userRooms = val.rooms || [];
+                    await set(userRef, {
+                        ...val,
+                        rooms: [...userRooms, roomId],
+                    });
+                }
+            });
+
+            return roomId;
+        } catch (error) {
+            console.error("Error creating room:", error);
+        }
+    };
+
+    const getRoom = async ({id}: { id: string }) => {
+        const roomRef = ref(database, Path.rooms + id);
+        const snapshot = await get(roomRef);
+
+        if (snapshot.exists()) {
+            return snapshot.val();
+        }
+        return null;
+    };
+
+    const getActiveRooms = async ({id}: { id: string }) => {
+        const user = await getUser({id});
 
         if (user) {
             const roomsId = user.rooms;
             const rooms = await Promise.all(
                 roomsId.map(async (roomId: string) => {
-                    return await getRoom({ id: roomId });
+                    return await getRoom({id: roomId});
+                }),
+            );
+            return rooms.filter((room) => room.active);
+        }
+    };
+
+    const getNonActiveRooms = async ({id}: { id: string }) => {
+        const user = await getUser({id});
+
+        if (user) {
+            const roomsId = user.rooms;
+            const rooms = await Promise.all(
+                roomsId.map(async (roomId: string) => {
+                    return await getRoom({id: roomId});
                 }),
             );
             return rooms.filter((room) => !room.active);
         }
     };
 
-  const addRoomToUser = async ({ id, room }: { id: string; room: string }) => {
-    const user = await getUser({ id });
-    const roomObj = await getRoom({ id: room });
-    const userRooms = user.rooms || [];
-    if (!userRooms.includes(room)) {
-      const userRef = ref(database, Path.users + id);
-      await set(userRef, { ...user, rooms: [...userRooms, room] });
-      const roomRef = ref(database, Path.rooms + room);
-      await set(roomRef, {
-        ...roomObj,
-        didMembersJoined: [...roomObj.didMembersJoined, { [id]: true }],
-      });
-    }
-  };
+    const addRoomToUser = async ({id, room}: { id: string; room: string }) => {
+        const user = await getUser({id});
+        const roomObj = await getRoom({id: room});
+        const userRooms = user.rooms || [];
+        if (!userRooms.includes(room)) {
+            const userRef = ref(database, Path.users + id);
+            await set(userRef, {...user, rooms: [...userRooms, room]});
+            const roomRef = ref(database, Path.rooms + room);
+            await set(roomRef, {
+                ...roomObj,
+                didMembersJoined: [...roomObj.didMembersJoined, {[id]: true}],
+            });
+        }
+    };
 
-  const addFriends = async ({id, owner}) => {
+    const addFriends = async ({id, owner}) => {
         const user = await getUser({id})
         const ownerUser = await getUser({id: owner})
 
         let userFriend = user.friends || []
         let ownerFriend = ownerUser.friends || []
 
-        if(!userFriend.includes(ownerUser.id)){
+        if (!userFriend.includes(ownerUser.id)) {
             userFriend.push(ownerUser.id)
         }
 
-        if(!ownerFriend.includes(user.id)){
+        if (!ownerFriend.includes(user.id)) {
             ownerFriend.push(user.id)
         }
 
@@ -257,44 +257,70 @@ export const useDatabase = () => {
     }
 
     const handleDistribution = async ({id, roomId, item}: { id: string, roomId: string, item: any }) => {
-        let room = await getRoom({id: roomId})
-        let membersDistribution = room.membersDistribution
-        let memberDistribution = room.membersDistribution.find(distribution => Object.keys(distribution)[0] === id)
+        // First, get the current room data
+        let room = await getRoom({id: roomId});
 
-        console.log(memberDistribution)
+        // Get all member distributions
+        let membersDistribution = room.membersDistribution;
 
-        memberDistribution = {
-            [id]: (memberDistribution?.[id].filter(d => d !== "IGNORE") || [])
+        // Find the specific member's distribution
+        let memberDistribution = membersDistribution.find(
+            distribution => Object.keys(distribution)[0] === id
+        );
+
+        // If member distribution doesn't exist, create it
+        if (!memberDistribution) {
+            memberDistribution = { [id]: [] };
+            membersDistribution.push(memberDistribution);
         }
 
-        const itemsIdsInDistribution = memberDistribution?.[id].map(it => it.id)
+        // Get user's items
+        let userItems = memberDistribution[id];
 
-        if (!itemsIdsInDistribution.includes(item.id)) {
+        // Check if "IGNORE" placeholder exists and remove it
+        if (userItems.includes("IGNORE")) {
+            userItems = [];
+        }
+
+        // Check if the item already exists for the user
+        const existingItemIndex = userItems.findIndex(it => it.id === item.id);
+
+        if (existingItemIndex !== -1) {
+            // Item exists, increase its quantity
             memberDistribution = {
-                [id]: ((memberDistribution?.[id]) ?? []).concat([item])
-            }
+                [id]: userItems.map(it =>
+                    it.id === item.id
+                        ? {...it, quantity: (it.quantity || 1) + 1}
+                        : it
+                )
+            };
         } else {
+            // Item doesn't exist, add it with quantity 1
+            const newItem = {...item};
+            newItem.quantity = 1;
             memberDistribution = {
-                [id]: ((memberDistribution?.[id]) ?? []).map((it) => it.id === item.id ? ({
-                    ...it,
-                    quantity: it.quantity + 1
-                }) : it)
-            }
+                [id]: [...userItems, newItem]
+            };
         }
 
-        membersDistribution = membersDistribution.map(dist=>{
-            const distrib = room.membersDistribution.find(distribution => Object.keys(distribution)[0] === id)
-            if(Object.keys(distrib)[0] === Object.keys(dist)[0]){
-                return memberDistribution
+        // Update the member's distribution in the full distribution array
+        membersDistribution = membersDistribution.map(dist => {
+            const userKey = Object.keys(dist)[0];
+            if (userKey === id) {
+                return memberDistribution;
             }
-            return dist
-        })
+            return dist;
+        });
 
-        room.membersDistribution = membersDistribution
+        // Update the room with the new distribution
+        room.membersDistribution = membersDistribution;
 
-        const roomRef = ref(database, Path.rooms + roomId)
-        set(roomRef, room)
-    }
+        // Save the changes to Firebase
+        const roomRef = ref(database, Path.rooms + roomId);
+        await set(roomRef, room);
+
+        console.log("Item added successfully");
+    };
 
     const handleRemoveItem = async ({id, roomId, item}: { id: string, roomId: string, item: any }) => {
         // First, get the current room data
@@ -335,7 +361,7 @@ export const useDatabase = () => {
             memberDistribution = {
                 [id]: userItems.map(it =>
                     it.id === item.id
-                        ? { ...it, quantity: it.quantity - 1 }
+                        ? {...it, quantity: it.quantity - 1}
                         : it
                 )
             };
@@ -370,127 +396,129 @@ export const useDatabase = () => {
         await set(roomRef, room);
 
         console.log("Item removed successfully");
-    };const sendPaymentNotification = async (
-    receiverId: string,
-    senderId: string,
-    amount: number,
-  ) => {
-    const sender = await getUser({ id: senderId });
-    const receiver = await getUser({ id: receiverId });
-
-    if (!sender || !receiver) {
-      console.log("Sender or receiver not found");
-      return false;
-    }
-
-    const notificationContent = {
-      amount: amount,
-      inviterId: senderId,
-      inviterName: sender.name,
     };
 
-    const notificationData = {
-      receiverID: receiverId,
-      title: "Debts are no good",
-      body:
-        `Hello there, you still need to pay ${sender.name} their` +
-        ` ${amount} RON.`,
-      type: NotificationType.giveMoney,
-      timestamp: Date.now(),
-      content: notificationContent,
-    };
+    const sendPaymentNotification = async (
+        receiverId: string,
+        senderId: string,
+        amount: number,
+    ) => {
+        const sender = await getUser({id: senderId});
+        const receiver = await getUser({id: receiverId});
 
-    await handleNewNotification({
-      id: receiverId,
-      data: notificationData,
-    });
+        if (!sender || !receiver) {
+            console.log("Sender or receiver not found");
+            return false;
+        }
 
-    if (receiver.pushTokens?.length) {
-      receiver.pushTokens.forEach((token: string) => {
-        sendPushNotification({
-          expoPushToken: token,
-          data: notificationContent,
-          type: NotificationType.giveMoney,
+        const notificationContent = {
+            amount: amount,
+            inviterId: senderId,
+            inviterName: sender.name,
+        };
+
+        const notificationData = {
+            receiverID: receiverId,
+            title: "Debts are no good",
+            body:
+                `Hello there, you still need to pay ${sender.name} their` +
+                ` ${amount} RON.`,
+            type: NotificationType.giveMoney,
+            timestamp: Date.now(),
+            content: notificationContent,
+        };
+
+        await handleNewNotification({
+            id: receiverId,
+            data: notificationData,
         });
-      });
-      return true;
-    }
 
-    return false;
-  };
+        if (receiver.pushTokens?.length) {
+            receiver.pushTokens.forEach((token: string) => {
+                sendPushNotification({
+                    expoPushToken: token,
+                    data: notificationContent,
+                    type: NotificationType.giveMoney,
+                });
+            });
+            return true;
+        }
 
-  const sendAddedToRoomNotification = async (
-    receiverId: string,
-    senderId: string,
-    roomID: string,
-  ) => {
-    const sender = await getUser({ id: senderId });
-    const receiver = await getUser({ id: receiverId });
-
-    if (!sender || !receiver) {
-      console.log("Sender or receiver not found");
-      return false;
-    }
-
-    const notificationContent = {
-      inviterId: senderId,
-      inviterName: sender.name,
-      roomID: roomID,
+        return false;
     };
 
-    const notificationData = {
-      receiverID: receiverId,
-      title: "You've been added to a room",
-      body: `Hello there, ${sender.name} has added you to a new room`,
-      type: NotificationType.roomInvite,
-      timestamp: Date.now(),
-      content: notificationContent,
-    };
+    const sendAddedToRoomNotification = async (
+        receiverId: string,
+        senderId: string,
+        roomID: string,
+    ) => {
+        const sender = await getUser({id: senderId});
+        const receiver = await getUser({id: receiverId});
 
-    await handleNewNotification({
-      id: receiverId,
-      data: notificationData,
-    });
+        if (!sender || !receiver) {
+            console.log("Sender or receiver not found");
+            return false;
+        }
 
-    if (receiver.pushTokens?.length) {
-      receiver.pushTokens.forEach((token: string) => {
-        sendPushNotification({
-          expoPushToken: token,
-          data: notificationContent,
-          type: NotificationType.roomInvite,
+        const notificationContent = {
+            inviterId: senderId,
+            inviterName: sender.name,
+            roomID: roomID,
+        };
+
+        const notificationData = {
+            receiverID: receiverId,
+            title: "You've been added to a room",
+            body: `Hello there, ${sender.name} has added you to a new room`,
+            type: NotificationType.roomInvite,
+            timestamp: Date.now(),
+            content: notificationContent,
+        };
+
+        await handleNewNotification({
+            id: receiverId,
+            data: notificationData,
         });
-      });
-      return true;
-    }
 
-    return false;
-  };
+        if (receiver.pushTokens?.length) {
+            receiver.pushTokens.forEach((token: string) => {
+                sendPushNotification({
+                    expoPushToken: token,
+                    data: notificationContent,
+                    type: NotificationType.roomInvite,
+                });
+            });
+            return true;
+        }
 
-  const getNotifications = async (userId: string) => {
-    const user = await getUser({ id: userId });
-    if (user && user.notifications) {
-      return user.notifications.sort(
-        (a: any, b: any) => b.timestamp - a.timestamp,
-      );
-    }
-    return [];
-  };
+        return false;
+    };
 
-  return {
-    initUser,
-    registerPushToken,
-    handleNewNotification,
-    getFriends,
-    createRoom,
-    getUser,
-    getActiveRooms,
-    getRoom,
-    addRoomToUser,
-    handleDistribution,
+    const getNotifications = async (userId: string) => {
+        const user = await getUser({id: userId});
+        if (user && user.notifications) {
+            return user.notifications.sort(
+                (a: any, b: any) => b.timestamp - a.timestamp,
+            );
+        }
+        return [];
+    };
+
+    return {
+        initUser,
+        registerPushToken,
+        handleNewNotification,
+        getFriends,
+        createRoom,
+        getUser,
+        getActiveRooms,
+        getRoom,
+        addRoomToUser,
+        handleDistribution,
         handleRemoveItem,
-        addFriends,sendPaymentNotification,
-    sendAddedToRoomNotification,
-    getNotifications,
-      getNonActiveRooms,
-  };
+        addFriends, sendPaymentNotification,
+        sendAddedToRoomNotification,
+        getNotifications,
+        getNonActiveRooms,
+    };
 };

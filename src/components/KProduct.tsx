@@ -76,7 +76,7 @@ export const KProduct = ({
                     <Text bodyL color={"#919191"}>
                         {item.quantity} x
                     </Text>
-                    <Text bodyL>{item.name}</Text>
+                    <Text bodyL lineBreakMode={"middle"} style={{maxWidth:200}}>{item.name}</Text>
                 </View>
                 <Text bodyL bold>
                     RON {item.price}
