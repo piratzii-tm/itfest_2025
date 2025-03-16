@@ -137,7 +137,7 @@ export const RoomScreen = () => {
             }}
           >
             <Text bodyL white bold>
-              Finish
+              Continue to recap
             </Text>
           </TouchableOpacity>
         </View>

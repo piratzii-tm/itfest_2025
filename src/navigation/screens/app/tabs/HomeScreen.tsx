@@ -188,93 +188,77 @@ export const HomeScreen = () => {
     return <KPermission requestPermission={requestPermission} />;
   }
 
-  return (
-    <KContainer>
-      <KProfileHeader onAvatarPress={handleAvatarPress} />
-      <KSpacer h={30} />
-      <Text bodyXL bold style={{ paddingHorizontal: 10 }}>
-        Active Room:
-      </Text>
-      <Text bodyM light grey style={{ paddingHorizontal: 10 }}>
-        This room is the current opened room that you've joined or created.
-      </Text>
-      <View>
-        <FlatList
-          horizontal
-          data={rooms}
-          renderItem={({ item }) => {
-            const participants = Array.from(
-              Object.values(item.didMembersJoined),
-            )
-              .map((a) => {
-                const mem = Object.keys(a as any)[0];
-                if (item.membersIds.includes(mem)) {
-                  if (a[mem]) return mem;
-                }
-              })
-              .filter((a) => a);
 
-            return (
-              <KActivityCard
-                owner={item.owner}
-                onPress={() => navigate("RoomScreen", { room: item.id })}
-                title={item.bill.store}
-                participants={participants}
-              />
-            );
-          }}
-          contentContainerStyle={{ paddingVertical: 10 }}
-        />
-      </View>
-      <Text bodyXL bold style={{ paddingHorizontal: 10 }}>
-        Join Room:
-      </Text>
-      <Text bodyM light grey style={{ paddingHorizontal: 10 }}>
-        Share good times with friends by joining a room
-      </Text>
-      <KSpacer />
-      <KSpacer h={5} />
-      <KPhoneComp />
-      <KSpacer h={10} />
-      <View width={width} center>
-        <KQr />
-      </View>
-      {passedRoom.length > 0 && (
-        <>
-          <KSpacer h={20} />
-          <Text bodyXL bold style={{ paddingHorizontal: 10 }}>
-            Joined Rooms:
-          </Text>
-          <Text bodyM light grey style={{ paddingHorizontal: 10 }}>
-            Look over your passed splits
-          </Text>
-          <KSpacer />
-          <View>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={{ paddingHorizontal: 10, flexGrow: 1 }}
-            >
-              {passedRoom.map((room) => (
-                <TouchableOpacity
-                  onPress={() =>
-                    navigate("RecapScreen", { roomId: room.id, fromHome: true })
-                  }
-                  style={{ flexDirection: "row", gap: 8, marginRight: 10 }}
-                >
-                  <KJoinedRoom
-                    image={
-                      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    }
-                    roomName={room.bill.store}
-                  />
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-          </View>
-        </>
-      )}
-      <KSpacer h={100} />
+    return (
+        <KContainer>
+            <KProfileHeader
+                onAvatarPress={handleAvatarPress}
+            />
+            <KSpacer h={30}/>
+            <Text bodyXL bold darkerBlue style={{paddingHorizontal: 10}}>
+                Active Rooms:
+            </Text>
+            <Text bodyM light grey style={{paddingHorizontal: 10}}>
+                These rooms are the current opened rooms that you've joined or created.
+            </Text>
+            <View>
+                <FlatList showsHorizontalScrollIndicator={false} horizontal data={rooms} renderItem={({item}) => {
+                    const participants = Array.from(Object.values(item.didMembersJoined)).map((a) => {
+                        const mem = Object.keys(a as any)[0]
+                        if (item.membersIds.includes(mem)) {
+                            if (a[mem])
+                                return mem
+                        }
+                    }).filter(a => a)
+
+                    return <KActivityCard owner={item.owner} onPress={() => navigate("RoomScreen", {room: item.id})}
+                                          title={item.bill.store}
+                                          participants={participants} billTotal={item.bill.total} itemsNumber={item.bill.items.length}/>
+                }
+                }
+                contentContainerStyle={{paddingVertical:10}}
+                />
+            </View>
+            <Text bodyXL bold darkerBlue style={{paddingHorizontal: 10}}>
+                Join Room:
+            </Text>
+            <Text bodyM light grey style={{paddingHorizontal: 10}}>
+                Share good times with friends by joining a room
+            </Text>
+            <KSpacer/>
+            <KSpacer h={5}/>
+            <KPhoneComp/>
+            <KSpacer h={10}/>
+            <View width={width} center>
+                <KQr/>
+            </View>
+            {
+                passedRoom.length > 0 &&
+                <>
+                    <KSpacer h={20}/>
+                    <Text bodyXL bold darkerBlue style={{paddingHorizontal: 10}}>Joined Rooms:</Text>
+                    <Text bodyM light grey style={{paddingHorizontal: 10}}>
+                        Look over your passed splits
+                    </Text>
+                    <KSpacer/>
+                    <View>
+                        <ScrollView horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    style={{paddingHorizontal: 10, flexGrow: 1}}>
+                            {
+                                passedRoom.map((room, index) =>
+                                    <TouchableOpacity key={index} onPress={()=>navigate("RecapScreen",{roomId: room.id, fromHome: true})} style={{flexDirection: 'row', gap: 8, marginRight:10}}>
+                                        <KJoinedRoom
+                                            image={"https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
+                                            roomName={room.bill.store}/>
+                                    </TouchableOpacity>)
+                            }
+                        </ScrollView>
+                    </View>
+
+                </>
+            }
+            <KSpacer h={100}/>
 
       {/* CAMERA MODAL*/}
       <Modal visible={cameraVisible} animationType="slide">

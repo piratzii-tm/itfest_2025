@@ -59,11 +59,7 @@ export const KProduct = ({
     }, [distribution, item, roomId]);
 
     const handleAddMe = () => {
-        if (members?.includes(userId)) {
-
-        } else {
-            handleDistribution({roomId, id: userId, item});
-        }
+        handleDistribution({roomId, id: userId, item});
     };
 
     return (
@@ -76,7 +72,7 @@ export const KProduct = ({
                     <Text bodyL color={"#919191"}>
                         {item.quantity} x
                     </Text>
-                    <Text bodyL lineBreakMode={"middle"} style={{maxWidth:200}}>{item.name}</Text>
+                    <Text bodyL lineBreakMode={"middle"} style={{maxWidth: 200}}>{item.name}</Text>
                 </View>
                 <Text bodyL bold>
                     RON {item.price}
