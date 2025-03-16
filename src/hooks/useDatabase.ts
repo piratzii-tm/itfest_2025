@@ -169,7 +169,6 @@ export const useDatabase = () => {
             });
 
             return roomId;
-
             console.log("Room created successfully!");
         } catch (error) {
             console.error("Error creating room:", error);
@@ -353,6 +352,110 @@ export const useDatabase = () => {
         console.log("Item removed successfully");
     };
 
+    const sendPaymentNotification = async (
+        receiverId: string,
+        senderId: string,
+        amount: number
+    ) => {
+        const sender = await getUser({id: senderId});
+        const receiver = await getUser({id: receiverId});
+
+        if (!sender || !receiver) {
+            console.log("Sender or receiver not found");
+            return false;
+        }
+
+        const notificationContent = {
+            amount: amount,
+            inviterId: senderId,
+            inviterName: sender.name,
+        };
+
+        const notificationData = {
+            receiverID: receiverId,
+            title: "Debts are no good",
+            body: `Hello there, you still need to pay ${sender.name} their` +
+                ` ${amount} RON.`,
+            type: NotificationType.giveMoney,
+            timestamp: Date.now(),
+            content: notificationContent,
+        }
+
+        await handleNewNotification({
+            id: receiverId,
+            data: notificationData
+        });
+
+        if (receiver.pushTokens?.length) {
+            receiver.pushTokens.forEach((token: string) => {
+                sendPushNotification({
+                    expoPushToken: token,
+                    data: notificationContent,
+                    type: NotificationType.giveMoney
+                });
+            });
+            return true;
+        }
+
+        return false;
+    };
+
+    const sendAddedToRoomNotification = async (
+        receiverId: string,
+        senderId: string,
+        roomID: string,
+    )=> {
+        const sender = await getUser({id: senderId});
+        const receiver = await getUser({id: receiverId});
+
+        if (!sender || !receiver) {
+            console.log("Sender or receiver not found");
+            return false;
+        }
+
+        const notificationContent = {
+            inviterId: senderId,
+            inviterName: sender.name,
+            roomID: roomID,
+        };
+
+        const notificationData = {
+            receiverID: receiverId,
+            title: "You've been added to a room",
+            body: `Hello there, ${sender.name} has added you to a new room`,
+            type: NotificationType.roomInvite,
+            timestamp: Date.now(),
+            content: notificationContent,
+        };
+
+        await handleNewNotification({
+            id: receiverId,
+            data: notificationData
+        });
+
+
+        if (receiver.pushTokens?.length) {
+            receiver.pushTokens.forEach((token: string) => {
+                sendPushNotification({
+                    expoPushToken: token,
+                    data: notificationContent,
+                    type: NotificationType.roomInvite
+                });
+            });
+            return true;
+        }
+
+        return false;
+    };
+
+    const getNotifications = async( userId: string) => {
+        const user = await getUser({id: userId});
+        if (user && user.notifications) {
+            return user.notifications.sort((a: any, b: any) => b.timestamp - a.timestamp);
+        }
+        return [];
+    }
+
     return {
         initUser,
         registerPushToken,
@@ -365,6 +468,9 @@ export const useDatabase = () => {
         addRoomToUser,
         handleDistribution,
         handleRemoveItem,
-        addFriends
+        addFriends,
+        sendPaymentNotification,
+        sendAddedToRoomNotification,
+        getNotifications
     };
 };

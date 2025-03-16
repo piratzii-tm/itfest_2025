@@ -446,6 +446,7 @@ const styles = StyleSheet.create({
     margin: 10,
     backgroundColor: "#fff",
     borderRadius: 10,
+    marginBottom: 10,
   },
   friendName: { flex: 1, marginLeft: 10, fontSize: 16 },
   deleteButton: {
