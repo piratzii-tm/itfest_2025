@@ -12,20 +12,20 @@ const Path = {
 export const useDatabase = () => {
     const {sendPushNotification} = useNotifications();
 
-  const initUser = ({
-    id,
-    name,
-    phone,
-  }: {
-    id: string;
-    name: string;
-    phone:string;
-  }) => {
-    const userRef = ref(database, Path.users + id);
-    set(userRef, { id, name, phone, friends: ["IGNORE"] })
-      .then(() => console.log("User data added successfully!"))
-      .catch((error) => console.log("Error adding data: ", error));
-  };
+    const initUser = ({
+                          id,
+                          name,
+                          phone,
+                      }: {
+        id: string;
+        name: string;
+        phone: string;
+    }) => {
+        const userRef = ref(database, Path.users + id);
+        set(userRef, {id, name, phone, friends: ["IGNORE"]})
+            .then(() => console.log("User data added successfully!"))
+            .catch((error) => console.log("Error adding data: ", error));
+    };
 
     const registerPushToken = async ({
                                          id,
@@ -212,6 +212,146 @@ export const useDatabase = () => {
         }
     }
 
+    const addFriends = async ({id, owner}) => {
+        const user = await getUser({id})
+        const ownerUser = await getUser({id: owner})
+
+        let userFriend = user.friends || []
+        let ownerFriend = ownerUser.friends || []
+
+        if(!userFriend.includes(ownerUser.id)){
+            userFriend.push(ownerUser.id)
+        }
+
+        if(!ownerFriend.includes(user.id)){
+            ownerFriend.push(user.id)
+        }
+
+        const userRef = ref(database, Path.users + id);
+        const ownerRef = ref(database, Path.users + owner);
+
+        await set(userRef, {...user, friends: userFriend})
+        await set(ownerRef, {...ownerUser, friends: ownerFriend})
+
+
+    }
+
+    const handleDistribution = async ({id, roomId, item}: { id: string, roomId: string, item: any }) => {
+        let room = await getRoom({id: roomId})
+        let membersDistribution = room.membersDistribution
+        let memberDistribution = room.membersDistribution.find(distribution => Object.keys(distribution)[0] === id)
+
+        console.log(memberDistribution)
+
+        memberDistribution = {
+            [id]: (memberDistribution?.[id].filter(d => d !== "IGNORE") || [])
+        }
+
+        const itemsIdsInDistribution = memberDistribution?.[id].map(it => it.id)
+
+        if (!itemsIdsInDistribution.includes(item.id)) {
+            memberDistribution = {
+                [id]: ((memberDistribution?.[id]) ?? []).concat([item])
+            }
+        } else {
+            memberDistribution = {
+                [id]: ((memberDistribution?.[id]) ?? []).map((it) => it.id === item.id ? ({
+                    ...it,
+                    quantity: it.quantity + 1
+                }) : it)
+            }
+        }
+
+        membersDistribution = membersDistribution.map(dist=>{
+            const distrib = room.membersDistribution.find(distribution => Object.keys(distribution)[0] === id)
+            if(Object.keys(distrib)[0] === Object.keys(dist)[0]){
+                return memberDistribution
+            }
+            return dist
+        })
+
+        room.membersDistribution = membersDistribution
+
+        const roomRef = ref(database, Path.rooms + roomId)
+        set(roomRef, room)
+    }
+
+    const handleRemoveItem = async ({id, roomId, item}: { id: string, roomId: string, item: any }) => {
+        // First, get the current room data
+        let room = await getRoom({id: roomId});
+
+        // Get all member distributions
+        let membersDistribution = room.membersDistribution;
+
+        // Find the specific member's distribution
+        let memberDistribution = room.membersDistribution.find(
+            distribution => Object.keys(distribution)[0] === id
+        );
+
+        // If member distribution doesn't exist or is empty, nothing to remove
+        if (!memberDistribution || !memberDistribution[id]) {
+            console.log("No items to remove for this user");
+            return;
+        }
+
+        // Filter out "IGNORE" placeholder if it exists
+        memberDistribution = {
+            [id]: (memberDistribution[id].filter(d => d !== "IGNORE") || [])
+        };
+
+        // Find the item to remove
+        const userItems = memberDistribution[id];
+        const itemIndex = userItems.findIndex(it => it.id === item.id);
+
+        // If item not found, nothing to remove
+        if (itemIndex === -1) {
+            console.log("Item not found in user's distribution");
+            return;
+        }
+
+        // Check if the item has quantity > 1
+        if (userItems[itemIndex].quantity && userItems[itemIndex].quantity > 1) {
+            // Decrease quantity by 1
+            memberDistribution = {
+                [id]: userItems.map(it =>
+                    it.id === item.id
+                        ? { ...it, quantity: it.quantity - 1 }
+                        : it
+                )
+            };
+        } else {
+            // Remove the item completely
+            memberDistribution = {
+                [id]: userItems.filter(it => it.id !== item.id)
+            };
+
+            // If the user has no items after removal, add back the "IGNORE" placeholder
+            if (memberDistribution[id].length === 0) {
+                memberDistribution = {
+                    [id]: ["IGNORE"]
+                };
+            }
+        }
+
+        // Update the member's distribution in the full distribution array
+        membersDistribution = membersDistribution.map(dist => {
+            const userKey = Object.keys(dist)[0];
+            if (userKey === id) {
+                return memberDistribution;
+            }
+            return dist;
+        });
+
+        // Update the room with the new distribution
+        room.membersDistribution = membersDistribution;
+
+        // Save the changes to Firebase
+        const roomRef = ref(database, Path.rooms + roomId);
+        await set(roomRef, room);
+
+        console.log("Item removed successfully");
+    };
+
     const sendPaymentNotification = async (
         receiverId: string,
         senderId: string,
@@ -326,6 +466,9 @@ export const useDatabase = () => {
         getActiveRooms,
         getRoom,
         addRoomToUser,
+        handleDistribution,
+        handleRemoveItem,
+        addFriends,
         sendPaymentNotification,
         sendAddedToRoomNotification,
         getNotifications
