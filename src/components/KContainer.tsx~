@@ -35,7 +35,7 @@ export const KContainer = ({
           }}
         >
           {children}
-          <KSpacer h={60} />
+          <KSpacer h={40} />
         </ScrollView>
       </TouchableWithoutFeedback>
     </ImageBackground>

@@ -79,20 +79,20 @@ export const KLobbyControls = ({isFromFlow, roomId, isDeep, isOwner}: { isFromFl
             </TouchableOpacity>}
             {
                 isOwner && <View row centerV gap-10>
-                    {!isFromFlow  && <TouchableOpacity
-                        style={{
-                            backgroundColor: "white",
-                            width: 60,
-                            height: 40,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: 14,
-                        }}
-                    >
-                        <Text color={Colors.lightBlue} bold bodyM>
-                            Edit
-                        </Text>
-                    </TouchableOpacity>}
+                    {/*{!isFromFlow  && <TouchableOpacity*/}
+                    {/*    style={{*/}
+                    {/*        backgroundColor: "white",*/}
+                    {/*        width: 60,*/}
+                    {/*        height: 40,*/}
+                    {/*        justifyContent: "center",*/}
+                    {/*        alignItems: "center",*/}
+                    {/*        borderRadius: 14,*/}
+                    {/*    }}*/}
+                    {/*>*/}
+                    {/*    <Text color={Colors.lightBlue} bold bodyM>*/}
+                    {/*        Edit*/}
+                    {/*    </Text>*/}
+                    {/*</TouchableOpacity>}*/}
                     <TouchableOpacity onPress={onShare}>
                         <FontAwesomeIcon icon={faShareNodes} size={24}/>
                     </TouchableOpacity>
