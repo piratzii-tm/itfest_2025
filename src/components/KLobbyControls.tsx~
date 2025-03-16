@@ -15,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import Modal from "react-native-modal";
 import QRCode from "react-native-qrcode-svg";
-import { useState } from "react";
+import {  useState } from "react";
 
 type StackParamList = {
   HomeScreen: undefined;
