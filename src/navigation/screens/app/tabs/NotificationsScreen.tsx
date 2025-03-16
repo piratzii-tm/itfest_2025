@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { KContainer, KSpacer } from "../../../../components";
 import { View } from "react-native-ui-lib";
 import { ScrollView, TouchableOpacity, RefreshControl } from "react-native";
-import KNotification from "../../../../components/KNotification";
+import { KNotification } from "../../../../components/KNotification";
 import { Colors, Text } from "react-native-ui-lib";
 import { useDatabase } from "../../../../hooks";
 import { useAuth } from "../../../../hooks";
@@ -16,7 +16,6 @@ type Notification = {
   content: any;
   receiverID: string;
 };
-// TODO: Fix ScrollView(can't scroll in the middle due to KContainer -> TouchableWithoutFeedback)
 
 export const NotificationsScreen: React.FC = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -81,7 +80,7 @@ export const NotificationsScreen: React.FC = () => {
   };
 
   return (
-    <KContainer hasNavbar={true} extraBottom={80}>
+    <KContainer hasNavbar={true}>
       <ScrollView
         style={{ flex: 1, width: "100%" }}
         refreshControl={
