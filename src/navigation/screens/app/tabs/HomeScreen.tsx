@@ -20,6 +20,7 @@ import {AuthContext} from "../../../../store";
 import {KQr} from "../../../../components/KQr";
 import {KJoinedRoom} from "../../../../components/KJoinedRoom";
 import {ScrollView} from 'react-native';
+import {KPhoneComp} from "../../../../components/KPhoneComp";
 
 export const HomeScreen = () => {
     const [isImageLoading, setIsImageLoading] = useState(false);
@@ -209,6 +210,9 @@ export const HomeScreen = () => {
                 Share good times with friends by joining a room
             </Text>
             <KSpacer/>
+            <KSpacer h={5}/>
+            <KPhoneComp/>
+            <KSpacer h={10}/>
             <View width={width} center>
                 <KQr/>
             </View>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import {
   View,
   StyleSheet,
@@ -8,7 +8,7 @@ import {
   Animated,
 } from "react-native";
 import { Text } from "react-native-ui-lib";
-import {auth, Colors, database, Typographies} from "../constants";
+import { auth, Colors, database, Typographies } from "../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faPenToSquare,
@@ -16,24 +16,24 @@ import {
   faTimes,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import {useCamera, useDatabase} from "../hooks";
+import { useCamera, useDatabase } from "../hooks";
 import { AuthContext } from "../store";
-import {ref, update} from "firebase/database";
+import { ref, update } from "firebase/database";
 
 interface KProfileHeaderProps {
   onAvatarPress?: () => void;
 }
 
-const KProfileHeader = ({
-  onAvatarPress,
-}: KProfileHeaderProps) => {
+const KProfileHeader = ({ onAvatarPress }: KProfileHeaderProps) => {
   const [username, setUsername] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(username);
   const borderAnim = new Animated.Value(1);
   const { getUser } = useDatabase();
   const { uid } = useContext(AuthContext);
-  const {photo} = useCamera();
+  const { photo } = useCamera();
+
+  const inputRef = useRef<TextInput>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -66,9 +66,13 @@ const KProfileHeader = ({
       duration: 500,
       useNativeDriver: false,
     }).start();
+
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 100);
   };
 
-  const handleConfirm = async (newName:string) => {
+  const handleConfirm = async (newName: string) => {
     const user = auth.currentUser;
 
     if (!user) {
@@ -133,6 +137,7 @@ const KProfileHeader = ({
           ]}
         >
           <TextInput
+            ref={inputRef}
             style={styles.userNameInput}
             value={inputValue}
             onChangeText={setInputValue}
@@ -145,7 +150,7 @@ const KProfileHeader = ({
             <View style={styles.editButtonsContainer}>
               <TouchableOpacity
                 style={styles.editActionButton}
-                onPress={()=>handleConfirm(inputValue)}
+                onPress={() => handleConfirm(inputValue)}
               >
                 <FontAwesomeIcon
                   icon={faCheck}
