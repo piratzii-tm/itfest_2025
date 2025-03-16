@@ -44,6 +44,7 @@ export const HomeScreen = () => {
 
   const { setCameraRef, takePhoto, photo, setPhoto } = useCamera();
   const { getActiveRooms, getUser, getNonActiveRooms } = useDatabase();
+  const { sendPushNotification } = useNotifications();
   const { uid } = useContext(AuthContext);
   const [rooms, setRooms] = useState([]);
   const [passedRoom, setPassedRooms] = useState([]);
