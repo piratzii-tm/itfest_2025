@@ -16,9 +16,6 @@ export const KPhoneComp = () =>  {
     };
     return (
         <View style={{ padding: 20, alignItems: "center", backgroundColor: "white", borderRadius: 15, shadowColor: "#000", shadowOpacity: 0.1, shadowRadius: 10, elevation: 5, alignSelf: "center",   width: width - 20}}>
-            <View style={{width:'100%'}}>
-            <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10, textAlign:'left' }} lightBlue>Add New Friend</Text>
-            </View>
             <TextInput
                 style={{ borderWidth: 1, borderColor: "#ccc", borderRadius: 10, padding: 10, width: "100%", textAlign: "center", marginBottom: 10 }}
                 placeholder="Enter phone number"

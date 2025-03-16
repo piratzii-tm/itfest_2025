@@ -1,5 +1,10 @@
 import React, {useCallback, useContext, useEffect, useState} from "react";
-import {KContainer, KPermission, KSpacer} from "../../../../components";
+import {
+    KContainer,
+    KHistoryCard,
+    KPermission,
+    KSpacer
+} from "../../../../components";
 import {StyleSheet, TouchableOpacity, Modal, FlatList, useWindowDimensions} from "react-native";
 import {auth, Colors, Typographies} from "../../../../constants";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
@@ -210,9 +215,6 @@ export const HomeScreen = () => {
                 Share good times with friends by joining a room
             </Text>
             <KSpacer/>
-            <KSpacer h={5}/>
-            <KPhoneComp/>
-            <KSpacer h={10}/>
             <View width={width} center>
                 <KQr/>
             </View>
@@ -242,7 +244,30 @@ export const HomeScreen = () => {
 
                 </>
             }
-            <KSpacer h={100}/>
+            <KSpacer h={25}/>
+            <Text bodyXL bold darkerBlue style={{paddingHorizontal: 10}}>
+                Add New Friends:
+            </Text>
+            <Text bodyM light grey style={{paddingHorizontal: 10}}>
+                Add friends by entering their phone number
+            </Text>
+            <KSpacer />
+            <KPhoneComp/>
+            <KSpacer/>
+            <Text bodyXL bold darkerBlue style={{ paddingHorizontal: 10 }}>
+                History:
+            </Text>
+            <Text bodyM light grey style={{ paddingHorizontal: 10 }}>
+                See your activity and track your expenses
+            </Text>
+            <KSpacer />
+
+            <View style={styles.historyCard}>
+                <KHistoryCard
+                    roomId={passedRoom.length > 0 ? passedRoom[0].id : ""}
+                />
+            </View>
+            <KSpacer h={300}/>
 
             {/* CAMERA MODAL*/}
             <Modal visible={cameraVisible} animationType="slide">
@@ -389,5 +414,18 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginLeft: 20,
-    }
+    },
+    historyCard: {
+        flexDirection: "row",
+        alignItems: "center",
+        padding: 15,
+        marginHorizontal: 20,
+        backgroundColor: Colors.white,
+        borderRadius: 20,
+        shadowColor: Colors.darkGray,
+        shadowOffset: {width: 0, height: 6},
+        shadowOpacity: 0.15,
+        shadowRadius: 8,
+        elevation: 5,
+    },
 });
