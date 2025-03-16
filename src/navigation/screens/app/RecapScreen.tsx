@@ -2,7 +2,7 @@ import {KContainer, KSpacer} from "../../../components";
 import {View, Text} from "react-native-ui-lib";
 import {KEdgeSvg} from "../../../components/KEdgeSvg";
 import {KSittingInfo} from "../../../components/KSittingInfo";
-import {TextInput, TouchableOpacity, useWindowDimensions} from "react-native";
+import {TextInput, TouchableOpacity} from "react-native";
 import {Colors, database} from "../../../constants";
 import {useNavigation} from "@react-navigation/native";
 import {useContext, useEffect, useState} from "react";
@@ -31,7 +31,7 @@ export const RecapScreen = ({route}) => {
 
     const navigation = useNavigation();
 
-    const {handleChangePaid, handleChangeOwned, handleComplete, getUser} = useDatabase()
+    const {handleChangePaid, handleChangeOwned, handleComplete, getUser, closeRoom} = useDatabase()
     const {sendPushNotification} = useNotifications()
 
     useEffect(() => {
@@ -96,8 +96,6 @@ export const RecapScreen = ({route}) => {
 
         return () => unsubscribe();
     }, [roomId]);
-
-    console.log(roomId)
 
     const calculateTotal = (items) =>
         items.reduce((a, b) => a + b.price * b.quantity, 0);
@@ -209,22 +207,23 @@ export const RecapScreen = ({route}) => {
                                                         justifyContent: "center",
                                                         marginVertical: 1,
                                                     }}
-                                                > <View
-                                                    row
-                                                    style={{
-                                                        justifyContent: "space-between",
-                                                        width: "100%",
-                                                    }}
                                                 >
-                                                    <View width={"80%"}>
-                                                        <Text bodyL>
-                                                            {item.quantity} x {item.name}:
-                                                        </Text>
+                                                    <View
+                                                        row
+                                                        style={{
+                                                            justifyContent: "space-between",
+                                                            width: "100%",
+                                                        }}
+                                                    >
+                                                        <View width={"80%"}>
+                                                            <Text bodyL>
+                                                                {item.quantity} x {item.name}:
+                                                            </Text>
+                                                        </View>
+                                                        <View flexG>
+                                                            <Text bodyL>{`RON ${item.price}`}</Text>
+                                                        </View>
                                                     </View>
-                                                    <View flexG>
-                                                        <Text bodyL>RON {item.price}</Text>
-                                                    </View>
-                                                </View>
                                                 </View>
                                             ))
                                         ) : (
@@ -262,14 +261,7 @@ export const RecapScreen = ({route}) => {
                     width={"100%"}
                 >
                     <Text bodyL bold white>
-                        Total:{" "}
-                        {userData
-                            .reduce(
-                                (totalSum, user) => totalSum + calculateTotal(user.items),
-                                0,
-                            )
-                            .toFixed(2)}{" "}
-                        RON
+                        {`Total: ${userData.reduce((totalSum, user) => totalSum + calculateTotal(user.items), 0,).toFixed(2)} RON`}
                     </Text>
                 </View>
                 {!fromHome && roomData.owner === uid && (
@@ -281,14 +273,15 @@ export const RecapScreen = ({route}) => {
                             paddingVertical: 12,
                         }}
                         onPress={() => {
-                            reset({
-                                index: 0,
-                                routes: [{name: "Tabs"}],
-                            });
+                            closeRoom({id: roomId}).then(() =>
+                                reset({
+                                    index: 0,
+                                    routes: [{name: "Tabs"}],
+                                }))
                         }}
                     >
                         <Text bodyL bold color={Colors.lightBlue}>
-                            End Room
+                            Close Room
                         </Text>
                     </TouchableOpacity>
                 )}
@@ -310,7 +303,7 @@ export const RecapScreen = ({route}) => {
                             disabled={(total - alreadyPaid) === 0}
                             onPress={async () => {
                                 console.log(selectedFriend.id)
-                                getUser({id:uid}).then(currentUser => getUser({id:selectedFriend.id}).then((fullFriend) => fullFriend.pushTokens.forEach(token => {
+                                getUser({id: uid}).then(currentUser => getUser({id: selectedFriend.id}).then((fullFriend) => fullFriend.pushTokens.forEach(token => {
                                     console.log(token)
                                     sendPushNotification({
                                         expoPushToken: token,
@@ -321,11 +314,11 @@ export const RecapScreen = ({route}) => {
                                         },
                                         type: NotificationType.giveMoney
                                     })
-                                })))
+                                }))).then(() => setIsVisible(false))
 
                             }}
                             style={{
-                                backgroundColor:(total - alreadyPaid) === 0 ?  Colors.grey:Colors.lightBlue,
+                                backgroundColor: (total - alreadyPaid) === 0 ? Colors.grey : Colors.lightBlue,
                                 paddingVertical: 10,
                                 borderRadius: 10,
                                 width: "100%",
@@ -414,7 +407,13 @@ export const RecapScreen = ({route}) => {
                                 alignItems: "center",
                                 justifyContent: "center",
                             }}
-                            onPress={() => handleChangePaid({id: selectedFriend.id, roomId: roomId, amount: paidEdit})}
+                            onPress={() => {
+                                handleChangePaid({
+                                    id: selectedFriend.id,
+                                    roomId: roomId,
+                                    amount: paidEdit
+                                }).then(() => setIsVisible(false))
+                            }}
 
                         >
                             <Text bodyL white bold>
@@ -425,7 +424,7 @@ export const RecapScreen = ({route}) => {
                     <View width={"100%"}>
                         <TouchableOpacity
                             onPress={() => {
-                                handleComplete({id: selectedFriend.id, roomId: roomId})
+                                handleComplete({id: selectedFriend.id, roomId: roomId}).then(() => setIsVisible(false))
                             }}
                             style={{
                                 backgroundColor: "#77DD77",

@@ -277,7 +277,7 @@ export const useDatabase = () => {
 
         // If member distribution doesn't exist, create it
         if (!memberDistribution) {
-            memberDistribution = { [id]: [] };
+            memberDistribution = {[id]: []};
             membersDistribution.push(memberDistribution);
         }
 
@@ -435,9 +435,9 @@ export const useDatabase = () => {
         console.log("Item removed successfully");
     };
 
-    const handleChangePaid = async ({ id, roomId, amount }: { id: string, roomId: string, amount: number }) => {
+    const handleChangePaid = async ({id, roomId, amount}: { id: string, roomId: string, amount: number }) => {
         // Fetch room data
-        let room = await getRoom({ id: roomId });
+        let room = await getRoom({id: roomId});
 
         // Ensure usersTotal exists
         if (!room.usersTotal) {
@@ -445,7 +445,7 @@ export const useDatabase = () => {
         }
 
         // Get user's financial data or default values
-        let userTotalData = room.usersTotal[id] || { total: 0, paid: 0, owned: 0 };
+        let userTotalData = room.usersTotal[id] || {total: 0, paid: 0, owned: 0};
 
         // Update paid amount
         userTotalData.paid = amount;
@@ -466,9 +466,9 @@ export const useDatabase = () => {
         console.log("Paid amount updated successfully");
     };
 
-    const handleChangeOwned = async ({ id, roomId, amount }: { id: string, roomId: string, amount: number }) => {
+    const handleChangeOwned = async ({id, roomId, amount}: { id: string, roomId: string, amount: number }) => {
         // Fetch room data
-        let room = await getRoom({ id: roomId });
+        let room = await getRoom({id: roomId});
 
         // Ensure usersTotal exists
         if (!room.usersTotal) {
@@ -476,7 +476,7 @@ export const useDatabase = () => {
         }
 
         // Get user's financial data or default values
-        let userTotalData = room.usersTotal[id] || { total: 0, paid: 0, owned: 0 };
+        let userTotalData = room.usersTotal[id] || {total: 0, paid: 0, owned: 0};
 
         // Ensure the deduction amount is valid
         if (amount > Math.abs(userTotalData.owned)) {
@@ -498,14 +498,14 @@ export const useDatabase = () => {
         console.log("Owned amount updated successfully");
     };
 
-    const handleComplete = async ({ id, roomId, amount }: { id: string, roomId: string }) => {
-        let room = await getRoom({ id: roomId });
+    const handleComplete = async ({id, roomId}: { id: string, roomId: string }) => {
+        let room = await getRoom({id: roomId});
 
         if (!room.usersTotal) {
             room.usersTotal = {};
         }
 
-        let userTotalData = room.usersTotal[id] || { total: 0, paid: 0, owned: 0 };
+        let userTotalData = room.usersTotal[id] || {total: 0, paid: 0, owned: 0};
 
         userTotalData.owned = 0;
         userTotalData.paid = userTotalData.total;
@@ -624,6 +624,17 @@ export const useDatabase = () => {
         return [];
     };
 
+    const closeRoom = async ({id}: { id: number }) => {
+        const roomRef = ref(database, Path.rooms + id)
+        const snap = await get(roomRef)
+
+        if (snap.exists()) {
+            const value = snap.val()
+            value.active = false
+            set(roomRef, value)
+        }
+    }
+
     return {
         initUser,
         registerPushToken,
@@ -642,6 +653,7 @@ export const useDatabase = () => {
         getNonActiveRooms,
         handleChangePaid,
         handleChangeOwned,
-        handleComplete
+        handleComplete,
+        closeRoom
     };
 };
