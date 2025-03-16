@@ -22,17 +22,17 @@ interface KActivityCardProps {
     onPress?: () => void;
     title: string;
     owner: string;
+    billTotal: string;
+    itemsNumber: string;
 }
 
 const KActivityCard: React.FC<KActivityCardProps> = ({
                                                          participants,
                                                          onPress,
                                                          title,
-                                                         owner
+                                                         owner,
+                                                         billTotal, itemsNumber
                                                      }) => {
-    // Default avatar if missing
-    const defaultAvatar =
-        "https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/batman-icon.png";
 
     const totalParticipants = participants?.length || 0;
     const displayedParticipants = participants?.slice(0, 4) || [];
@@ -95,21 +95,35 @@ const KActivityCard: React.FC<KActivityCardProps> = ({
             <Animated.View
                 style={[
                     styles.card,
-                    {
-                        shadowOpacity: animatedShadowOpacity,
-                        borderColor: animatedBorderColor,
-                    },
+                    // {
+                    //     shadowOpacity: animatedShadowOpacity,
+                    //     borderColor: animatedBorderColor,
+                    // },
                 ]}
             >
                 <View row gap-4 centerV>
-                    <Text bodyL semiBold white>
+                    <Text bodyXL semiBold white>
                         {username}'s room
                     </Text>
-                    <Text bodyM regular white>
+                    <Text bodyM regular white ellipsizeMode={"tail"}>
                         @ {title}
                     </Text>
                 </View>
+                <KSpacer h={5}/>
+                <View row>
+                    <Text lightBlue semiBold>
+                        Bill total: <Text regular white>RON {billTotal}</Text>
+                    </Text>
+                    <KSpacer h={5}/>
+                    <Text lightBlue semiBold>
+                        Items: <Text regular white> {itemsNumber}</Text>
+                    </Text>
+                </View>
                 <KSpacer/>
+                <View bg-white90 style={{width:"100%", height:2, borderRadius:10 }}/>
+                <KSpacer/>
+                <Text white semiBold bodyL>Joined participants:</Text>
+                <KSpacer />
                 <View style={styles.participantsRow}>
                     {displayedParticipants.map((item, index) => {
                             return <View key={index} style={styles.participantContainer}>
@@ -135,15 +149,14 @@ const KActivityCard: React.FC<KActivityCardProps> = ({
                             </View>
                         }
                     )}
-
                     {remainingParticipantsCount > 0 && (
                         <View style={styles.participantContainer}>
                             <Animated.View
                                 style={[
                                     styles.moreParticipantsContainer,
-                                    {
-                                        shadowOpacity: animatedShadowOpacity,
-                                    },
+                                    // {
+                                    //     shadowOpacity: animatedShadowOpacity,
+                                    // },
                                 ]}
                             >
                                 <Text style={styles.moreParticipantsText}>

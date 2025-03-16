@@ -68,8 +68,11 @@ export const KQr = () => {
                         }}
                     />
                     <View style={{flex: 1, flexDirection: "row", flexWrap: "wrap"}}>
-                        <Text bodyL semiBold style={{flexShrink: 1}}>
-                            Scan the QR Code to join a room with your friends.
+                        <Text heading bold style={{flexShrink: 1}}>
+                            Scan QR
+                        </Text>
+                        <Text body regular grey style={{flexShrink: 1}}>
+                            Scan the room's QR code and enjoy the seamless experience of splitting the bill
                         </Text>
                     </View>
                 </View>

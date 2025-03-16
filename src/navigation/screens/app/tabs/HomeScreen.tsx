@@ -178,14 +178,14 @@ export const HomeScreen = () => {
                 onAvatarPress={handleAvatarPress}
             />
             <KSpacer h={30}/>
-            <Text bodyXL bold style={{paddingHorizontal: 10}}>
-                Active Room:
+            <Text bodyXL bold darkerBlue style={{paddingHorizontal: 10}}>
+                Active Rooms:
             </Text>
             <Text bodyM light grey style={{paddingHorizontal: 10}}>
-                This room is the current opened room that you've joined or created.
+                These rooms are the current opened rooms that you've joined or created.
             </Text>
             <View>
-                <FlatList horizontal data={rooms} renderItem={({item}) => {
+                <FlatList showsHorizontalScrollIndicator={false} horizontal data={rooms} renderItem={({item}) => {
                     const participants = Array.from(Object.values(item.didMembersJoined)).map((a) => {
                         const mem = Object.keys(a as any)[0]
                         if (item.membersIds.includes(mem)) {
@@ -196,13 +196,13 @@ export const HomeScreen = () => {
 
                     return <KActivityCard owner={item.owner} onPress={() => navigate("RoomScreen", {room: item.id})}
                                           title={item.bill.store}
-                                          participants={participants}/>
+                                          participants={participants} billTotal={item.bill.total} itemsNumber={item.bill.items.length}/>
                 }
                 }
                 contentContainerStyle={{paddingVertical:10}}
                 />
             </View>
-            <Text bodyXL bold style={{paddingHorizontal: 10}}>
+            <Text bodyXL bold darkerBlue style={{paddingHorizontal: 10}}>
                 Join Room:
             </Text>
             <Text bodyM light grey style={{paddingHorizontal: 10}}>
@@ -216,7 +216,7 @@ export const HomeScreen = () => {
                 passedRoom.length > 0 &&
                 <>
                     <KSpacer h={20}/>
-                    <Text bodyXL bold style={{paddingHorizontal: 10}}>Joined Rooms:</Text>
+                    <Text bodyXL bold darkerBlue style={{paddingHorizontal: 10}}>Joined Rooms:</Text>
                     <Text bodyM light grey style={{paddingHorizontal: 10}}>
                         Look over your passed splits
                     </Text>
