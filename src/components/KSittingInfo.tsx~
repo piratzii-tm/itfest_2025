@@ -16,7 +16,7 @@ export const KSittingInfo = ({
       <Text heading bold style={{ textAlign: "center" }}>
         {restaurantName}
       </Text>
-      <Text marginT-5 body color={"#919191"} style={{ textAlign: "center" }}>
+      <Text marginT-5 body color={"#919191"} style={{textAlign:"center"}}>
         {date} - {hour}
       </Text>
     </View>
