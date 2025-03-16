@@ -130,27 +130,13 @@ export const NotificationsScreen: React.FC = () => {
             />
           </View>
           <KSpacer h={20} />
-
-          <TouchableOpacity
-            onPress={testNotification}
-            style={{
-              backgroundColor: Colors.darkBlue,
-              padding: 10,
-              borderRadius: 5,
-              marginTop: 10,
-            }}
-          >
-            <Text white center>
-              Send Test
-            </Text>
-          </TouchableOpacity>
           {notifications.length > 0 ? (
             notifications.map((notification, index) => (
               <React.Fragment key={index}>
                 <KNotification
                   title={notification.title}
-                  description={notification.body}
-                  time={formatTime(notification.timestamp)}
+                  description={notification.description || notification.body}
+                  time={formatTime(notification.timestamp ?? new Date())}
                   image={getImageForNotificationType(notification.type)}
                 />
                 {index < notifications.length - 1 && <KSpacer h={15} />}
