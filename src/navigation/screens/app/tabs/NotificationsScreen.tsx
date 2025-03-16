@@ -1,12 +1,14 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useState, useEffect} from "react";
 import {KContainer, KSpacer} from "../../../../components";
 import {View} from "react-native-ui-lib";
 import {ScrollView, TouchableOpacity, RefreshControl} from "react-native";
-import { KNotification } from "../../../../components/KNotification";
+import {KNotification} from "../../../../components/KNotification";
 import { Text} from "react-native-ui-lib";
 import {useDatabase} from "../../../../hooks";
-import {auth, Colors} from "../../../../constants";
+import {auth, database, Colors} from "../../../../constants";
+import {ref, push} from "firebase/database";
 import {useNavigation} from "@react-navigation/native";
+import moment from "moment";
 
 type Notification = {
     title: string;
@@ -22,11 +24,11 @@ export const NotificationsScreen: React.FC = () => {
     const [refreshing, setRefreshing] = useState(false);
     const {
         getNotifications,
-        sendAddedToRoomNotification,
-        sendPaymentNotification,
+        addFriends
     } = useDatabase();
     const uid = auth.currentUser?.uid;
-    const {navigate} = useNavigation()
+    const {getUser} = useDatabase();
+    const {navigate} = useNavigation();
 
     const fetchNotifications = async () => {
         if (uid) {
@@ -121,26 +123,41 @@ export const NotificationsScreen: React.FC = () => {
                     </View>
                     <KSpacer h={20}/>
                     {notifications.length > 0 ? (
-                        notifications.map((notification, index) => {
-                            console.log(notification)
+                        notifications.sort((t1, t2) => {
+                            let p1 = t1.timestamp ?? (new Date()).setDate((new Date()).getDate() - 5)
+                            let p2 = t2.timestamp ?? (new Date()).setDate((new Date()).getDate() - 5)
+                            return moment(p1).isBefore(p2) ? 1 : -1
+                        }).map((notification, index) => {
+                            console.log(notification);
                             return (
-                                <TouchableOpacity key={index}
-                                                  onPress={() => {
-                                                      if ((notification.data || notification.content).roomId) {
-                                                          navigate("RoomScreen", {room: (notification.data || notification.content).roomId})
-                                                      } else {
-                                                          alert("Room not available")
-                                                      }
-                                                  }}>
+                                <TouchableOpacity
+                                    key={index}
+                                    onPress={async () => {
+                                        if (notification.title === "New friend invite" && uid) {
+                                            getUser({id: uid}).then(userInfo => getUser({
+                                                id: notification.receiverID || notification.data.inviteId,
+                                            }).then(friendInfo => addFriends({
+                                                id: userInfo.id, owner: friendInfo.id
+                                            }).then(()=>alert("Happy new friends!"))))
+                                        } else if ((notification.data || notification.content).roomId) {
+                                            navigate("RoomScreen", {
+                                                room: (notification.data || notification.content)
+                                                    .roomId,
+                                            });
+                                        } else {
+                                            alert("Room not available");
+                                        }
+                                    }}
+                                >
                                     <KNotification
                                         title={notification.title}
                                         description={notification.description || notification.body}
-                                        time={formatTime(notification.timestamp ?? new Date())}
+                                        time={formatTime(notification.timestamp ?? (new Date()).setDate((new Date()).getDate() - 5))}
                                         image={getImageForNotificationType(notification.type)}
                                     />
                                     {index < notifications.length - 1 && <KSpacer h={15}/>}
                                 </TouchableOpacity>
-                            )
+                            );
                         })
                     ) : (
                         <Text bodyL center>
