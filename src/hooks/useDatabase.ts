@@ -203,6 +203,20 @@ export const useDatabase = () => {
     }
   };
 
+    const getNonActiveRooms = async ({ id }: { id: string }) => {
+        const user = await getUser({ id });
+
+        if (user) {
+            const roomsId = user.rooms;
+            const rooms = await Promise.all(
+                roomsId.map(async (roomId: string) => {
+                    return await getRoom({ id: roomId });
+                }),
+            );
+            return rooms.filter((room) => !room.active);
+        }
+    };
+
   const addRoomToUser = async ({ id, room }: { id: string; room: string }) => {
     const user = await getUser({ id });
     const roomObj = await getRoom({ id: room });
@@ -477,5 +491,6 @@ export const useDatabase = () => {
         addFriends,sendPaymentNotification,
     sendAddedToRoomNotification,
     getNotifications,
+      getNonActiveRooms,
   };
 };

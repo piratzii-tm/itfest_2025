@@ -1,6 +1,6 @@
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import {KContainer, KPermission, KSpacer} from "../../../../components";
-import {View, StyleSheet, TouchableOpacity, Modal, FlatList} from "react-native";
+import {StyleSheet, TouchableOpacity, Modal, FlatList, useWindowDimensions} from "react-native";
 import {auth, Colors, Typographies} from "../../../../constants";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faTimes, faCamera, faCameraRotate} from "@fortawesome/free-solid-svg-icons";
@@ -11,13 +11,15 @@ import {CameraType, CameraView, useCameraPermissions} from "expo-camera";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import KProfileHeader from "../../../../components/KProfileHeader";
 import KActivityCard from "../../../../components/KActivityCard";
-import {Text} from "react-native-ui-lib";
+import {Text, View} from "react-native-ui-lib";
 import {getDownloadURL, ref, uploadBytes} from "firebase/storage";
 import {set, ref as dbRef, onValue, off} from "firebase/database";
 import {storage, database} from "../../../../constants";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import {AuthContext} from "../../../../store";
 import {KQr} from "../../../../components/KQr";
+import {KJoinedRoom} from "../../../../components/KJoinedRoom";
+import {ScrollView} from 'react-native';
 
 export const HomeScreen = () => {
     const [isImageLoading, setIsImageLoading] = useState(false);
@@ -29,11 +31,13 @@ export const HomeScreen = () => {
     const {bottom} = useSafeAreaInsets();
 
     const {setCameraRef, takePhoto, photo, setPhoto} = useCamera();
-    const {getActiveRooms, getUser} = useDatabase()
+    const {getActiveRooms, getUser, getNonActiveRooms} = useDatabase()
     const {uid} = useContext(AuthContext)
     const [rooms, setRooms] = useState([])
+    const [passedRoom, setPassedRooms] = useState([])
     const {navigate} = useNavigation()
     const [user, setUser] = useState(null)
+    const {width} = useWindowDimensions()
 
     useEffect(() => {
         if (photo) {
@@ -45,12 +49,14 @@ export const HomeScreen = () => {
     useEffect(() => {
         getUser({id: uid}).then(setUser)
         getActiveRooms({id: uid}).then(setRooms)
+        getNonActiveRooms({id: uid}).then(setPassedRooms)
     }, [uid]);
 
     useFocusEffect(
         useCallback(() => {
             getUser({id: uid}).then(setUser)
             getActiveRooms({id: uid}).then(setRooms)
+            getNonActiveRooms({id: uid}).then(setPassedRooms)
         }, [])
     )
 
@@ -146,31 +152,61 @@ export const HomeScreen = () => {
             <Text bodyM light grey style={{paddingHorizontal: 10}}>
                 This room is the current opened room that you've joined or created.
             </Text>
-            <KSpacer h={5}/>
             <View>
                 <FlatList horizontal data={rooms} renderItem={({item}) => {
                     const participants = Array.from(Object.values(item.didMembersJoined)).map((a) => {
                         const mem = Object.keys(a as any)[0]
                         if (item.membersIds.includes(mem)) {
-                            if(a[mem])
+                            if (a[mem])
                                 return mem
                         }
-                    }).filter(a=>a)
+                    }).filter(a => a)
 
                     return <KActivityCard owner={item.owner} onPress={() => navigate("RoomScreen", {room: item.id})}
                                           title={item.bill.store}
                                           participants={participants}/>
                 }
-                }/>
+                }
+                contentContainerStyle={{paddingVertical:10}}
+                />
             </View>
-            <KSpacer h={10}/>
             <Text bodyXL bold style={{paddingHorizontal: 10}}>
                 Join Room:
             </Text>
             <Text bodyM light grey style={{paddingHorizontal: 10}}>
-                Use one of the below options to join.
+                Share good times with friends by joining a room
             </Text>
-            <KQr/>
+            <KSpacer/>
+            <View width={width} center>
+                <KQr/>
+            </View>
+            {
+                passedRoom.length > 0 &&
+                <>
+                    <KSpacer h={20}/>
+                    <Text bodyXL bold style={{paddingHorizontal: 10}}>Joined Rooms:</Text>
+                    <Text bodyM light grey style={{paddingHorizontal: 10}}>
+                        Look over your passed splits
+                    </Text>
+                    <KSpacer/>
+                    <View>
+                        <ScrollView horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    style={{paddingHorizontal: 10, flexGrow: 1}}>
+                            {
+                                passedRoom.map(room =>
+                                    <TouchableOpacity onPress={()=>navigate("RecapScreen",{roomId: room.id, fromHome: true})} style={{flexDirection: 'row', gap: 8, marginRight:10}}>
+                                        <KJoinedRoom
+                                            image={"https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
+                                            roomName={room.bill.store}/>
+                                    </TouchableOpacity>)
+                            }
+                        </ScrollView>
+                    </View>
+
+                </>
+            }
+            <KSpacer h={100}/>
 
             {/* CAMERA MODAL*/}
             <Modal visible={cameraVisible} animationType="slide">
@@ -199,6 +235,7 @@ export const HomeScreen = () => {
                     </View>
                 </CameraView>
             </Modal>
+            <KSpacer h={20}/>
         </KContainer>
     );
 };
