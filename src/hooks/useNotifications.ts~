@@ -94,7 +94,11 @@ export const useNotifications = () => {
     type,
   }: {
     expoPushToken: string;
-    data: RoomNotificationData | PaymentNotificationData | FriendRequestNotificationData | any;
+    data:
+      | RoomNotificationData
+      | PaymentNotificationData
+      | FriendRequestNotificationData
+      | any;
     type: String;
   }) => {
     const builtData = buildNotification({ data, type });

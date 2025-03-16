@@ -18,7 +18,7 @@ type PaymentNotificationData = {
   inviterName: string;
 };
 
-type FriendRequestNotificationData = {
+export type FriendRequestNotificationData = {
   inviterId: string;
   inviterName: string;
 };

@@ -20,6 +20,27 @@ export const KPhoneComp = () => {
     return romanianPhoneRegex.test(number);
   };
 
+  const isAlreadyFriend = async (friendId: string) => {
+    const userId = auth.currentUser?.uid;
+
+    if (userId) {
+      const userRef = ref(database, `users/${userId}/friends`);
+      const snapshot = await get(userRef);
+      if (snapshot.exists()) {
+        const friends = snapshot.val();
+        if (friends) {
+          for (const id of friends) {
+            if (id === friendId) {
+              alert("User already a friend");
+              return true;
+            }
+          }
+        }
+      }
+    }
+    return false;
+  };
+
   const isNumberInDb = async () => {
     const dbRef = ref(database, "users");
 
@@ -30,6 +51,11 @@ export const KPhoneComp = () => {
         const user: any = Object.values(users).find(
           (user: any) => user.phone === phone,
         );
+
+        const isFriend = await isAlreadyFriend(user.id);
+        if (isFriend) {
+          return;
+        }
 
         if (user) {
           return Object.values(user.pushTokens);

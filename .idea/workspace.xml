@@ -8,7 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/KPhoneComp.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KPhoneComp.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hooks/useNotifications.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useNotifications.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/tabs/HomeScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/HomeScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/tabs/NotificationsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/NotificationsScreen.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
