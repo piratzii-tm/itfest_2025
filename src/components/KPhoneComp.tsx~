@@ -38,8 +38,7 @@ export const KPhoneComp = () => {
         }
       }
     }
-      return false;
-      
+    return false;
   };
 
   const isNumberInDb = async () => {
