@@ -79,7 +79,7 @@ export const KProduct = ({
                     <Text bodyL>{item.name}</Text>
                 </View>
                 <Text bodyL bold>
-                    ${item.price}
+                    RON {item.price}
                 </Text>
             </View>
             <View margin-10 row gap-10 style={{flexWrap: "wrap"}}>

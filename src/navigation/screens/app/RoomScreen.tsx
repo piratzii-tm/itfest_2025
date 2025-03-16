@@ -1,15 +1,15 @@
-import { KContainer, KSpacer } from "../../../components";
-import { View, Text } from "react-native-ui-lib";
-import { KLobbyControls } from "../../../components/KLobbyControls";
-import { KEdgeSvg } from "../../../components/KEdgeSvg";
-import { KSittingInfo } from "../../../components/KSittingInfo";
-import { KProduct } from "../../../components/KProduct";
-import { useContext, useEffect, useMemo, useState} from "react";
-import {Item } from "../../../constants/types";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { ActivityIndicator, Button, TouchableOpacity } from "react-native";
-import { Colors , database} from "../../../constants";
-import { useDatabase } from "../../../hooks";
+import {KContainer, KSpacer} from "../../../components";
+import {View, Text} from "react-native-ui-lib";
+import {KLobbyControls} from "../../../components/KLobbyControls";
+import {KEdgeSvg} from "../../../components/KEdgeSvg";
+import {KSittingInfo} from "../../../components/KSittingInfo";
+import {KProduct} from "../../../components/KProduct";
+import {useContext, useEffect, useMemo, useState} from "react";
+import {Item} from "../../../constants/types";
+import {useNavigation, useRoute} from "@react-navigation/native";
+import {ActivityIndicator, Button, TouchableOpacity} from "react-native";
+import {Colors, database} from "../../../constants";
+import {useDatabase} from "../../../hooks";
 import {AuthContext} from "../../../store";
 import {onValue, ref, off, set} from "firebase/database";
 
@@ -17,7 +17,7 @@ export const RoomScreen = () => {
     const [scannedObject, setScannedObject] = useState(null);
     const [room, setRoom] = useState(null);
     const {params} = useRoute();
-    const {reset} = useNavigation()
+    const {reset, navigate} = useNavigation()
     const {getRoom, addRoomToUser, addFriends} = useDatabase()
     const {uid} = useContext(AuthContext)
 
@@ -78,65 +78,69 @@ export const RoomScreen = () => {
                 isDeep={isDeep}
                 isOwner={(room?.owner ?? "") === uid}
             />
-            {scannedObject ?(
-        <View marginH-10>
-          <KEdgeSvg />
-          <View
-            style={{
-              backgroundColor: "#fff",
-              marginTop: -15,
-              alignItems: "center",
-            }}
-          >
-            <KSittingInfo
-              restaurantName={scannedObject?.store || "Unknown Store"}
-              date={scannedObject?.date || "Unknown Date"}
-              hour={"11:00 AM"}
-            />
-            <View paddingH-15 paddingV-10 width={"100%"} gap-10>
-              {renderProducts()}
-            </View>
-          </View>
-        </View>
-      ) : (
-        <ActivityIndicator />
-      )}
-      {fromFlow && (
-        <>
-          <KSpacer />
-          <TouchableOpacity
-            style={{
-              backgroundColor: Colors.lightBlue,
-              width: "90%",
-              height: 50,
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 10,
-              alignSelf: "center",
-            }}
-            onPress={() => {
-              navigation.navigate("RecapScreen");
-            }}
-          >
-            <Text bodyL white bold>
-              Finish
-            </Text>
-          </TouchableOpacity>
-          <View center marginT-10 row gap-3>
-            <Text style={{ fontSize: 14 }}>Don't want to finish now?</Text>
-            <TouchableOpacity
-              onPress={() => {
-                reset({
-                  index: 0,
-                  routes: [{ name: "Tabs" }],
-                });
-              }}
-            >
-              <Text color={Colors.lightBlue}>Go to homepage</Text>
-            </TouchableOpacity>
-          </View>
-        </>
-      )}
-    </KContainer>
+            {scannedObject ? (
+                <View marginH-10>
+                    <KEdgeSvg/>
+                    <View
+                        style={{
+                            backgroundColor: "#fff",
+                            marginTop: -15,
+                            alignItems: "center",
+                        }}
+                    >
+                        <KSittingInfo
+                            restaurantName={scannedObject?.store || "Unknown Store"}
+                            date={scannedObject?.date || "Unknown Date"}
+                            hour={"11:00 AM"}
+                        />
+                        <View paddingH-15 paddingV-10 width={"100%"} gap-10>
+                            {renderProducts()}
+                        </View>
+                    </View>
+                </View>
+            ) : (
+                <ActivityIndicator/>
+            )}
+            {(room?.owner ?? "") === uid
+                &&
+                <>
+                    <KSpacer/>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: Colors.lightBlue,
+                            width: "90%",
+                            height: 50,
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: 10,
+                            alignSelf: "center",
+                        }}
+                        onPress={() => {
+                            navigate("RecapScreen", {roomId: roomId});
+                        }}
+                    >
+                        <Text bodyL white bold>
+                            Finish
+                        </Text>
+                    </TouchableOpacity></>
+            }
+            {fromFlow && (
+                <>
+                    <View center marginT-10 row gap-3>
+                        <Text style={{fontSize: 14}}>Don't want to finish now?</Text>
+                        <TouchableOpacity
+                            onPress={() => {
+                                reset({
+                                    index: 0,
+                                    routes: [{name: "Tabs"}],
+                                });
+                            }}
+                        >
+                            <Text color={Colors.lightBlue}>Go to homepage</Text>
+                        </TouchableOpacity>
+                    </View>
+                </>
+            )}
+        </KContainer>
     );
 };
