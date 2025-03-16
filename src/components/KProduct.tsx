@@ -76,7 +76,7 @@ export const KProduct = ({
                     <Text bodyL color={"#919191"}>
                         {item.quantity} x
                     </Text>
-                    <Text bodyL>{item.name}</Text>
+                    <Text bodyL lineBreakMode={"middle"} style={{maxWidth:200}}>{item.name}</Text>
                 </View>
                 <Text bodyL bold>
                     RON {item.price}
@@ -85,7 +85,7 @@ export const KProduct = ({
             <View margin-10 row gap-10 style={{flexWrap: "wrap"}}>
                 {
                     members?.map((member, index) => (
-                        <TouchableOpacity onPress={() => handleRemoveItem({roomId, id: userId, item})}>
+                        <TouchableOpacity key={index} onPress={() => handleRemoveItem({roomId, id: userId, item})}>
                             <View
                                 key={`member-${index}`}
                                 style={styles.profilePic}

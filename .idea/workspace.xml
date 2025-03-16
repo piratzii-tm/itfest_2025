@@ -5,25 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c35ba6de-1824-4328-9547-eba66ce314e1" name="Changes" comment="Implement component for header homescreen">
-      <change afterPath="$PROJECT_DIR$/assets/dollar-check-icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/user-line-icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/user-plus-icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/navigation/screens/app/RecapScreen.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/KActivityCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KActivityCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/KContainer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KContainer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/KLobbyControls.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KLobbyControls.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/KNotification.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KNotification.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/KProduct.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KProduct.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useCamera.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useCamera.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useDatabase.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useDatabase.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/navigation.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/AddFriendsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/AddFriendsScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/RoomScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/RoomScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/SelectFriends.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/tabs/HomeScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/HomeScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/tabs/NotificationsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/NotificationsScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigation/screens/app/tabs/ScanScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/screens/app/tabs/ScanScreen.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +68,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Merging joinedRoom",
+    "git-widget-placeholder": "40-handle-redirection-from-notificaions",
     "last_opened_file_path": "/Users/iulianpoenaru/itfest_2025/assets/fonts",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",

@@ -39,7 +39,7 @@ export const RoomScreen = () => {
                 setRoom(roomData);
                 setScannedObject(roomData.bill);
 
-                if ((roomData?.owner ?? "") !== uid) {
+                if ((roomData?.owner ?? "") !== uid && !roomData.membersIds.includes(uid)) {
                     addRoomToUser({id: uid, room: roomId})
                         .catch(error => console.error("Error adding user to room:", error));
                     addFriends({id: uid, owner: roomData.owner})
