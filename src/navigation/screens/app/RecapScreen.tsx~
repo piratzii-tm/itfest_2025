@@ -268,7 +268,7 @@ export const RecapScreen = ({ route }) => {
         <View
           style={{
             position: "absolute",
-            bottom: 20,
+            bottom: 20, 
             alignItems: "center",
             backgroundColor: "#fff",
             borderRadius: 12,

@@ -16,6 +16,7 @@ export const Colors = {
   lightGrey: "#F0F0F0",
   darkNavy: "#1C1C3B",
   darkGray: "#333333",
+  lightGrey2:"#bfbfbf"
 };
 
 export const Typographies = {
